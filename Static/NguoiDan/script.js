@@ -1,72 +1,55 @@
-const long = 106.660172;
-const lat = 10.762622;
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
-var map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
   container: "map",
-  style: "mapbox://styles/mapbox/streets-v11",
-  center: [long, lat],
-  zoom: 14,
+  style: "mapbox://styles/mapbox/streets-v12",
+  center: [106.660172, 10.77368],
+  zoom: 13,
 });
 
-var marker = new mapboxgl.Marker()
-  .setLngLat([106.6942, 10.77368])
-  .setPopup(
-    new mapboxgl.Popup({ offset: 25 }).setHTML(
-      "<h3>Trường đại học kinh tế TPHCM</h3><p>University of Economics Ho Chi Minh City</p>"
-    )
-  )
-  .addTo(map);
-// Assuming the rest of your code before this...
-
-// 1. Add Fullscreen control
-map.addControl(new mapboxgl.FullscreenControl());
-
-// 2. Add Zoom controls (Zoom in / Zoom out)
-map.addControl(new mapboxgl.NavigationControl());
-
-// 3. Add User Location control (this will show the user's location and allow for tracking)
+// Add the control to the map.
 map.addControl(
-  new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    trackUserLocation: true, // Set to true to keep tracking user's location
-    showUserLocation: true, // Set to true to show user's location
+  new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
   })
 );
-const advertisementPoints = [
-  {
-    lng: 106.67,
-    lat: 10.762,
-    title: "Điểm quảng cáo 1",
-    description: "Thông tin về điểm quảng cáo 1",
-  },
-  // ... thêm các điểm khác
-];
-const markers = [];
 
-advertisementPoints.forEach((point) => {
-  const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-    `<h3>${point.title}</h3><p>${point.description}</p>`
-  );
+let currentMarker; // This will keep track of the current marker on the map
 
-  const marker = new mapboxgl.Marker()
-    .setLngLat([point.lng, point.lat])
-    .setPopup(popup)
-    .addTo(map);
-
-  markers.push(marker);
-});
-
-let areAdsVisible = true;
-
-document.getElementById("toggleAds").addEventListener("click", function () {
-  if (areAdsVisible) {
-    markers.forEach((marker) => marker.remove());
-  } else {
-    markers.forEach((marker) => marker.addTo(map));
+// Add a click event to the map to perform reverse geocoding
+map.on("click", function (e) {
+  // Remove the previous marker if it exists
+  if (currentMarker) {
+    currentMarker.remove();
   }
 
-  areAdsVisible = !areAdsVisible;
+  // Construct the URL for reverse geocoding using the clicked coordinates
+  var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.lngLat.lng},${e.lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
+
+  // Create a marker at the clicked location
+  currentMarker = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+
+  // Fetch the result
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data && data.features && data.features.length > 0) {
+        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+          "Address: " + data.features[0].place_name
+        );
+        currentMarker.setPopup(popup).togglePopup(); // Set popup to marker and show it
+      } else {
+        throw new Error("No address found for this location");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching address: ", error);
+      currentMarker.remove(); // Remove the marker if geocoding fails.
+    });
 });

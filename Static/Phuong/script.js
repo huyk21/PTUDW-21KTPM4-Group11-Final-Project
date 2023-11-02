@@ -6,14 +6,14 @@ var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/streets-v11",
   center: [long, lat],
-  zoom: 14,
+  zoom: 15,
 });
 
 var marker = new mapboxgl.Marker()
   .setLngLat([106.6942, 10.77368])
   .setPopup(
     new mapboxgl.Popup({ offset: 25 }).setHTML(
-      "<h3>Trường đại học kinh tế TPHCasduM</h3><p>University of Economics Ho Chi Minh City</p>"
+      "<h3>Trường đại học kinh tế TPHCM</h3><p>University of Economics Ho Chi Minh City</p>"
     )
   )
   .addTo(map);

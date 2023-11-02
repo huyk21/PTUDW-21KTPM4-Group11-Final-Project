@@ -18,14 +18,31 @@
         padding: 0;
       }
       #map {
-        position: absolute;
+        position: relative;
         top: 0;
         bottom: 0;
-        width: 100%;
+        width: 100vw;
+        height: 100vh;
       }
     </style>
-  </head>
-  <body>
+    <!-- Bootstrap CSS v5.2.1 -->
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Load the `mapbox-gl-geocoder` plugin. -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link
@@ -33,9 +50,14 @@
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
       type="text/css"
     />
-
-    <div id="map"></div>
-
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="map">
+      <a name="" id="help" class="btn btn-primary" href="#" role="button"
+        >Button</a
+      >
+    </div>
     <!-- Load our custom script -->
     <script src="script.js"></script>
   </body>

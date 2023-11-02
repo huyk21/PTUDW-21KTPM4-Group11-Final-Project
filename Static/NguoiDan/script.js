@@ -53,3 +53,18 @@ map.on("click", function (e) {
       currentMarker.remove(); // Remove the marker if geocoding fails.
     });
 });
+map.addControl(new mapboxgl.FullscreenControl());
+
+// 2. Add Zoom controls (Zoom in / Zoom out)
+map.addControl(new mapboxgl.NavigationControl());
+
+// 3. Add User Location control (this will show the user's location and allow for tracking)
+map.addControl(
+  new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    trackUserLocation: true, // Set to true to keep tracking user's location
+    showUserLocation: true, // Set to true to show user's location
+  })
+);

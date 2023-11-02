@@ -2,6 +2,7 @@ const long = 106.660172;
 const lat = 10.762622;
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
+
 var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/streets-v11",
@@ -9,14 +10,51 @@ var map = new mapboxgl.Map({
   zoom: 15,
 });
 
-var marker = new mapboxgl.Marker()
-  .setLngLat([106.6942, 10.77368])
-  .setPopup(
-    new mapboxgl.Popup({ offset: 25 }).setHTML(
-      "<h3>Trường đại học kinh tế TPHCM</h3><p>University of Economics Ho Chi Minh City</p>"
-    )
-  )
-  .addTo(map);
+map.addControl(
+  new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+  })
+);
+
+let currentMarker; // This will keep track of the current marker on the map
+
+// Add a click event to the map to perform reverse geocoding
+map.on("click", function (e) {
+  // Remove the previous marker if it exists
+  if (currentMarker) {
+    currentMarker.remove();
+  }
+
+  // Construct the URL for reverse geocoding using the clicked coordinates
+  var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.lngLat.lng},${e.lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
+
+  // Create a marker at the clicked location
+  currentMarker = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+
+  // Fetch the result
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data && data.features && data.features.length > 0) {
+        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+          "Address: " + data.features[0].place_name
+        );
+        currentMarker.setPopup(popup).togglePopup(); // Set popup to marker and show it
+      } else {
+        throw new Error("No address found for this location");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching address: ", error);
+      currentMarker.remove(); // Remove the marker if geocoding fails.
+    });
+});
 // Assuming the rest of your code before this...
 
 // 1. Add Fullscreen control
@@ -35,38 +73,36 @@ map.addControl(
     showUserLocation: true, // Set to true to show user's location
   })
 );
-const advertisementPoints = [
-  {
-    lng: 106.67,
-    lat: 10.762,
-    title: "Điểm quảng cáo 1",
-    description: "Thông tin về điểm quảng cáo 1",
-  },
-  // ... thêm các điểm khác
-];
-const markers = [];
 
-advertisementPoints.forEach((point) => {
-  const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-    `<h3>${point.title}</h3><p>${point.description}</p>`
-  );
+const geojson = {
+  type: "AdCollection",
+  features: [
+    {
+      type: "AdBoard",
+      properties: {
+        address: "123 Đồng Khởi - Nguyễn Du",
+        section: "Phường Bến Nghé, Quận 01",
+        landtype: "Công viên",
+        format: "Quảng cáo thương mại",
+        status: "Đã quy hoạch",
+        type: "Trụ bảng hiflex",
+        size: "2.5m x 10m",
+        type: "AdBoard",
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [106.698402, 10.787884],
+      },
+    },
+  ]
+};
 
-  const marker = new mapboxgl.Marker()
-    .setLngLat([point.lng, point.lat])
-    .setPopup(popup)
-    .addTo(map);
+// Add markers to the map.
+for (const marker of geojson.features) {
+  // Create a DOM element for each marker.
+  const el = document.createElement("div");
+  el.className = "marker";
 
-  markers.push(marker);
-});
-
-let areAdsVisible = true;
-
-document.getElementById("toggleAds").addEventListener("click", function () {
-  if (areAdsVisible) {
-    markers.forEach((marker) => marker.remove());
-  } else {
-    markers.forEach((marker) => marker.addTo(map));
-  }
-
-  areAdsVisible = !areAdsVisible;
-});
+  // Add markers to the map.
+  new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+}

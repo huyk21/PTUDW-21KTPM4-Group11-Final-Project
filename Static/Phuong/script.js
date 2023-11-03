@@ -1,5 +1,6 @@
 const long = 106.660172;
 const lat = 10.762622;
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 
@@ -74,35 +75,27 @@ map.addControl(
   })
 );
 
-const geojson = {
-  type: "AdCollection",
-  features: [
-    {
-      type: "AdBoard",
-      properties: {
-        address: "123 Đồng Khởi - Nguyễn Du",
-        section: "Phường Bến Nghé, Quận 01",
-        landtype: "Công viên",
-        format: "Quảng cáo thương mại",
-        status: "Đã quy hoạch",
-        type: "Trụ bảng hiflex",
-        size: "2.5m x 10m",
-        type: "AdBoard",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [106.698402, 10.787884],
-      },
-    },
-  ]
-};
-
-// Add markers to the map.
-for (const marker of geojson.features) {
-  // Create a DOM element for each marker.
-  const el = document.createElement("div");
-  el.className = "marker";
-
-  // Add markers to the map.
-  new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+async function grabAdData() {
+  try {
+    const data = await fetch('/AdData.json')
+    const jsonData = await data.json()
+    return jsonData
+  }
+  catch(error){
+    throw new Error(`Error found: ${error.message}`)
+  }
 }
+
+grabAdData().catch(error => 
+  {
+    console.log(`Error found: ${error.message}`)
+  }).then(data => {
+  for (const marker of data.features) {
+    // Create a DOM element for each marker.
+    const el = document.createElement("div");
+    el.className = "marker";
+  
+    // Add markers to the map.
+    new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+  }
+})

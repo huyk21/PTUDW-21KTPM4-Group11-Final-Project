@@ -75,13 +75,35 @@ map.addControl(
   })
 );
 
+// Updated function to add markers with a click event
 async function grabAdData() {
   try {
-    const data = await fetch("/AdData.json");
-    const jsonData = await data.json();
-    return jsonData;
+    const response = await fetch("/AdData.json");
+    const data = await response.json();
+
+    // Iterate through the features in the AdData
+    for (const feature of data.features) {
+      // Create a DOM element for the marker
+      const el = document.createElement("div");
+      el.className = "marker";
+
+      // Create the popup
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<h3>${feature.properties.title}</h3>` +
+          `<p>${feature.properties.description}</p>` // Assuming 'title' and 'description' are properties of the ads data
+      );
+
+      // Create the marker
+      new mapboxgl.Marker(el)
+        .setLngLat(feature.geometry.coordinates)
+        .setPopup(popup) // Add the popup to the marker
+        .addTo(map)
+
+        // If you want to show the popup when the marker is added, uncomment the line below
+        .togglePopup();
+    }
   } catch (error) {
-    throw new Error(`Error found: ${error.message}`);
+    console.error(`Error fetching advertisement data: ${error.message}`);
   }
 }
 

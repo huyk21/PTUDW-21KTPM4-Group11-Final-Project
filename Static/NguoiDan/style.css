@@ -10,7 +10,7 @@ body {
   width: 100%;
 }
 .marker {
-  background-image: url("/record.png");
+  background-image: url("/blueMarker.png");
   background-size: cover;
   width: 20px;
   height: 20px;
@@ -23,4 +23,14 @@ body {
 .mapboxgl-popup-content {
   text-align: center;
   font-family: "Open Sans", sans-serif;
+}
+/* Optional: Add custom CSS to style the sidebar further, if desired */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000; /* Ensure sidebar is above other content */
+  overflow-y: auto; /* Scrollable content */
+  background-color: white; /* Or any color you prefer */
 }

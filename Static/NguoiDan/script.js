@@ -117,6 +117,9 @@ async function grabAdData() {
       el.addEventListener("mouseleave", () => {
         marker.getPopup().remove();
       });
+      // Add a click event listener for each marker
+      // When a marker is clicked, update and show the sidebar
+      $(marker.getElement()).click(() => showSidebar(feature.properties));
     }
   } catch (error) {
     console.error(`Error fetching advertisement data: ${error.message}`);
@@ -124,3 +127,33 @@ async function grabAdData() {
 }
 
 grabAdData();
+
+// Function to show sidebar with property information
+function showSidebar(properties) {
+  // Update the content of the sidebar
+  $("#infoContent").html(`
+    <h4>${properties.address}</h4>
+    <p>Section: ${properties.section}</p>
+    <p>Land Type: ${properties.landtype}</p>
+    <!-- Add other details as needed -->
+  `);
+
+  // Show the sidebar
+  $("#sidebar").removeClass("d-none");
+}
+// Function to hide the sidebar
+function hideSidebar() {
+  $("#sidebar").addClass("d-none");
+}
+// Use jQuery to add a click event listener to the map to hide the sidebar
+$(map.getCanvas()).click(function (e) {
+  // If the click was not on a marker, hide the sidebar
+  if (!$(e.target).closest(".marker").length) {
+    hideSidebar();
+  }
+});
+
+// Prevent clicks inside the sidebar from closing it using jQuery
+$("#sidebar").click(function (event) {
+  event.stopPropagation();
+});

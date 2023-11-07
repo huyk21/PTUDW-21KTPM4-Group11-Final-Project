@@ -75,49 +75,54 @@ map.addControl(
   })
 );
 
-// Updated function to add markers with a click event
 async function grabAdData() {
   try {
     const response = await fetch("/AdData.json");
     const data = await response.json();
 
-    // Iterate through the features in the AdData
     for (const feature of data.features) {
-      // Create a DOM element for the marker
+      // Continue if the feature is not properly defined
+      if (!feature.properties) continue;
+
       const el = document.createElement("div");
       el.className = "marker";
 
-      // Create the popup
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<h3>${feature.properties.title}</h3>` +
-          `<p>${feature.properties.description}</p>` // Assuming 'title' and 'description' are properties of the ads data
-      );
+      // Create the HTML content for the popup using the properties from the feature
+      const popupContent = `
+        <div>
+          <h3>Address: ${feature.properties.address}</h3>
+          <p>Section: ${feature.properties.section}</p>
+          <p>Land Type: ${feature.properties.landtype}</p>
+          <p>Format: ${feature.properties.format}</p>
+          <p>Status: ${feature.properties.status}</p>
+          <p>Type: ${feature.properties.type}</p>
+          <p>Size: ${feature.properties.size}</p>
+        </div>
+      `;
 
-      // Create the marker
-      new mapboxgl.Marker(el)
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+
+      // Tạo marker mới.
+      const marker = new mapboxgl.Marker(el)
         .setLngLat(feature.geometry.coordinates)
-        .setPopup(popup) // Add the popup to the marker
-        .addTo(map)
+        .setPopup(popup)
+        .addTo(map);
 
-        // If you want to show the popup when the marker is added, uncomment the line below
-        .togglePopup();
+      // Add 'mouseenter' event listener to show the popup.
+      el.addEventListener("mouseenter", () => {
+        marker.getPopup().addTo(map);
+      });
+
+      // Add 'mouseleave' event listener to remove the popup.
+      el.addEventListener("mouseleave", () => {
+        marker.getPopup().remove();
+      });
     }
   } catch (error) {
     console.error(`Error fetching advertisement data: ${error.message}`);
   }
 }
 
-grabAdData()
-  .catch((error) => {
-    console.log(`Error found: ${error.message}`);
-  })
-  .then((data) => {
-    for (const marker of data.features) {
-      // Create a DOM element for each marker.
-      const el = document.createElement("div");
-      el.className = "marker";
+grabAdData();
 
-      // Add markers to the map.
-      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-    }
-  });
+grabAdData();

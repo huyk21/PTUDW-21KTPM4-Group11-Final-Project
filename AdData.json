@@ -5,11 +5,11 @@
         "type": "AdBoard",
         "properties": {
           "address": "123 Đồng Khởi - Nguyễn Du",
-          "section": "Phường Bến Nghé, Quận 01",
+          "area": "Phường Bến Nghé, Quận 01",
           "landtype": "Công viên",
-          "format": "Quảng cáo thương mại",
+          "adFormat": "Quảng cáo thương mại",
           "status": "Đã quy hoạch",
-          "type": "Trụ bảng hiflex",
+          "boardType": "Trụ bảng hiflex",
           "size": "2.5m x 10m"
         },
         "geometry": {

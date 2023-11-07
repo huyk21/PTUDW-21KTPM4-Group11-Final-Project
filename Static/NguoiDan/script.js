@@ -1,13 +1,16 @@
+const long = 106.660172;
+const lat = 10.762622;
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
-const map = new mapboxgl.Map({
+
+var map = new mapboxgl.Map({
   container: "map",
-  style: "mapbox://styles/mapbox/streets-v12",
-  center: [106.660172, 10.77368],
-  zoom: 13,
+  style: "mapbox://styles/mapbox/streets-v11",
+  center: [long, lat],
+  zoom: 15,
 });
 
-// Add the control to the map.
 map.addControl(
   new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
@@ -53,6 +56,9 @@ map.on("click", function (e) {
       currentMarker.remove(); // Remove the marker if geocoding fails.
     });
 });
+// Assuming the rest of your code before this...
+
+// 1. Add Fullscreen control
 map.addControl(new mapboxgl.FullscreenControl());
 
 // 2. Add Zoom controls (Zoom in / Zoom out)
@@ -68,3 +74,28 @@ map.addControl(
     showUserLocation: true, // Set to true to show user's location
   })
 );
+
+async function grabAdData() {
+  try {
+    const data = await fetch("/AdData.json");
+    const jsonData = await data.json();
+    return jsonData;
+  } catch (error) {
+    throw new Error(`Error found: ${error.message}`);
+  }
+}
+
+grabAdData()
+  .catch((error) => {
+    console.log(`Error found: ${error.message}`);
+  })
+  .then((data) => {
+    for (const marker of data.features) {
+      // Create a DOM element for each marker.
+      const el = document.createElement("div");
+      el.className = "marker";
+
+      // Add markers to the map.
+      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+    }
+  });

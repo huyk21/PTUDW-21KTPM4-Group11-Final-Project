@@ -171,4 +171,7 @@ $(map.getCanvas()).click(function (e) {
   if (!$(e.target).closest("#sidebar").length) {
     hideSidebar();
   }
+}); // Event handler for the close button
+$("#closeSidebar").click(function () {
+  hideSidebar();
 });

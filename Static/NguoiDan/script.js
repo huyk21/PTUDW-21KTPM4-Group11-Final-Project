@@ -145,15 +145,30 @@ function showSidebar(properties) {
 function hideSidebar() {
   $("#sidebar").addClass("d-none");
 }
-// Use jQuery to add a click event listener to the map to hide the sidebar
-$(map.getCanvas()).click(function (e) {
-  // If the click was not on a marker, hide the sidebar
-  if (!$(e.target).closest(".marker").length) {
-    hideSidebar();
-  }
+// On map click, show sidebar with the location information
+map.on("click", function (e) {
+  // Perform a reverse geocode on the clicked location
+  var lngLat = e.lngLat;
+  var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
+
+  $.get(url, function (data) {
+    if (data.features.length > 0) {
+      var placeName = data.features[0].place_name;
+      showSidebar(`<strong>Location:</strong> ${placeName}`);
+    } else {
+      showSidebar("No location information found.");
+    }
+  });
 });
 
-// Prevent clicks inside the sidebar from closing it using jQuery
+// Prevent clicks inside the sidebar from propagating to the map, which would hide the sidebar
 $("#sidebar").click(function (event) {
   event.stopPropagation();
+});
+
+// Clicking on the map canvas (outside the sidebar) hides the sidebar
+$(map.getCanvas()).click(function (e) {
+  if (!$(e.target).closest("#sidebar").length) {
+    hideSidebar();
+  }
 });

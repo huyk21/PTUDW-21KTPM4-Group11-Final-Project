@@ -43,12 +43,13 @@ map.on("click", function (e) {
     })
     .then((data) => {
       if (data && data.features && data.features.length > 0) {
-        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-          "Address: " + data.features[0].place_name
+        var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+          `<h6>Location Information: </h6>
+          <p>Address: ${data.features[0].place_name}</p>`
         );
         currentMarker.setPopup(popup).togglePopup(); // Set popup to marker and show it
       } else {
-        throw new Error("No address found for this location");
+        throw new Error("Unable to find the address of the location");
       }
     })
     .catch((error) => {
@@ -77,25 +78,48 @@ map.addControl(
 
 async function grabAdData() {
   try {
-    const data = await fetch('/AdData.json')
-    const jsonData = await data.json()
-    return jsonData
-  }
-  catch(error){
-    throw new Error(`Error found: ${error.message}`)
+    const data = await fetch("/AdData.json");
+    const jsonData = await data.json();
+    return jsonData;
+  } catch (error) {
+    throw new Error(`Error found: ${error.message}`);
   }
 }
 
-grabAdData().catch(error => 
-  {
-    console.log(`Error found: ${error.message}`)
-  }).then(data => {
-  for (const marker of data.features) {
-    // Create a DOM element for each marker.
-    const el = document.createElement("div");
-    el.className = "marker";
-  
-    // Add markers to the map.
-    new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-  }
-})
+grabAdData()
+  .catch((error) => {
+    console.log(`Error found: ${error.message}`);
+  })
+  .then((data) => {
+    for (const marker of data.features) {
+      // Create a DOM element for each marker.
+      const el = document.createElement("div");
+      //add if statement here to adjust color of icon
+      el.className = "marker";
+
+      // Add markers to the map.
+      const m = new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup({ offset: 25 })
+        .setHTML(
+          `
+          <h6>${marker.properties.adFormat}</h6>
+          <p>${marker.properties.address}</p>
+          <p>${marker.properties.area}</p>
+          <p>${marker.properties.landType}</p>
+          <p style="font-weight: 900; font-style: italic">${marker.properties.status}</p>
+          `
+          )
+          )
+        .addTo(map);
+        // Add 'mouseenter' event listener to show the popup.
+      el.addEventListener("mouseenter", () => {
+        m.getPopup().addTo(map);
+      });
+
+      // Add 'mouseleave' event listener to remove the popup.
+      el.addEventListener("mouseleave", () => {
+        m.getPopup().remove();
+      });
+    }
+  });

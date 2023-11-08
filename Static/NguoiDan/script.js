@@ -175,3 +175,24 @@ $(map.getCanvas()).click(function (e) {
 $("#closeSidebar").click(function () {
   hideSidebar();
 });
+$(document).ready(function () {
+  // On map click, center the map on the clicked location and show sidebar with information
+  map.on("click", function (e) {
+    var lngLat = e.lngLat;
+
+    // Center the map on the clicked location
+    map.flyTo({ center: lngLat });
+
+    // Perform a reverse geocode on the clicked location
+    var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
+
+    $.get(url, function (data) {
+      if (data.features.length > 0) {
+        var placeName = data.features[0].place_name;
+        showSidebar(`<strong>Location:</strong> ${placeName}`);
+      } else {
+        showSidebar("No location information found.");
+      }
+    });
+  });
+});

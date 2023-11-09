@@ -28,35 +28,145 @@
         <!-- Replace your existing sidebar with this -->
 
         <!-- Map area -->
+        <!-- Collapsible Navigation Sidebar -->
+        <!-- Toggle Button for the sidebar -->
 
-        <div id="map" style="height: 100vh">
-          <div id="sidebar" class="col-md-2 col-lg-2 d-none">
-            <div class="card">
-              <div class="card-header d-flex justify-content-between">
-                Location Information
+        <div class="col-md-12">
+          <div id="map" style="height: 100vh">
+            <button
+              id="toggleSidebarButton"
+              class="btn btn-sm col-md-1 col-lg-1"
+            >
+              ☰
+            </button>
+            <div class="col-md-1 col-lg-1" id="nav-sidebar">
+              <button
+                type="button"
+                class="closeSideBar"
+                aria-label="Close"
+                id="closeSideBar"
+              >
+                &times;
+                <!-- This is a common way to represent a close button -->
+              </button>
+              <!-- Navigation items here -->
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action"
+                  >Saved</a
+                >
+                <a href="#" class="list-group-item list-group-item-action"
+                  >Recents</a
+                >
+                <!-- More items -->
+              </div>
+            </div>
+            <div id="sidebar" class="col-md-3 col-lg-2 d-none">
+              <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                  Location Information
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    id="closeSidebar"
+                  ></button>
+                </div>
+                <div class="card-body" id="infoContent">
+                  <!-- Content will be dynamically inserted here -->
+                </div>
                 <button
                   type="button"
-                  class="btn-close"
-                  aria-label="Close"
-                  id="closeSidebar"
-                ></button>
+                  class="btn btn-warning btn-sm"
+                  id="reportButton"
+                >
+                  Report
+                </button>
               </div>
-              <div class="card-body" id="infoContent">
-                <!-- Content will be dynamically inserted here -->
+              <!-- Report Modal -->
+              <div
+                class="modal fade"
+                id="reportModal"
+                tabindex="-1"
+                aria-labelledby="reportModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="reportModalLabel">
+                        Report Information
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="reportForm">
+                        <div class="mb-3">
+                          <label for="report-reason" class="col-form-label"
+                            >Reason for Report:</label
+                          >
+                          <textarea
+                            class="form-control"
+                            id="report-reason"
+                            required
+                          ></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="report-details" class="col-form-label"
+                            >Additional Details:</label
+                          >
+                          <textarea
+                            class="form-control"
+                            id="report-details"
+                          ></textarea>
+                        </div>
+                        <!-- Include other form fields as needed -->
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        form="reportForm"
+                      >
+                        Submit Report
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link
       rel="stylesheet"
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
       type="text/css"
     />
+    <!-- Include jQuery if needed for other scripts; otherwise, it's not required for Bootstrap 5 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Your custom script file -->
     <script type="text/javascript" src="script.js"></script>
+
+    <!-- Any additional scripts -->
     <script type="text/javascript" src="/AdData.json"></script>
   </body>
 </html>

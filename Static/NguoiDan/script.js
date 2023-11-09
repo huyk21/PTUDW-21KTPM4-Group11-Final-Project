@@ -196,3 +196,60 @@ $(document).ready(function () {
     });
   });
 });
+// Your existing map setup code
+
+// ...
+
+// Function to open the report modal
+function openReportModal() {
+  var reportModalElement = document.getElementById("reportModal");
+  var reportModal = new bootstrap.Modal(reportModalElement, {
+    backdrop: false, // Disable the backdrop
+  });
+  reportModal.show();
+}
+
+// Event listener for the 'Report Issue' button
+document
+  .getElementById("reportButton")
+  .addEventListener("click", openReportModal);
+
+document.addEventListener("DOMContentLoaded", function () {
+  var toggleButton = document.getElementById("toggleSidebarButton");
+  var sidebar = document.getElementById("nav-sidebar");
+
+  toggleButton.addEventListener("click", function () {
+    // Hide the toggle button
+    toggleButton.classList.add("d-none");
+
+    // Show the sidebar
+    sidebar.classList.remove("d-none");
+  });
+
+  // If you want to be able to close the sidebar, you'd add an event listener
+  // to a close button inside the sidebar. For example:
+  var closeButton = document.getElementById("closeSideBar");
+  closeButton.addEventListener("click", function () {
+    sidebar.classList.add("d-none");
+    toggleButton.classList.remove("d-none");
+  });
+});
+document
+  .getElementById("toggleSidebarButton")
+  .addEventListener("click", function () {
+    var sidebar = document.getElementById("nav-sidebar");
+    sidebar.classList.toggle("open");
+  });
+// Opening the sidebar
+document
+  .getElementById("toggleSidebarButton")
+  .addEventListener("click", function () {
+    var sidebar = document.getElementById("nav-sidebar");
+    sidebar.style.transform = "translateX(0%)"; // Adjust as necessary for your layout
+  });
+
+// Closing the sidebar
+document.getElementById("closeSideBar").addEventListener("click", function () {
+  var sidebar = document.getElementById("nav-sidebar");
+  sidebar.style.transform = "translateX(-100%)"; // Adjust as necessary for your layout
+});

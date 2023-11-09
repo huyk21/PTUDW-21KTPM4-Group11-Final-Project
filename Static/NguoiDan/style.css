@@ -26,11 +26,53 @@ body {
 }
 /* Optional: Add custom CSS to style the sidebar further, if desired */
 #sidebar {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   z-index: 1000; /* Ensure sidebar is above other content */
   overflow-y: auto; /* Scrollable content */
   background-color: white; /* Or any color you prefer */
+}
+
+#toggleSidebarButton {
+  position: absolute;
+  z-index: 2; /* Ensures the button is above everything else */
+  top: 10px;
+  left: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 0.5em;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Add shadow to the button for better visibility */
+}
+
+#nav-sidebar {
+  position: absolute;
+  z-index: 1; /* Ensures the sidebar is above the map but below the button */
+  top: 0;
+  left: 0;
+  width: 250px; /* Set the sidebar width */
+  height: 100%; /* Full height */
+  background-color: #fff; /* Sidebar background */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Shadow on the right side of the sidebar */
+  overflow-y: auto; /* If content is long, let it scroll */
+  transform: translateX(-100%); /* Hide the sidebar initially */
+  transition: transform 0.3s ease-in-out; /* Animation for sidebar */
+}
+
+#nav-sidebar.open {
+  transform: translateX(0); /* Bring sidebar into view */
+}
+
+.closeSideBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+  border: none;
+  background: transparent;
+  font-size: 1.5em; /* Makes the close button bigger */
+  cursor: pointer;
+  z-index: 3; /* Ensures the close button is above the sidebar content */
 }

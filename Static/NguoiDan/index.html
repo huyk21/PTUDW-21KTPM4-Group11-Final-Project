@@ -21,7 +21,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="overlay" id="pageOverlay"></div>
+    <div class="container-fluid" style="padding-left: 0">
       <div class="row">
         <!-- Sidebar/Navbar area -->
         <!-- Sidebar/Navbar area -->
@@ -32,14 +33,14 @@
         <!-- Toggle Button for the sidebar -->
 
         <div class="col-md-12">
-          <div id="map" style="height: 100vh">
-            <button
-              id="toggleSidebarButton"
-              class="btn btn-sm col-md-1 col-lg-1"
-            >
-              ☰
-            </button>
-            <div class="col-md-1 col-lg-1" id="nav-sidebar">
+          <div id="map" style="height: 100vh; width: 100vw">
+            <div id="extension" class="sidebar-container">
+              <button id="toggleSidebarButton" class="btn btn-sm">☰</button>
+
+              <!-- The rest of the sidebar content will go here -->
+              <!-- ... -->
+            </div>
+            <div id="nav-sidebar">
               <button
                 type="button"
                 class="closeSideBar"
@@ -50,7 +51,7 @@
                 <!-- This is a common way to represent a close button -->
               </button>
               <!-- Navigation items here -->
-              <div class="list-group">
+              <div class="list-group" style="left: 0">
                 <a href="#" class="list-group-item list-group-item-action"
                   >Saved</a
                 >
@@ -60,7 +61,7 @@
                 <!-- More items -->
               </div>
             </div>
-            <div id="sidebar" class="col-md-3 col-lg-2 d-none">
+            <div id="sidebar" class="col-md-3 col-lg-2">
               <div class="card">
                 <div class="card-header d-flex justify-content-between">
                   Location Information

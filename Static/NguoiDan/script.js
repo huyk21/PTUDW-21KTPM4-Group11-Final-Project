@@ -139,11 +139,11 @@ function showSidebar(properties) {
   `);
 
   // Show the sidebar
-  $("#sidebar").removeClass("d-none");
+  $("#sidebar").addClass("visible");
 }
 // Function to hide the sidebar
 function hideSidebar() {
-  $("#sidebar").addClass("d-none");
+  $("#sidebar").removeClass("visible");
 }
 // On map click, show sidebar with the location information
 map.on("click", function (e) {
@@ -220,36 +220,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
   toggleButton.addEventListener("click", function () {
     // Hide the toggle button
-    toggleButton.classList.add("d-none");
-
     // Show the sidebar
-    sidebar.classList.remove("d-none");
   });
 
   // If you want to be able to close the sidebar, you'd add an event listener
   // to a close button inside the sidebar. For example:
   var closeButton = document.getElementById("closeSideBar");
-  closeButton.addEventListener("click", function () {
-    sidebar.classList.add("d-none");
-    toggleButton.classList.remove("d-none");
-  });
+  closeButton.addEventListener("click", function () {});
 });
 document
   .getElementById("toggleSidebarButton")
   .addEventListener("click", function () {
     var sidebar = document.getElementById("nav-sidebar");
-    sidebar.classList.toggle("open");
-  });
-// Opening the sidebar
-document
-  .getElementById("toggleSidebarButton")
-  .addEventListener("click", function () {
-    var sidebar = document.getElementById("nav-sidebar");
-    sidebar.style.transform = "translateX(0%)"; // Adjust as necessary for your layout
   });
 
-// Closing the sidebar
-document.getElementById("closeSideBar").addEventListener("click", function () {
+document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("nav-sidebar");
-  sidebar.style.transform = "translateX(-100%)"; // Adjust as necessary for your layout
+  var toggleSidebarButton = document.getElementById("toggleSidebarButton");
+  var closeSideBarButton = document.getElementById("closeSideBar");
+  var pageOverlay = document.getElementById("pageOverlay");
+  var navSidebar = document.getElementById("nav-sidebar");
+
+  // Function to open the sidebar
+  function openSidebar() {
+    navSidebar.style.transform = "translateX(0%)";
+    navSidebar.style.transition = "transform 0.5s";
+    pageOverlay.style.display = "block";
+  }
+
+  // Function to close the sidebar
+  function closeSidebar() {
+    navSidebar.style.transform = "translateX(-100%)";
+    navSidebar.style.transition = "transform 0.5s";
+    pageOverlay.style.display = "none";
+  }
+
+  // Event listener to toggle the sidebar
+  toggleSidebarButton.addEventListener("click", openSidebar);
+
+  // Event listener for closing sidebar using the close button
+  closeSideBarButton.addEventListener("click", closeSidebar);
+
+  // Event listener to close the sidebar when clicking on the overlay
+  pageOverlay.addEventListener("click", function () {
+    closeSidebar();
+  });
+});
+
+document.addEventListener("fullscreenchange", () => {
+  var overlay = document.getElementById("pageOverlay");
+  var fsElement = document.fullscreenElement;
+
+  if (fsElement) {
+    // Append the overlay to the fullscreen element, which is the Mapbox container
+    fsElement.appendChild(overlay);
+    overlay.style.zIndex = "500"; // Ensure it's on top
+    overlay.classList.add("active"); // Use 'active' class to control visibility with opacity
+  } else {
+    // If exiting fullscreen, hide the overlay and move it back to its original place
+    document.body.appendChild(overlay); // Or to wherever it originally is
+    overlay.classList.remove("active");
+  }
 });

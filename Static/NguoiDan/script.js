@@ -89,15 +89,16 @@ async function grabAdData() {
 
       // Create the HTML content for the popup using the properties from the feature
       const popupContent = `
-        <div>
-          <h3>Address: ${feature.properties.address}</h3>
-          <p>Section: ${feature.properties.section}</p>
-          <p>Land Type: ${feature.properties.landtype}</p>
-          <p>Format: ${feature.properties.format}</p>
-          <p>Status: ${feature.properties.status}</p>
-          <p>Type: ${feature.properties.type}</p>
-          <p>Size: ${feature.properties.size}</p>
-        </div>
+      <div>
+      <h3>Address: ${feature.properties.address}</h3>
+      <p>Quantity: ${feature.properties.quantity}</p>
+      <p>Area: ${feature.properties.area}</p>
+      <p>Land Type: ${feature.properties.landType}</p>
+      <p>Ad Format: ${feature.properties.adFormat}</p>
+      <p>Status: ${feature.properties.status}</p>
+      <p>Board Type: ${feature.properties.boardType}</p>
+      <p>Size: ${feature.properties.size}</p>
+    </div>
       `;
 
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
@@ -119,7 +120,13 @@ async function grabAdData() {
       });
       // Add a click event listener for each marker
       // When a marker is clicked, update and show the sidebar
-      $(marker.getElement()).click(() => showSidebar(feature.properties));
+      marker.getElement().addEventListener("click", function (event) {
+        // Prevents the map click event (and thus the reverse geocoding) from firing
+        event.stopPropagation();
+
+        // Pass the properties of this specific feature to the sidebar
+        showSidebar(feature.properties);
+      });
     }
   } catch (error) {
     console.error(`Error fetching advertisement data: ${error.message}`);
@@ -132,13 +139,17 @@ grabAdData();
 function showSidebar(properties) {
   // Update the content of the sidebar
   $("#infoContent").html(`
-    <h4>${properties.address}</h4>
-    <p>Section: ${properties.section}</p>
-    <p>Land Type: ${properties.landtype}</p>
-    <!-- Add other details as needed -->
+    <h4>Address: ${properties.address}</h4>
+    <p>Quantity: ${properties.quantity}</p>
+    <p>Area: ${properties.area}</p>
+    <p>Land Type: ${properties.landType}</p>
+    <p>Ad Format: ${properties.adFormat}</p>
+    <p>Status: ${properties.status}</p>
+    <p>Board Type: ${properties.boardType}</p>
+    <p>Size: ${properties.size}</p>
   `);
 
-  // Show the sidebar
+  // Show the sidebar by adding the 'visible' class
   $("#sidebar").addClass("visible");
 }
 // Function to hide the sidebar

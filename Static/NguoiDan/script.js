@@ -202,11 +202,18 @@ $(document).ready(function () {
 
 // Function to open the report modal
 function openReportModal() {
+  var overlay = document.getElementById("pageOverlay");
   var reportModalElement = document.getElementById("reportModal");
   var reportModal = new bootstrap.Modal(reportModalElement, {
-    backdrop: false, // Disable the backdrop
+    backdrop: "static", // Keep static backdrop to prevent closing when clicking outside
   });
   reportModal.show();
+  overlay.style.display = "block"; // Show the overlay
+}
+
+function closeOverlay() {
+  var overlay = document.getElementById("pageOverlay");
+  overlay.style.display = "none"; // Hide the overlay
 }
 
 // Event listener for the 'Report Issue' button
@@ -214,7 +221,31 @@ document
   .getElementById("reportButton")
   .addEventListener("click", openReportModal);
 
+// Event listener for closing the modal
+document
+  .getElementById("reportModal")
+  .addEventListener("hide.bs.modal", closeOverlay);
+
+// Event listener for the form submission
+document
+  .getElementById("reportForm")
+  .addEventListener("submit", function (event) {
+    closeOverlay(); // Hide the overlay
+    // Perform the submission logic or AJAX request here
+    // For example:
+    // $.post('/submit-report', $(this).serialize(), function(response) {
+    //   // Handle response
+    //   $('#reportModal').modal('hide'); // Hide the modal if the submission is successful
+    // });
+  });
+
+// Event listener for the 'Report Issue' button
+document
+  .getElementById("reportButton")
+  .addEventListener("click", openReportModal);
+
 document.addEventListener("DOMContentLoaded", function () {
+  var overlay = document.getElementById("pageOverlay");
   var toggleButton = document.getElementById("toggleSidebarButton");
   var sidebar = document.getElementById("nav-sidebar");
 

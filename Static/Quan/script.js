@@ -324,5 +324,81 @@ document.addEventListener("fullscreenchange", () => {
     overlay.classList.remove("active");
   }
 });
-var phuong1Element=document.querySelector("phuong1");
-console.log(phuong1Element);
+document.getElementById("phuong1q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.702778, 10.782222],//10.782222, 106.702778
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+document.getElementById("phuong2q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.691389, 10.763333],//10.763333, 106.691389
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+document.getElementById("phuong3q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.692222, 10.775],//10.775, 106.692222
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong4");
+document.getElementById("phuong4q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.686667, 10.758333],//10.758333, 106.686667
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong5");
+document.getElementById("phuong5q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.696944, 10.789167],//10.789167, 106.696944
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong6");
+document.getElementById("phuong6q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.695556, 10.766389],//10.766389, 106.695556
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong7");
+document.getElementById("phuong7q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.700556, 10.768889],//10.768889, 106.700556
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong8");
+document.getElementById("phuong8q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.685278, 10.763333],//10.763333, 106.685278
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong9");
+document.getElementById("phuong9q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.688889, 10.768611],//10.768611, 106.688889
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+var buttonElement = document.getElementById("phuong10");
+document.getElementById("phuong10q1").addEventListener("click", () => {
+  // Fly to a random location
+  map.flyTo({
+    center: [106.688611, 10.793333],//10.793333, 106.688611
+    essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+  });
+});
+

@@ -34,73 +34,9 @@
 
         <div class="col-md-12">
           <div id="map" style="height: 100vh; width: 100vw">
-            <!-- Report Modal -->
-            <div
-              class="modal fade"
-              id="reportModal"
-              tabindex="-1"
-              aria-labelledby="reportModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="reportModalLabel">
-                      Report Information
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="reportForm">
-                      <div class="mb-3">
-                        <label for="report-reason" class="col-form-label"
-                          >Reason for Report:</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="report-reason"
-                          required
-                        ></textarea>
-                      </div>
-                      <div class="mb-3">
-                        <label for="report-details" class="col-form-label"
-                          >Additional Details:</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="report-details"
-                        ></textarea>
-                      </div>
-                      <!-- Include other form fields as needed -->
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn btn-primary"
-                      form="reportForm"
-                    >
-                      Submit Report
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="extension" class="sidebar-container">
+            <div id="extension" class="d-flex flex-column justify-content-center align-items-center sidebar-container">
               <button id="toggleSidebarButton" class="btn btn-sm">☰</button>
-
+              <i class="bi bi-5-circle-fill"></i>
               <!-- The rest of the sidebar content will go here -->
               <!-- ... -->
             </div>
@@ -125,10 +61,12 @@
                 <!-- More items -->
               </div>
             </div>
-            <div id="sidebar" class="col-md-3 col-lg-2">
+            <div id="sidebar" class="col-md-4 col-lg-3">
               <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                  Location Information
+                  <p class="text-center fs-5 fw-semibold align-bottom">
+                    Location Information:
+                  </p>
                   <button
                     type="button"
                     class="btn-close"
@@ -139,13 +77,6 @@
                 <div class="card-body" id="infoContent">
                   <!-- Content will be dynamically inserted here -->
                 </div>
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm"
-                  id="reportButton"
-                >
-                  Report
-                </button>
               </div>
             </div>
           </div>

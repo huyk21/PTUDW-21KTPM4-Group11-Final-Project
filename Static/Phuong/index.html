@@ -34,9 +34,17 @@
 
         <div class="col-md-12">
           <div id="map" style="height: 100vh; width: 100vw">
-            <div id="extension" class="d-flex flex-column justify-content-center align-items-center sidebar-container">
-              <button id="toggleSidebarButton" class="btn btn-sm">☰</button>
-              <i class="bi bi-5-circle-fill"></i>
+            <div
+              id="extension"
+              class="d-flex flex-column justify-content-center align-items-center sidebar-container"
+            >
+              <button id="toggleSidebarButton" class="btn btn-sm m-1">☰</button>
+              <button id="toadManager" class="btn btn-lg btn-dark m-3" onclick="window.location.href='./adManager.html'"><i class="bi bi-badge-ad""></i></button>
+              <button id="toadReport" class="btn btn-lg btn-dark m-3" onclick="window.location.href='./reportManager.html'"><i class="bi bi-flag"></i></button>
+              <button id="toadLicense" class="btn btn-lg btn-dark m-3" onclick="window.location.href='./adLicense.html'"><i class="bi bi-clipboard-check"></i></button>
+              <button id="toLogIn" class="btn btn-lg btn-dark m-3" onclick="window.location.href='/login.html'"><i class="bi bi-person-circle"></i></button>
+              <button id="toHelp" class="btn btn-lg btn-dark m-3" onclick="window.location.href=''"><i class="bi bi-bug"></i></button>
+              <button id="toBugReport" class="btn btn-lg btn-dark m-3" onclick="window.location.href=''"><i class="bi bi-question-circle"></i></button>
               <!-- The rest of the sidebar content will go here -->
               <!-- ... -->
             </div>
@@ -52,19 +60,53 @@
               </button>
               <!-- Navigation items here -->
               <div class="list-group" style="left: 0">
-                <a href="#" class="list-group-item list-group-item-action"
-                  >Saved</a
-                >
-                <a href="#" class="list-group-item list-group-item-action"
-                  >Recents</a
-                >
-                <!-- More items -->
+                <div class="card d-flex flex-column justify-content-between">
+                  <div class="card-header container bg-info">
+                    <p class="h2 text-center">
+                      Xin chào, Cán bộ Phường
+                    </p>
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-archive"></i> &nbsp;Đã lưu</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-clock-history"></i> &nbsp;Gần đây</p>
+                    </a>
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="adManager.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-badge-ad""></i> &nbsp;Quản lý điểm đặt quảng cáo & bảng quảng cáo</p>
+                    </a>
+                    <a href="reportManager.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-flag"></i> &nbsp;Xử lý báo cáo</p>
+                    </a>
+                    <a href="adLicense.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-clipboard-check"></i> &nbsp;Yêu cầu cấp phép quảng cáo</p>
+                    </a>
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="/login.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-person-circle"></i> &nbsp;Đăng xuất</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-bug"></i> &nbsp;Báo cáo lỗi</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-question-circle"></i> &nbsp;Trợ giúp</p>
+                    </a>
+                  </div>
+                  <p class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</p>
+                </div>
               </div>
             </div>
             <div id="sidebar" class="col-md-4 col-lg-3">
               <div class="card">
+                <div class="container" id="billboard-img">
+                  <img src="/billboard.jpg" class="img-fluid rounded-lg" alt="image of the billboard">
+                </div>
                 <div class="card-header d-flex justify-content-between">
-                  <p class="text-center fs-5 fw-semibold align-bottom">
+                  <p class="text-center fs-5 fw-semibold align-bottom ">
                     Location Information:
                   </p>
                   <button

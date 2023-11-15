@@ -128,3 +128,11 @@ body {
   width: 100px; /* Width of the sidebar */
   height: 100vh; /* Full height */
 }
+
+.sidebar-elements > a {
+  color: black;
+  text-decoration: none;
+  :hover{
+    color: blue;
+  }
+}

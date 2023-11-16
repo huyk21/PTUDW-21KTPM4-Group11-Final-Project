@@ -44,12 +44,12 @@ body {
   position: absolute;
   z-index: 1000; /* Ensures the button is above everything else */
   top: 10px;
-  left: 20px;
+  left: 50%;
+  transform: translateX(-50%); /* Adjust for the button's width */
   background-color: #fff;
   border-radius: 4px;
   padding: 0.5rem;
-  width: 50px;
-  border: none;
+  width: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Add shadow to the button for better visibility */
   display: block !important;
 }
@@ -103,4 +103,25 @@ body {
   z-index: 300; /* Above other content but below the button */
   width: 100px; /* Width of the sidebar */
   height: 100vh; /* Full height */
+}
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Aligns children at start and end */
+  height: 100%; /* Adjust the height as needed */
+}
+
+/* Optional: To ensure the Đăng xuất link is at the bottom */
+.sidebar-container > button:last-child {
+  margin-top: auto; /* Pushes the container to the bottom */
+  display: flex;
+  justify-content: center; /* Center button horizontally */
+  align-items: center; /* Center button vertically */
+  height: 50px; /* Adjust the height as per your design */
+  background-color: blue;
+  width: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  text-decoration: none;
 }

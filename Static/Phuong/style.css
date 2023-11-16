@@ -17,6 +17,30 @@ body {
   border-radius: 50%;
   cursor: pointer;
 }
+.red {
+  background-image: url("/redMarker.png");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.yellow {
+  background-image: url("/yellowMarker.png");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.green {
+  background-image: url("/greenMarker.jpg");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 .mapboxgl-popup {
   max-width: 200px;
 }
@@ -103,4 +127,19 @@ body {
   z-index: 300; /* Above other content but below the button */
   width: 100px; /* Width of the sidebar */
   height: 100vh; /* Full height */
+}
+
+.sidebar-elements > a {
+  color: black;
+  text-decoration: none;
+  :hover{
+    color: blue;
+  }
+}
+
+#filter {
+  color: black;
+  :hover{
+    color: blue;
+  }
 }

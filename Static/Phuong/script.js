@@ -45,8 +45,9 @@ function main() {
       .then((data) => {
         if (data && data.features && data.features.length > 0) {
           var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<h6>Location Information: </h6>
-          <p>Address: ${data.features[0].place_name}</p>`
+            `<h6>Thông tin vị trí: </h6>
+          <p>Địa chỉ: ${data.features[0].place_name}</p>
+          <p class="fw-bold">Chưa có thông tin quảng cáo</p>`
           );
           currentMarker.setPopup(popup).togglePopup(); // Set popup to marker and show it
         } else {
@@ -274,14 +275,14 @@ async function grabAdData() {
 function showSidebar(properties) {
   // Update the content of the sidebar
   $("#infoContent").html(`
-    <h4>Address: ${properties.address}</h4>
-    <p>Quantity: ${properties.quantity}</p>
-    <p>Area: ${properties.area}</p>
-    <p>Land Type: ${properties.landType}</p>
-    <p>Ad Format: ${properties.adFormat}</p>
-    <p>Status: ${properties.status}</p>
-    <p>Board Type: ${properties.boardType}</p>
-    <p>Size: ${properties.size}</p>
+    <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
+    <p class="fw-bold">Số lượng: ${properties.quantity}</p>
+    <p class="fw-bold">Khu vực: ${properties.area}</p>
+    <p class="fw-bold">Loại vị trí: ${properties.landType}</p>
+    <p class="fw-bold">Hình thức quảng cáo: ${properties.adFormat}</p>
+    <p class="fw-bold">Trạng thái: ${properties.status}</p>
+    <p class="fw-bold">Loại bảng quảng cáo: ${properties.boardType}</p>
+    <p class="fw-bold">Kích thước: ${properties.size}</p>
   `);
 
   // Show the sidebar by adding the 'visible' class

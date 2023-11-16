@@ -19,15 +19,52 @@
       color: #fff;
     }
   </style>
+
+  <style>
+    /* Custom styles for highlighting the active link */
+    .navbar-nav .nav-item.active {
+      background-color: #007bff; /* Active link background color */
+    }
+    .navbar-nav .nav-item.active .nav-link {
+      color: #fff !important; /* Active link text color */
+    }
+  </style>
+
 </head>
 
 <body>
   <header>
-    
-  </header>
-  <main>
+    <div class="container py-3">
+      <button onclick ="history.back()" class="btn btn-primary"><i class="bi bi-arrow-left"></i></button>
+      <button onclick ="history.forward()" class="btn btn-primary"><i class="bi bi-arrow-right"></i></button>
+      <a href="index.html" class="btn btn-primary"><i class="bi bi-house"></i></a>
+    </div>
 
-    <div class="container mt-5">
+  <div class = "container">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container">
+          <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Thêm</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Xóa</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Cập nhật</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    
+  </div>
+
+  </header>
+
+  <main>
+    <div class="container mt-1">
       <table class="table table-bordered">
         <h2>Danh sách Quận</h2>
         <thead class="custom-header">

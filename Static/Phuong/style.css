@@ -136,3 +136,10 @@ body {
     color: blue;
   }
 }
+
+#filter {
+  color: black;
+  :hover{
+    color: blue;
+  }
+}

@@ -152,18 +152,6 @@ function main() {
 
       // Center the map on the clicked location
       map.flyTo({ center: lngLat });
-
-      // Perform a reverse geocode on the clicked location
-      var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
-
-      $.get(url, function (data) {
-        if (data.features.length > 0) {
-          var placeName = data.features[0].place_name;
-          showSidebar(`<strong>Location:</strong> ${placeName}`);
-        } else {
-          showSidebar("No location information found.");
-        }
-      });
     });
   });
 
@@ -276,13 +264,13 @@ function showSidebar(properties) {
   // Update the content of the sidebar
   $("#infoContent").html(`
     <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
-    <p class="fw-bold">Số lượng: ${properties.quantity}</p>
-    <p class="fw-bold">Khu vực: ${properties.area}</p>
-    <p class="fw-bold">Loại vị trí: ${properties.landType}</p>
-    <p class="fw-bold">Hình thức quảng cáo: ${properties.adFormat}</p>
-    <p class="fw-bold">Trạng thái: ${properties.status}</p>
-    <p class="fw-bold">Loại bảng quảng cáo: ${properties.boardType}</p>
-    <p class="fw-bold">Kích thước: ${properties.size}</p>
+    <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
+    <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
+    <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
+    <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
+    <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
+    <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
+    <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
   `);
 
   // Show the sidebar by adding the 'visible' class
@@ -323,4 +311,17 @@ function openReportModal() {
 function closeOverlay() {
   var overlay = document.getElementById("pageOverlay");
   overlay.style.display = "none"; // Hide the overlay
+}
+
+function buttonHover(id)
+{
+  let button = document.getElementById(id)
+  button.classList.add("bg-black")
+  button.style.color = "white"
+}
+
+function buttonLeave(id) {
+  let button = document.getElementById(id)
+  button.classList.remove("bg-black")
+  button.style.color = ""
 }

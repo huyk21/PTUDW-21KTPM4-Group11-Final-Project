@@ -33,19 +33,39 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="reportModalLabel">
-                    Report Information
+                    Chỉnh sửa thông tin biển quảng cáo
                   </h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <form id="reportForm">
                     <div class="mb-3">
-                      <label for="report-reason" class="col-form-label">Reason for Report:</label>
-                      <textarea class="form-control" id="report-reason" required></textarea>
+                      <label for="quantity" class="col-form-label">Quantity</label>
+                      <textarea class="form-control" id="quantity" required></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="report-details" class="col-form-label">Additional Details:</label>
-                      <textarea class="form-control" id="report-details"></textarea>
+                      <label for="area" class="col-form-label">Area</label>
+                      <textarea class="form-control" id="area"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="landtype" class="col-form-label">Land Type</label>
+                      <textarea class="form-control" id="landtype"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="adformat" class="col-form-label">Ad Format</label>
+                      <textarea class="form-control" id="adformat"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="status" class="col-form-label">Status</label>
+                      <textarea class="form-control" id="status"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="boardtype" class="col-form-label">Board Type</label>
+                      <textarea class="form-control" id="boardtype"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="size" class="col-form-label">Size</label>
+                      <textarea class="form-control" id="size"></textarea>
                     </div>
                     <!-- Include other form fields as needed -->
                   </form>
@@ -55,7 +75,7 @@
                     Close
                   </button>
                   <button type="submit" class="btn btn-primary" form="reportForm">
-                    Submit Report
+                    Save
                   </button>
                 </div>
               </div>
@@ -69,25 +89,25 @@
                 <i class="bi bi-badge-ad"></i>
               </button>
               <ul class="dropdown-menu" aria-labelledby="AdInfodropdownMenuButton">
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong1q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerBenNghe.html"><button id="Adphuong1q1" class="btn btn-secondary"
                       style="width: 150px;">Bến Nghé</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong2q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerCoGiang.html"><button id="Adphuong2q1" class="btn btn-secondary"
                       style="width: 150px;">Cô Giang</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong3q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerBenThanh.html"><button id="Adphuong3q1" class="btn btn-secondary"
                       style="width: 150px;">Bến Thành</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong4q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerCauKho.html"><button id="Adphuong4q1" class="btn btn-secondary"
                       style="width: 150px;">Cầu Kho</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong5q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerDaKao.html"><button id="Adphuong5q1" class="btn btn-secondary"
                       style="width: 150px;">Đa Kao</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong6q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerCauOngLanh.html"><button id="Adphuong6q1" class="btn btn-secondary"
                       style="width: 150px;">Cầu Ông Lãnh</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong7q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerNguyenThaiBinh.html"><button id="Adphuong7q1" class="btn btn-secondary"
                       style="width: 150px;">Nguyễn Thái Bình</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong8q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerNguyenCuTrinh.html"><button id="Adphuong8q1" class="btn btn-secondary"
                       style="width: 150px;">Nguyễn Cư Trinh</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong9q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerPhamNguLao.html"><button id="Adphuong9q1" class="btn btn-secondary"
                       style="width: 150px;">Phạm Ngũ Lão</button></a></li>
-                <li><a class="dropdown-item" href="./adManager.html"><button id="Adphuong10q1" class="btn btn-secondary"
+                <li><a class="dropdown-item" href="./adManagerTanDinh.html"><button id="Adphuong10q1" class="btn btn-secondary"
                       style="width: 150px;">Tân Định</button></a></li>
               </ul>
             </div>
@@ -232,9 +252,6 @@
               <div class="card-body" id="infoContent">
                 <!-- Content will be dynamically inserted here -->
               </div>
-              <button type="button" class="btn btn-warning btn-sm m-3" id="reportButton">
-                Report
-              </button>
               <button type="button" class="btn btn-warning btn-sm m-3" id="reportButton">
                 Edit
               </button>

@@ -130,7 +130,7 @@ body {
 }
 
 .sidebar-elements > a {
-  color: black;
+  color: black; 
   text-decoration: none;
   :hover{
     color: blue;

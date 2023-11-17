@@ -107,9 +107,21 @@ body {
   
   #AdInfodropdownMenuButton{
     position: absolute;
-    top: 50px;
+    top: 80px;
+  }
+  #ReportInfodropdownMenuButton{
+    position: absolute;
+    top: 160px;
+  }
+  #LicenseInfodropdownMenuButton{
+    position: absolute;
+    top: 240px;
   }
   #LogIn{
     position: absolute;
     top: 500px;
+  }
+  .dropdown-menu{
+    max-height: 200px;
+    overflow-y: scroll;
   }

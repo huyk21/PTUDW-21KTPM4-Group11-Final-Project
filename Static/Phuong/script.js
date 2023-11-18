@@ -15,8 +15,6 @@ function main() {
     zoom: 15,
   });
 
-  clusteringMarkers(map)
-
   //add custom map controls
   map.addControl(
     new MapboxGeocoder({

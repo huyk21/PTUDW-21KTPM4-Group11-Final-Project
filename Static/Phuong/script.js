@@ -1,9 +1,12 @@
-const HCMlong = 106.660172;
-const HCMlat = 10.762622;
+//map center
+const HCMlong = 106.6993006;
+const HCMlat = 10.7890103;
 
+//access Token
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 
+//main function
 function main() {
   var map = new mapboxgl.Map({
     container: "map",
@@ -12,6 +15,9 @@ function main() {
     zoom: 15,
   });
 
+  clusteringMarkers(map)
+
+  //add custom map controls
   map.addControl(
     new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -70,30 +76,30 @@ function main() {
       for (const ad of data.features) {
         // Create a DOM element for each marker.
         const el = document.createElement("div");
-        //add if statement here to adjust color of icon
+        //adjust color of icon
         switch (ad.properties.status) {
           case "ĐÃ QUY HOẠCH": {
-            el.className = "marker"
-            break
+            el.className = "marker";
+            break;
           }
 
           case "CHƯA QUY HOẠCH": {
-            el.className = "yellow"
-            break
+            el.className = "yellow";
+            break;
           }
 
           case "ĐÃ CẤP PHÉP": {
-            el.className = "green"
-            break
+            el.className = "green";
+            break;
           }
 
           case "BỊ BÁO CÁO": {
-            el.className = "red"
-            break
+            el.className = "red";
+            break;
           }
 
           default: {
-            el.className = "marker"
+            el.className = "marker";
           }
         }
 
@@ -165,8 +171,6 @@ function main() {
       // Show the sidebar
     });
 
-    // If you want to be able to close the sidebar, you'd add an event listener
-    // to a close button inside the sidebar. For example:
     var closeButton = document.getElementById("closeSideBar");
     closeButton.addEventListener("click", function () {});
   });
@@ -229,15 +233,13 @@ function main() {
 main();
 
 function addControls(map) {
-  // Assuming the rest of your code before this...
-
-  // 1. Add Fullscreen control
+  // add Fullscreen control
   map.addControl(new mapboxgl.FullscreenControl());
 
-  // 2. Add Zoom controls (Zoom in / Zoom out)
+  // add Zoom controls (Zoom in / Zoom out)
   map.addControl(new mapboxgl.NavigationControl());
 
-  // 3. Add User Location control (this will show the user's location and allow for tracking)
+  // add User Location control (this will show the user's location and allow for tracking)
   map.addControl(
     new mapboxgl.GeolocateControl({
       positionOptions: {
@@ -249,6 +251,7 @@ function addControls(map) {
   );
 }
 
+//asynchronous function to grab data from json config file
 async function grabAdData() {
   try {
     const data = await fetch("/AdData.json");
@@ -308,20 +311,22 @@ function openReportModal() {
   overlay.style.display = "block"; // Show the overlay
 }
 
+//function to close the overlay
 function closeOverlay() {
   var overlay = document.getElementById("pageOverlay");
   overlay.style.display = "none"; // Hide the overlay
 }
 
-function buttonHover(id)
-{
-  let button = document.getElementById(id)
-  button.classList.add("bg-black")
-  button.style.color = "white"
+//function to adjust buttons on sidebar when hovering
+function buttonHover(id) {
+  let button = document.getElementById(id);
+  button.classList.add("bg-black");
+  button.style.color = "white";
 }
 
+//function to return button state after stop hovering
 function buttonLeave(id) {
-  let button = document.getElementById(id)
-  button.classList.remove("bg-black")
-  button.style.color = ""
+  let button = document.getElementById(id);
+  button.classList.remove("bg-black");
+  button.style.color = "";
 }

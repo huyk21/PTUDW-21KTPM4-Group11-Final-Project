@@ -1,39 +1,430 @@
 {
-    "type": "AdCollection",
-    "features": [
-      {
-        "type": "AdBoard",
-        "properties": {
-          "address": "123 Nguyễn Đình Chiểu",
-          "quantity": "1 trụ/bảng",
-          "area": "Phường Bến Nghé, Quận 01",
-          "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
-          "adFormat": "Quảng cáo thương mại",
-          "status": "ĐÃ QUY HOẠCH",
-          "boardType": "Trụ bảng hiflex",
-          "size": "2.5m x 10m"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [106.698402, 10.787884]
-        }
+  "type": "AdCollection",
+  "features": [
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Nguyễn Đình Chiểu - Cây Điệp",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ bảng hiflex",
+        "size": "2.5m x 10m"
       },
-      {
-        "type": "AdBoard",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.698402, 10.787884]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Phan Kế Bính - Nguyễn Văn Thủ",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Cổ động chính trị",
+        "status": "CHƯA QUY HOẠCH",
+        "boardType": "Trụ bảng hiflex",
+        "size": "2.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.699402, 10.789884]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Trường Sa - Nguyễn Thị Minh Khai",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Xã hội hóa",
+        "status": "BỊ BÁO CÁO",
+        "boardType": "Trụ bảng hiflex",
+        "size": "2.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7056858, 10.7915347]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Nguyễn Thị Minh Khai - Nguyễn Bỉnh Khiêm",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Xã hội hóa",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Cổng chào",
+        "size": "5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7034344, 10.7887313]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Đinh Tiên Hoàng - Nguyễn Đình Chiểu",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Cây xăng",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Trung tâm thương mại",
+        "size": "3.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6997331, 10.7884636]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Võ Thị Sáu - Hai Bà Trưng",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Nhà chờ xe buýt",
+        "adFormat": "Cổ động chính trị",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Trụ treo băng rôn dọc",
+        "size": "3.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6922008, 10.7881158]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Võ Thị Sáu",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ treo băng rôn dọc",
+        "size": "3.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6944199, 10.788946]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Võ Thị Sáu - Phan Liêm",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Cổ động chính trị",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Trụ màn hình điện tử LED",
+        "size": "7.5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6947324, 10.789739]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Võ Thị Sáu",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Xã hội hóa",
+        "status": "BỊ BÁO CÁO",
+        "boardType": "Trụ/Cụm Pano",
+        "size": "2.5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.695022, 10.7905005]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Điện Biên Phủ - Phùng Khắc Khoan",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Chợ",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "BỊ BÁO CÁO",
+        "boardType": "Trụ treo băng rôn ngang",
+        "size": "5m x 10m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6954002, 10.7874731]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Phùng Khắc Khoan - Trần Cao Vân",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Cây xăng",
+        "adFormat": "Cổ động chính trị",
+        "status": "CHƯA QUY HOẠCH",
+        "boardType": "Màn hình điện tử ốp tường",
+        "size": "5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.698005, 10.7846653]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Hai Bà Trưng - Nguyễn Thị Minh Khai",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Màn hình điện tử ốp tường",
+        "size": "5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6983752, 10.7829544]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Hai Bà Trưng - Nguyễn Văn Thủ",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Đa Kao, Quận 01",
+        "landType": "Cây xăng",
+        "adFormat": "Xã hội hóa",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ/Cụm Pano",
+        "size": "5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6952108, 10.785488]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Đinh Tiên Hoàng - Nguyễn Thị Minh Khai",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Nghé, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Cổ động chính trị",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Cổng chào",
+        "size": "5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.701066, 10.7864261]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Lê Duẩn - Mạc Đĩnh Chi",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Nghé, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Trụ màn hình điện tử LED",
+        "size": "5m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7004557, 10.7841654]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Lê Duẩn - Nguyễn Bỉnh Khiêm",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Nghé, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Xã hội hóa",
+        "status": "CHƯA QUY HOẠCH",
+        "boardType": "Trụ treo băng rôn dọc",
+        "size": "15m x 15m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.7038291, 10.7865746]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Lý Văn Phức - Nguyên Phi Khanh",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Tân Định, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ bảng hiflex",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6934153, 10.7916486]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Trần Quang Khải",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Tân Định, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "BỊ BÁO CÁO",
+        "boardType": "Trung tâm thương mại",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6952036, 10.7926669]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Phạm Ngọc Thạch - Nguyễn Thị Minh Khai",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Nghé, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Cổ động chính trị",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Trụ màn hình điện tử LED",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6959378, 10.7817588]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Trương Định - Nguyễn Du",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Thành, Quận 01",
+        "landType": "Nhà chờ xe buýt",
+        "adFormat": "Xã hội hóa",
+        "status": "CHƯA QUY HOẠCH",
+        "boardType": "Trụ/Cụm Pano",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.694113, 10.7736127]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Phạm Hồng Thái - Lý Tự Trọng",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Bến Thành, Quận 01",
+        "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trung tâm thương mại",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6930796, 10.7711396]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Nguyễn Thái Học - Trần Hưng Đạo",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Nguyễn Thái Bình, Quận 01",
+        "landType": "Đất tư nhân/Nhà ở riêng lẻ",
+        "adFormat": "Quảng cáo thương mại",
+        "status": "ĐÃ CẤP PHÉP",
+        "boardType": "Cổng chào",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6954601,10.7680831]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Nguyễn Thái Học - Trịnh Văn Cấn",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Cầu Ông Lãnh, Quận 01",
+        "landType": "Cây xăng",
+        "adFormat": "Cổ động chính trị",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ bảng hiflex",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6956179,10.767079]
+      }
+    },
+    {
+      "type": "AdBoard",
+      "properties": {
+        "address": "Trần Hưng Đạo - Yersin",
+        "quantity": "1 trụ/bảng",
+        "area": "Phường Cầu Ông Lãnh, Quận 01",
+        "landType": "Cây xăng",
+        "adFormat": "Xã hội hóa",
+        "status": "ĐÃ QUY HOẠCH",
+        "boardType": "Trụ treo băng rôn dọc",
+        "size": "15m x 30m"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.6964814,10.7690128]
+      }
+    },
+    {
+      "type": "AdBoard",
         "properties": {
-          "address": "123 Đồng Khởi - Nguyễn Du",
+          "address": "Nguyễn Thị Minh Khai - Pasteur",
           "quantity": "1 trụ/bảng",
           "area": "Phường Bến Nghé, Quận 01",
           "landType": "Đất công/Công viên/Hành lang an toàn giao thông",
-          "adFormat": "Quảng cáo thương mại",
+          "adFormat": "Cổ động chính trị",
           "status": "CHƯA QUY HOẠCH",
-          "boardType": "Trụ bảng hiflex",
-          "size": "2.5m x 10m"
+          "boardType": "Trụ màn hình điện tử LED",
+          "size": "15m x 30m"
         },
         "geometry": {
           "type": "Point",
-          "coordinates": [106.699402, 10.789884]
+          "coordinates": [106.6960029,10.7804518]
         }
-      }
-    ]
+    }
+  ]
 }

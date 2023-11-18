@@ -125,3 +125,35 @@ body {
     max-height: 200px;
     overflow-y: scroll;
   }
+  .marker {
+    background-image: url("/blueMarker.png");
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .red {
+    background-image: url("/redMarker.png");
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .yellow {
+    background-image: url("/yellowMarker.png");
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .green {
+    background-image: url("/greenMarker.jpg");
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }

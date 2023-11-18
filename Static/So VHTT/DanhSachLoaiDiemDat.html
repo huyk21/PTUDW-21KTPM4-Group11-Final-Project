@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Danh sách các Quận</title>
+  <title>Danh sách các loại điểm đặt</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,17 +22,6 @@
       color: #fff;
     }
   </style>
-
-  <style>
-    /* Custom styles for highlighting the active link */
-    .navbar-nav .nav-item.active {
-      background-color: #007bff; /* Active link background color */
-    }
-    .navbar-nav .nav-item.active .nav-link {
-      color: #fff !important; /* Active link text color */
-    }
-  </style>
-
 </head>
 
 <body>
@@ -41,22 +30,21 @@
       <button onclick ="history.back()" class="btn btn-primary"><i class="bi bi-arrow-left"></i></button>
       <button onclick ="history.forward()" class="btn btn-primary"><i class="bi bi-arrow-right"></i></button>
       <a href="index.html" class="btn btn-primary"><i class="bi bi-house"></i></a>
-
     </div>
-  
   </header>
-
   <main>
+
     <div class="container">
-      
+
       <div class="container mt-3">
         
-        <!-- Modal them Quan-->
-        <div class="modal fade" id="themQuan" tabindex="-1" role="dialog" aria-labelledby="themQuanLabel" aria-hidden="true">
+
+        <!-- Modal them hinh thuc quang cao-->
+        <div class="modal fade" id="themLoai" tabindex="-1" role="dialog" aria-labelledby="themLoaiLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header  bg-primary text-white">
-                        <h4 class="modal-title" id="themQuanLabel">Thêm quận</h4>
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title" id="themLoaiLabel">Thêm loại vị trí điểm đặt</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -65,102 +53,105 @@
                         <!-- Your form goes here -->
                         <form>
                             <div class="form-group">
-                                <label for="formThemQuan">
-                                  <h6>Tên quận</h6>
+                                <label for="loai" class="mt-auto">
+                                    <h6>Tên loại vị trí</h6>
                                 </label>
-                                <input type="text" class="form-control" id="formThemQuan" placeholder="Nhập tên quận (vd: Quận 5)">
+                                <input type="text" class="form-control" id="loai" placeholder="Nhập tên loại vị trí điểm đặt (vd: Đất công/Công viên/Hành lang an toàn giao thông)">
                             </div>
 
                             <button type="button" class="btn btn-secondary float-right mt-3" data-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary float-right mt-3 mr-1" data-dismiss="modal">Thêm</button>
+                            
                         </form>
                     </div>
                 </div>
             </div>
           </div>
 
-          <div class="modal fade" id="chinhSuaQuan" tabindex="-1" role="dialog" aria-labelledby="chinhSuaQuanLabel" aria-hidden="true">
+          <!-- Modal chinh sua hinh thuc quang cao-->
+          <div class="modal fade" id="chinhSuaLoai" tabindex="-1" role="dialog" aria-labelledby="chinhSuaLoaiLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h4 class="modal-title" id="chinhSuaQuanLabel">Chỉnh sửa quận</h4>
+                    <div class="modal-header  bg-primary text-white">
+                        <h4 class="modal-title" id="chinhSuaLoaiLabel">Chỉnh sửa loại vị trí điểm đặt</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <h6 class="mt-1 text-center font-italic opacity-50">Lưu ý: Để trống nếu không chỉnh sửa</h6>
                         <!-- Your form goes here -->
                         <form>
-                            <div class="form-group">
-                                <label for="formChinhSuaQuan">
-                                  <h6>Tên quận</h6>
-                                </label>
-                                <input type="text" class="form-control" id="formChinhSuaQuan" placeholder="Nhập tên quận (vd: Quận 5)">
-                            </div>
+                          <div class="form-group">
+                              <label for="loai" class="mt-auto">
+                                  <h6>Tên loại vị trí</h6>
+                              </label>
+                              <input type="text" class="form-control" id="loai" placeholder="Nhập tên loại vị trí điểm đặt (vd: Đất công/Công viên/Hành lang an toàn giao thông)">
+                          </div>
 
-                            <button type="button" class="btn btn-secondary float-right mt-3" data-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary float-right mt-3 mr-1" data-dismiss="modal">Thêm</button>
-                        </form>
+                          <button type="button" class="btn btn-secondary float-right mt-3" data-dismiss="modal">Hủy</button>
+                          <button type="submit" class="btn btn-primary float-right mt-3 mr-1" data-dismiss="modal">Thêm</button>
+                          
+                      </form>
                     </div>
                 </div>
             </div>
           </div>
       </div>
+
       <table class="table table-bordered">
-        <h2 class="text-center">Danh sách Quận</h2>
+        <h2 class="text-center">Danh sách loại vị trí điểm đặt</h2>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success float-right mb-2" data-toggle="modal" data-target="#themQuan">
-          <i class="bi bi-person-plus"></i> Thêm
+        <button type="button" class="btn btn-success float-right mb-2" data-toggle="modal" data-target="#themLoai">
+            <i class="bi bi-plus-square"></i> Thêm
         </button>
-        
         <thead class="custom-header">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Tên quận</th>
-            <th scope="col">Số lượng phường</th>
-            <th scope="col">Số lượng điểm đặt</th>
-            <th scope="col">Chi tiết</th>
+            <th scope="col">Tên loại</th>
+            <th scope="col">Thao tác</th>
           </tr>
         </thead>
-        <tbody id="">
+        <tbody>
           <tr>
             <td scope="row">1</td>
-            <td>Quận 1</td>
-            <td>10</td>
-            <td>25</td>
+            <td>Đất công/Công viên/Hành lang an toàn giao thông</td>
             <td>
-              <a href="DanhSachPhuongQuan1.html">Chi tiết <i class="bi bi-info-circle"></i></a>
-            </td>
-            <td>
-              <a href="#" class="pe-auto">
-                <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
-              </a>
-            </td>
-            <td>
-              <a href="#" class="text-secondary float-end pe-auto" data-toggle="modal" data-target="#chinhSuaQuan">
-                <i class="bi bi-pencil-square"></i>
-              </a>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+                    <i class="bi bi-pencil-square text-secondary"></i>
+                </button>
             </td>
           </tr>
+
           <tr>
             <td scope="row">2</td>
-            <td>Quận 4</td>
-            <td>18</td>
-            <td>25</td>
+            <td>Đất tư nhân/Nhà ở riêng lẻ</td>
             <td>
-              <a href="DanhSachPhuongQuan4.html">Chi tiết <i class="bi bi-info-circle"></i></a>
-            </td>
-            <td>
-              <a href="#" class="pe-auto">
-                <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
-              </a>
-          </td>
-            <td>
-              <a href="#" class="text-secondary float-end pe-auto" data-toggle="modal" data-target="#chinhSuaQuan">
-                <i class="bi bi-pencil-square"></i>
-              </a>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+                  <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
             </td>
           </tr>
+
+          <tr>
+            <td scope="row">3</td>
+            <td>Trung tâm thương mại, Chợ, Cây xăng, Nhà chờ xe buýt</td>
+            <td>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+                  <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
+            </td>
+          </tr>
+          
         </tbody>
       </table>
     </div>
@@ -206,7 +197,6 @@
         }
     })
   </script>
-
 </body>
 
 </html>

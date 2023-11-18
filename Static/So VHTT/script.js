@@ -297,12 +297,3 @@ map.on("click", function (e) {
     }
   });
 });
-
-//delete a row in a table
-document.querySelectorAll('.bi-trash-fill').forEach(item => {
-  item.onclick = () => {
-    if (confirm('Do you really want to remove this item ?')) {
-        item.parentElement.remove();
-    }
-  }
-})

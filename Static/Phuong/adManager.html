@@ -8,11 +8,13 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+    <!-- Mapbox API-->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -21,11 +23,13 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
+    <!-- Internal css and jquery -->
     <link rel="stylesheet" href="style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
   <body class="overflow-scroll">
+    <!-- Navigation bar goes here -->
     <header class="container-fluid bg-primary py-3">
       <nav class="navbar navbar-expand-sm navbar-dark container">
         <div class="container">
@@ -44,6 +48,7 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
+          <!-- Redirecting navigations go here -->
           <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
               <li class="nav-item">
@@ -79,7 +84,9 @@
       </nav>
     </header>
 
+    <!-- The body goes here -->
     <main>
+      <!-- Card header -->
       <div class="card text-center">
         <div class="card-header">
           <h4 class="card-title text-left">
@@ -87,6 +94,7 @@
             Kao, Quận 1
           </h4>
         </div>
+        <!-- Card Body -->
         <div class="card-body">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -106,6 +114,7 @@
         </div>
       </div>
 
+      <!-- Search bar goes here -->
       <div
         class="container-fluid d-flex flex-row justify-content-between align-items-center bg-dark bg-opacity-10"
       >
@@ -136,6 +145,7 @@
         ></a>
       </div>
 
+      <!-- Table containing the information of ad boards goes here -->
       <div class="container-fluid table-responsive" id="info-table">
         <table
           class="table table-striped table-hover table-borderless table-light align-middle"
@@ -163,7 +173,18 @@
               <td>Cổ động chính trị</td>
               <td>Đất công/công viên/hành lang</td>
               <td>Đã quy hoạch, cấp phép</td>
-              <td><a name="" id="" class="btn btn-success" href="#" role="button">Chỉnh sửa</a></td>
+              <td>
+                <a
+                  name="edit"
+                  id="edit"
+                  class="btn btn-success"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#adConfig"
+                  >Chỉnh sửa</a
+                >
+              </td>
             </tr>
             <tr class="table-light opacity-100">
               <td scope="row">Trụ/Cụm pano</td>
@@ -174,7 +195,11 @@
               <td>Cổ động chính trị</td>
               <td>Cây xăng</td>
               <td>Chưa quy hoạch</td>
-              <td><a href="#" class="btn btn-light active disabled" role="button">Chỉnh sửa</a></td>
+              <td>
+                <a href="#" class="btn btn-light active disabled" role="button"
+                  >Chỉnh sửa</a
+                >
+              </td>
             </tr>
             <tr class="table-light opacity-100">
               <td scope="row">Cổng chào</td>
@@ -185,7 +210,11 @@
               <td>Quảng cáo thương mại</td>
               <td>Chợ</td>
               <td>Chưa quy hoạch</td>
-              <td><a href="#" class="btn btn-light active disabled" role="button">Chỉnh sửa</a></td>
+              <td>
+                <a href="#" class="btn btn-light active disabled" role="button"
+                  >Chỉnh sửa</a
+                >
+              </td>
             </tr>
             <tr class="table-light opacity-100">
               <td scope="row">Trụ hộp đèn</td>
@@ -196,10 +225,189 @@
               <td>Xã hội hóa</td>
               <td>Nhà chờ xe buýt</td>
               <td>Đã quy hoạch, cấp phép</td>
-              <td><a name="" id="" class="btn btn-success" href="#" role="button">Chỉnh sửa</a></td>
+              <td>
+                <a
+                  name="edit"
+                  id="edit"
+                  class="btn btn-success"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#adConfig"
+                  >Chỉnh sửa</a
+                >
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Modal for adjusting ad information -->
+      <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+      <div
+        class="modal fade"
+        id="adConfig"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        role="dialog"
+        aria-labelledby="modalTitleId"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+          role="document"
+        >
+          <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+              <h5 class="modal-title fw-bold" id="modalTitleId">
+                Chỉnh sửa điểm đặt/bảng quảng cáo
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <!-- Modal body -->
+            <div
+              class="modal-body"
+            >
+              <form method="get" action="" class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0" id="boardAdjust">
+                <div class="mb-3">
+                  <label for="boardType" class="form-label fw-bold"
+                    >Loại bảng</label
+                  >
+                  <input
+                    type="text"
+                    name="boardType"
+                    id="boardType"
+                    class="form-control"
+                    placeholder="Vd: Trụ bảng hiflex, Cổng chào..."
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label fw-bold"
+                    >Địa chỉ</label
+                  >
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="form-control"
+                    placeholder="Vd: 123 Đinh Tiên Hoàng"
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="area" class="form-label fw-bold">Khu vực</label>
+                  <input
+                    type="text"
+                    name="area"
+                    id="area"
+                    class="form-control"
+                    placeholder="Vd: Phường Đa Kao - Quận 1"
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="size" class="form-label fw-bold"
+                    >Kích thước</label
+                  >
+                  <input
+                    type="text"
+                    name="size"
+                    id="size"
+                    class="form-control"
+                    placeholder="Vd: 2.5m x 10m"
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="quantity" class="form-label fw-bold"
+                    >Số lượng</label
+                  >
+                  <input
+                    type="text"
+                    name="quantity"
+                    id="quantity"
+                    class="form-control"
+                    placeholder="Vd: 1 trụ/bảng"
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="adFormat" class="form-label fw-bold"
+                    >Hình thức</label
+                  >
+                  <input
+                    type="text"
+                    name="adFormat"
+                    id="adFormat"
+                    class="form-control"
+                    placeholder="Vd: Quảng cáo thương mại, xã hội hóa..."
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="locationType" class="form-label fw-bold"
+                    >Loại vị trí</label
+                  >
+                  <input
+                    type="text"
+                    name="locationType"
+                    id="locationType"
+                    class="form-control"
+                    placeholder="Vd: Chợ, cây xăng, nhà chờ xe buýt..."
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="time" class="form-label fw-bold"
+                    >Thời điểm xin chỉnh sửa</label
+                  >
+                  <input
+                    type="date"
+                    name="time"
+                    id="time"
+                    class="form-control"
+                    placeholder=""
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="reason" class="form-label fw-bold"
+                    >Lý do chỉnh sửa</label
+                  >
+                  <input
+                    type="text"
+                    name="reason"
+                    id="reason"
+                    class="form-control"
+                    placeholder="Vd: Sai nội dung..."
+                    aria-describedby="helpId"
+                  />
+                </div>
+              </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                <i class="bi bi-x"></i>&nbsp; Hủy
+              </button>
+              <button type="submit" class="btn btn-primary" form="boardAdjust">
+                <i class="bi bi-send"></i> &nbsp;Gửi
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -219,10 +427,17 @@
     <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Your custom script file -->
+    <!-- Custom script file -->
     <script type="text/javascript" src="script.js"></script>
 
     <!-- Any additional scripts -->
     <script type="text/javascript" src="/AdData.json"></script>
+    <!-- Modal Script -->
+    <script>
+      const myModal = new bootstrap.Modal(
+        document.getElementById("adConfig"),
+        options
+      );
+    </script>
   </body>
 </html>

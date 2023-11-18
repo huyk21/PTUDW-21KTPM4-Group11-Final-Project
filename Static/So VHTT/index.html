@@ -35,62 +35,6 @@
         <div class="col-md-12">
           <div id="map" style="height: 100vh; width: 100vw">
             <!-- Report Modal -->
-            <div
-              class="modal fade"
-              id="reportModal"
-              tabindex="-1"
-              aria-labelledby="reportModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="reportModalLabel">
-                      Report Information
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="reportForm">
-                      <div class="mb-3">
-                        <label for="report-reason" class="col-form-label"
-                          >Reason for Report:</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="report-reason"
-                          required
-                        ></textarea>
-                      </div>
-                      <div class="mb-3">
-                        <label for="report-details" class="col-form-label"
-                          >Additional Details:</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="report-details"
-                        ></textarea>
-                      </div>
-                      <!-- Include other form fields as needed -->
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div id="extension" class="sidebar-container">
               <button id="toggleSidebarButton" class="btn btn-sm">☰</button>
 
@@ -123,54 +67,72 @@
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
-                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách loại quảng cáo</p>
+                  <a href="DanhSachHinhThucQuangCao.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Các hình thức quảng cáo</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
-                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách loại báo cáo</p>
+                  <a href="DanhSachLoaiDiemDat.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Các loại điểm đặt</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
+                  <a href="DanhSachHinhThucBaoCao.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Các loại hình thức báo cáo</p>
+                  </a>
+                </div>
+
+                <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                  <a href="DanhSachDiemDat.html" class="container-fluid">
                     <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách điểm đặt quảng cáo</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
-                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách yêu cầu chỉnh sửa</p>
+                  <a href="DanhSachQuangCao.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách bảng quảng cáo</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
+                  <a href="DanhSachYeuCauChinhSuaDiemDat.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách yêu cầu chỉnh sửa điểm đặt</p>
+                  </a>
+                </div>
+
+                <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                  <a href="DanhSachYeuCauChinhSuaQuangCao.html" class="container-fluid">
+                    <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách yêu cầu chỉnh sửa quảng cáo</p>
+                  </a>
+                </div>
+
+                <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                  <a href="DanhSachYeuCauCapPhepQuangCao.html" class="container-fluid">
                     <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Danh sách yêu cầu cấp phép quảng cáo</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
+                  <a href="ThongKeBaoCao.html" class="container-fluid">
                     <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Thống kê báo cáo</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
+                  <a href="TaoTaiKhoanCanBo.html" class="container-fluid">
                     <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Tạo tài khoản cán bộ</p>
                   </a>
                 </div>
 
                 <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                  <a href="" class="container-fluid">
+                  <a href="PhanCongKhuVuc.html" class="container-fluid">
                     <p class="h6 fw-normal"><i class="bi bi-archive"></i> &nbsp;Phân công khu vực quản lí</p>
                   </a>
                 </div>
 
-                <p class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</p>
+                <footer class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</footer>
 
               </div>
             </div>

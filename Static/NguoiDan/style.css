@@ -44,8 +44,7 @@ body {
   position: absolute;
   z-index: 1000; /* Ensures the button is above everything else */
   top: 10px;
-  left: 50%;
-  transform: translateX(-50%); /* Adjust for the button's width */
+  left: 20px;
   background-color: #fff;
   border-radius: 4px;
   padding: 0.5rem;
@@ -96,32 +95,49 @@ body {
 }
 .sidebar-container {
   background-color: #fff;
-  position: fixed; /* Fixed position */
+  position: fixed;
   border: 1px solid black;
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left */
-  z-index: 300; /* Above other content but below the button */
-  width: 100px; /* Width of the sidebar */
-  height: 100vh; /* Full height */
-}
-.sidebar-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Aligns children at start and end */
-  height: 100%; /* Adjust the height as needed */
+  top: 0;
+  left: 0;
+  z-index: 300;
+  width: 100px;
+  height: 100vh;
 }
 
-/* Optional: To ensure the Đăng xuất link is at the bottom */
-.sidebar-container > button:last-child {
-  margin-top: auto; /* Pushes the container to the bottom */
-  display: flex;
-  justify-content: center; /* Center button horizontally */
-  align-items: center; /* Center button vertically */
-  height: 50px; /* Adjust the height as per your design */
-  background-color: blue;
-  width: 60px;
-  margin-left: auto;
-  margin-right: auto;
-  color: black;
+a {
   text-decoration: none;
+  color: #333;
+}
+.card-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa; /* or any color you prefer */
+  text-align: center;
+  padding: 10px 0; /* Adjust padding as needed */
+}
+.red {
+  background-image: url("/redMarker.png");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.yellow {
+  background-image: url("/yellowMarker.png");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.green {
+  background-image: url("/greenMarker.jpg");
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
 }

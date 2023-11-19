@@ -11,6 +11,79 @@ function main() {
     center: [HCMlong, HCMlat],
     zoom: 15,
   });
+  map.on("load", async function () {
+    const data = await loadData();
+    if (data) {
+      map.addSource("markers", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: data.features,
+        },
+        cluster: true,
+        clusterMaxZoom: 14,
+        clusterRadius: 50,
+      });
+      map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "markers",
+        filter: ["has", "point_count"],
+        paint: {
+          // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+          // with three steps to implement three types of circles:
+          "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6",
+            100,
+            "#f1f075",
+            750,
+            "#f28cb1",
+          ],
+          "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            20,
+            100,
+            30,
+            750,
+            40,
+          ],
+        },
+      });
+
+      map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "markers",
+        filter: ["has", "point_count"],
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12,
+        },
+      });
+
+      map.addLayer({
+        id: "unclustered-point",
+        type: "circle",
+        source: "markers",
+        filter: ["!", ["has", "point_count"]],
+        paint: {
+          "circle-color": "#11b4da",
+          "circle-radius": 4,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#fff",
+        },
+      });
+      // Add layers for clusters, cluster counts, and unclustered points
+      // ... (same as in your provided code)
+    } else {
+      //pop up error message
+      alert("Error loading data");
+    }
+  });
 
   map.addControl(
     new MapboxGeocoder({
@@ -60,7 +133,6 @@ function main() {
   });
 
   addControls(map);
-
   grabAdData()
     .catch((error) => {
       console.log(`Error found: ${error.message}`);
@@ -69,8 +141,32 @@ function main() {
       for (const ad of data.features) {
         // Create a DOM element for each marker.
         const el = document.createElement("div");
-        //add if statement here to adjust color of icon
-        el.className = "marker";
+        //adjust color of icon
+        switch (ad.properties.status) {
+          case "ĐÃ QUY HOẠCH": {
+            el.className = "marker";
+            break;
+          }
+
+          case "CHƯA QUY HOẠCH": {
+            el.className = "yellow";
+            break;
+          }
+
+          case "ĐÃ CẤP PHÉP": {
+            el.className = "green";
+            break;
+          }
+
+          case "BỊ BÁO CÁO": {
+            el.className = "red";
+            break;
+          }
+
+          default: {
+            el.className = "marker";
+          }
+        }
 
         // Add markers to the map.
         const marker = new mapboxgl.Marker(el)
@@ -97,7 +193,10 @@ function main() {
           marker.getPopup().remove();
         });
         marker.getElement().addEventListener("click", function (event) {
+          // Prevents the map click event (and thus the reverse geocoding) from firing
           event.stopPropagation();
+          map.flyTo({ center: ad.geometry.coordinates, zoom: 15 });
+
           // Pass the properties of this specific feature to the sidebar
           showSidebar(ad.properties);
         });
@@ -124,7 +223,7 @@ function main() {
       var lngLat = e.lngLat;
 
       // Center the map on the clicked location
-      map.flyTo({ center: lngLat });
+      map.flyTo({ center: lngLat, zoom: 15 });
     });
   });
 
@@ -266,47 +365,18 @@ function showSidebar(properties) {
     </div>
   `;
   setTimeout(() => {
-    // Next, add the name of the ad and the rating
-    sidebarContent += `
-    <div class="sidebar-section">
-      <h3>${properties.name}</h3>
-      <p>Rating: ${properties.rating} (${properties.reviewCount} reviews)</p>
-    </div>
-  `;
-
-    // Add tabs for Overview and Reports
-    sidebarContent += `
-    <div class="sidebar-section">
-      <ul class="nav nav-tabs" id="adInfoTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports" type="button" role="tab" aria-controls="reports" aria-selected="false">Reports</button>
-        </li>
-      </ul>
-      <div class="tab-content" id="adInfoTabsContent">
-        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-          <p>Address: ${properties.address}</p>
-          <p>Quantity: ${properties.quantity}</p>
-          <p>Area: ${properties.area}</p>
-          <p>Land Type: ${properties.landType}</p>
-          <p>Ad Format: ${properties.adFormat}</p>
-          <p>Status: ${properties.status}</p>
-          <p>Board Type: ${properties.boardType}</p>
-          <p>Size: ${properties.size}</p>
-          <!-- Report Button in Overview -->
-          
-        </div>
-        <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
-          <!-- User reports will be inserted here -->
-        </div>
-      </div>
-    </div>
-  `;
-
     // Update the content of the sidebar
-    $("#infoContent").html(sidebarContent);
+    $("#infoContent").html(`
+    
+    <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
+    <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
+    <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
+    <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
+    <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
+    <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
+    <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
+    <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
+  `);
 
     // Show the sidebar by adding the 'visible' class
     $("#sidebar").addClass("visible");
@@ -347,4 +417,29 @@ function openReportModal() {
 function closeOverlay() {
   var overlay = document.getElementById("pageOverlay");
   overlay.style.display = "none"; // Hide the overlay
+}
+//function to adjust buttons on sidebar when hovering
+function buttonHover(id) {
+  let button = document.getElementById(id);
+  button.classList.add("bg-black");
+  button.style.color = "white";
+}
+
+//function to return button state after stop hovering
+function buttonLeave(id) {
+  let button = document.getElementById(id);
+  button.classList.remove("bg-black");
+  button.style.color = "";
+}
+async function loadData() {
+  try {
+    const response = await fetch("/AdData.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  } catch (error) {
+    console.error(`Error loading data: ${error}`);
+    return null;
+  }
 }

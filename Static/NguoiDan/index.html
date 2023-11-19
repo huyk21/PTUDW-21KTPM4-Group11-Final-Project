@@ -40,6 +40,7 @@
         <div class="col-md-12">
           <div id="map" style="height: 100vh; width: 100vw">
             <!-- Report Modal -->
+
             <div
               class="modal fade"
               id="reportModal"
@@ -184,11 +185,20 @@
                 </div>
               </div>
             </div>
-            <div id="extension" class="sidebar-container">
-              <button id="toggleSidebarButton" class="btn btn-sm">☰</button>
-              <button class="btn btn-sm" onclick="location.href='/login.html'">
-                <i class="bi bi-person-circle"></i> &nbsp;Đăng nhập
-              </button>
+            <div
+              id="extension"
+              class="d-flex flex-column justify-content-center align-items-center sidebar-container"
+            >
+              <button id="toggleSidebarButton" class="btn btn-sm m-1">☰</button>
+              <button id="toadManager" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href='./adManager.html'" onmouseover="buttonHover('toadManager')" onmouseleave="buttonLeave('toadManager')"><i class="bi bi-badge-ad""></i></button>
+              <button id="toadReport" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href='./reportManager.html'" onmouseover="buttonHover('toadReport')" onmouseleave="buttonLeave('toadReport')"><i class="bi bi-flag"></i></button>
+              <button id="toadLicense" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href='./adLicense.html'" onmouseover="buttonHover('toadLicense')" onmouseleave="buttonLeave('toadLicense')"><i class="bi bi-clipboard-check"></i></button>
+              <button id="toLogIn" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href='/Static/Phuong/index.html'" onmouseover="buttonHover('toLogIn')" onmouseleave="buttonLeave('toLogIn')"><i class="bi bi-person-circle"></i></button>
+              <button id="toHelp" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href=''" onmouseover="buttonHover('toHelp')" onmouseleave="buttonLeave('toHelp')"><i class="bi bi-bug"></i></button>
+              <button id="toBugReport" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href=''" onmouseover="buttonHover('toBugReport')" onmouseleave="buttonLeave('toBugReport')"><i class="bi bi-question-circle"></i></button>
+              <!-- The rest of the sidebar content will go here -->
+              <!-- ... -->
+            </div>
               <!-- The rest of the sidebar content will go here -->
               <!-- ... -->
             </div>
@@ -204,40 +214,82 @@
               </button>
               <!-- Navigation items here -->
               <div class="list-group" style="left: 0">
-                <a href="#" class="list-group-item list-group-item-action"
-                  >Saved</a
-                >
-                <a href="#" class="list-group-item list-group-item-action"
-                  >Recents</a
-                >
-                <!-- More items -->
+                <!-- Navigation sidebar goes here -->
+                <div class="card d-flex flex-column justify-content-between">
+                  <div class="card-header container bg-info">
+                    <p class="h2 text-center">
+                      Xin chào, Cán bộ Phường
+                    </p>
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-archive"></i> &nbsp;Đã lưu</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-clock-history"></i> &nbsp;Gần đây</p>
+                    </a>
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="adManager.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-badge-ad""></i> &nbsp;Tìm kiếm biển quảng cáo</p>
+                    </a>
+                    <a href="reportManager.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-flag"></i> &nbsp;Xem lại báo cáo đã gửi</p>
+                    </a>
+                    
+                  </div>
+                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
+                    <a href="/login.html" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-person-circle"></i> &nbsp;Đăng nhập</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-bug"></i> &nbsp;Báo cáo lỗi</p>
+                    </a>
+                    <a href="" class="container-fluid">
+                      <p class="h5 fw-normal"><i class="bi bi-question-circle"></i> &nbsp;Trợ giúp</p>
+                    </a>
+                  </div>
+                  <div class="card-footer">
+                    <p class="border-0 m-0 p-0">
+                        <i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh
+                    </p>
+                </div>
+                </div>
               </div>
             </div>
-            <div id="sidebar" class="col-md-4 col-lg-3">
-              <div class="card">
+            </div>
+            <div id="sidebar" class="col-md-3 col-lg-3">
+              <div class="card container-fluid">
+                <div class="container-fluid" id="billboard-img">
+                  <img src="/billboard.jpg" class="img-fluid rounded-lg" alt="image of the billboard">
+                </div>
                 <div class="card-header d-flex justify-content-between">
-                  Location Information
+                  <p class="text-center fs-5 fw-semibold align-bottom ">
+                    Thông tin địa điểm:
+                  </p>
                   <button
                     type="button"
                     class="btn-close"
                     aria-label="Close"
                     id="closeSidebar"
                   ></button>
+                 
                 </div>
+                <button
+                type="button"
+                class="btn btn-warning btn-sm"
+                id="reportButton"
+              >
+                Report
+              </button>
                 <div class="card-body" id="infoContent">
                   <!-- Content will be dynamically inserted here -->
                 </div>
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm"
-                  id="reportButton"
-                >
-                  Report
-                </button>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </div>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>

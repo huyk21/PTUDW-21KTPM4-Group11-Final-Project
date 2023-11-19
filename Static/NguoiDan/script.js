@@ -1,5 +1,6 @@
 const HCMlong = 106.660172;
 const HCMlat = 10.762622;
+const clusterBreakpointZoomLevel = 14; // Adjust this value as needed
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
@@ -11,78 +12,172 @@ function main() {
     center: [HCMlong, HCMlat],
     zoom: 15,
   });
+  // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
-    const data = await loadData();
-    if (data) {
-      map.addSource("markers", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: data.features,
-        },
-        cluster: true,
-        clusterMaxZoom: 14,
-        clusterRadius: 50,
-      });
-      map.addLayer({
-        id: "clusters",
-        type: "circle",
-        source: "markers",
-        filter: ["has", "point_count"],
-        paint: {
-          // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-          // with three steps to implement three types of circles:
-          "circle-color": [
-            "step",
-            ["get", "point_count"],
-            "#51bbd6",
-            100,
-            "#f1f075",
-            750,
-            "#f28cb1",
-          ],
-          "circle-radius": [
-            "step",
-            ["get", "point_count"],
-            20,
-            100,
-            30,
-            750,
-            40,
-          ],
-        },
-      });
+    // Load your data
+    const geojsonData = await loadData();
 
-      map.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: "markers",
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": "{point_count_abbreviated}",
-          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-          "text-size": 12,
-        },
-      });
+    // Add the source with your GeoJSON data and enable clustering
+    map.addSource("ads", {
+      type: "geojson",
+      data: geojsonData,
+      cluster: true,
+      clusterMaxZoom: 14,
+      clusterRadius: 50,
+    });
 
-      map.addLayer({
-        id: "unclustered-point",
-        type: "circle",
-        source: "markers",
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": "#11b4da",
-          "circle-radius": 4,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#fff",
-        },
-      });
-      // Add layers for clusters, cluster counts, and unclustered points
-      // ... (same as in your provided code)
+    // Add a layer for the clusters
+    map.addLayer({
+      id: "clusters",
+      type: "circle",
+      source: "ads",
+      filter: ["has", "point_count"],
+      paint: {
+        // Paint properties here
+        "circle-color": [
+          "step",
+          ["get", "point_count"],
+          "#51bbd6", // Color for clusters with count < 100
+          100,
+          "#f1f075", // Color for clusters with count < 750
+          750,
+          "#f28cb1", // Color for clusters with count >= 750
+        ],
+        "circle-radius": [
+          "step",
+          ["get", "point_count"],
+          20, // Radius for clusters with count < 100
+          100,
+          30, // Radius for clusters with count < 750
+          750,
+          40, // Radius for clusters with count >= 750
+        ],
+      },
+    });
+
+    // Add a layer for the cluster counts
+    map.addLayer({
+      id: "cluster-count",
+      type: "symbol",
+      source: "ads",
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+        "text-size": 12,
+      },
+    });
+
+    // Add a layer for individual points (non-clustered)
+    map.addLayer({
+      id: "unclustered-point",
+      type: "circle",
+      source: "ads",
+      filter: ["!", ["has", "point_count"]],
+      paint: {
+        // Use a 'case' expression to assign a color based on the 'status' property
+        "circle-color": [
+          "match",
+          ["get", "status"],
+          "ĐÃ QUY HOẠCH",
+          "#51bbd6", // Blue
+          "CHƯA QUY HOẠCH",
+          "#ffff00", // Yellow
+          "ĐÃ CẤP PHÉP",
+          "#00ff00", // Green
+          "BỊ BÁO CÁO",
+          "#ff0000", // Red
+          "#ffffff", // Default color (white)
+        ],
+        "circle-radius": 15, // Radius for individual points
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff",
+      },
+    });
+  });
+
+  map.on("zoom", function () {
+    if (map.getZoom() > clusterBreakpointZoomLevel) {
+      map.setLayoutProperty("unclustered-point", "visibility", "visible");
+      map.setLayoutProperty("clusters", "visibility", "none");
+      map.setLayoutProperty("cluster-count", "visibility", "none");
     } else {
-      //pop up error message
-      alert("Error loading data");
+      map.setLayoutProperty("unclustered-point", "visibility", "none");
+      map.setLayoutProperty("clusters", "visibility", "visible");
+      map.setLayoutProperty("cluster-count", "visibility", "visible");
     }
+  });
+  // Assuming your 'unclustered-point' layer is for individual points
+  map.on("mouseenter", "unclustered-point", function (e) {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = "pointer";
+
+    // Create a popup and set its content based on the feature properties
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var properties = e.features[0].properties;
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(
+        `
+      <h6>${properties.adFormat}</h6>
+      <p>${properties.address}</p>
+      <p>${properties.area}</p>
+      <p>${properties.landType}</p>
+      <p style="font-weight: 900; font-style: italic">${properties.status}</p>
+      `
+      )
+      .addTo(map);
+  });
+
+  map.on("mouseleave", "unclustered-point", function () {
+    map.getCanvas().style.cursor = "";
+    // Remove the popup
+    map.getCanvas().style.cursor = "";
+    if (map.getPopup()) {
+      map.getPopup().remove();
+    }
+  });
+
+  map.on("click", "unclustered-point", function (e) {
+    // Prevent the 'click' event from propagating to the map
+    event.stopPropagation();
+
+    // Fly to the point
+    map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 15 });
+
+    // Pass the properties of this specific feature to the sidebar
+    showSidebar(e.features[0].properties);
+  });
+  // Assuming you've already added your 'clusters' layer and your 'ads' source.
+
+  // When a click event occurs on a feature in the clusters layer, zoom in
+  map.on("click", "clusters", function (e) {
+    // Get the cluster id from the features properties
+    var clusterId = e.features[0].properties.cluster_id;
+
+    // Get the point coordinates from the feature
+    var point = e.features[0].geometry.coordinates;
+
+    // Get the cluster expansion zoom
+    map
+      .getSource("ads")
+      .getClusterExpansionZoom(clusterId, function (err, zoom) {
+        if (err) return;
+
+        // Ease to the point with the new zoom level
+        map.easeTo({
+          center: point,
+          zoom: 15,
+        });
+      });
   });
 
   map.addControl(
@@ -168,21 +263,21 @@ function main() {
           }
         }
 
-        // Add markers to the map.
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(ad.geometry.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setHTML(
-              `
-          <h6>${ad.properties.adFormat}</h6>
-          <p>${ad.properties.address}</p>
-          <p>${ad.properties.area}</p>
-          <p>${ad.properties.landType}</p>
-          <p style="font-weight: 900; font-style: italic">${ad.properties.status}</p>
-          `
-            )
-          )
-          .addTo(map);
+        // // Add markers to the map.
+        // const marker = new mapboxgl.Marker(el)
+        //   .setLngLat(ad.geometry.coordinates)
+        //   .setPopup(
+        //     new mapboxgl.Popup({ offset: 25 }).setHTML(
+        //       `
+        //   <h6>${ad.properties.adFormat}</h6>
+        //   <p>${ad.properties.address}</p>
+        //   <p>${ad.properties.area}</p>
+        //   <p>${ad.properties.landType}</p>
+        //   <p style="font-weight: 900; font-style: italic">${ad.properties.status}</p>
+        //   `
+        //     )
+        //   )
+        //   .addTo(map);
         // Add 'mouseenter' event listener to show the popup.
         el.addEventListener("mouseenter", () => {
           marker.getPopup().addTo(map);

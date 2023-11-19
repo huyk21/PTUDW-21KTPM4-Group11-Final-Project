@@ -9,6 +9,9 @@
       <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="style.css" />
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -96,7 +99,7 @@
                               <div id="extension" class="sidebar-container">
                                     <button id="toggleSidebarButton" class="btn btn-lg">☰</button>
                                     <div class="dropdown">
-                                          <button class="btn btn-lg btn-primary dropdown-toggle m-3"
+                                          <button class="btn btn-lg dropdown-toggle m-3"
                                                 style="width: 65px;" type="button" id="AdInfodropdownMenuButton"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bi bi-badge-ad"></i>
@@ -139,7 +142,7 @@
                                           </ul>
                                     </div>
                                     <div class="dropdown">
-                                          <button class="btn btn-lg btn-primary dropdown-toggle m-3"
+                                          <button class="btn btn-lg dropdown-toggle m-3"
                                                 style="width: 65px;" type="button" id="ReportInfodropdownMenuButton"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bi bi-flag"></i>
@@ -180,7 +183,7 @@
                                           </ul>
                                     </div>
                                     <div class="dropdown">
-                                          <button class="btn btn-lg btn-primary dropdown-toggle m-3"
+                                          <button class="btn btn-lg dropdown-toggle m-3"
                                                 style="width: 65px;" type="button" id="LicenseInfodropdownMenuButton"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bi bi-clipboard-check"></i>
@@ -220,7 +223,7 @@
                                                                   style="width: 150px;">Tân Định</button></a></li>
                                           </ul>
                                     </div>
-                                    <button id="LogIn" class="btn btn-lg btn-primary m-3"
+                                    <button id="LogIn" class="btn btn-lg  m-3"
                                           onclick="window.location.href='/login.html'"><i
                                                 class="bi bi-person-circle"></i></button>
                                     <!-- The rest of the sidebar content will go here -->
@@ -233,13 +236,13 @@
                                     </button>
                                     <!-- Navigation items here -->
                                     <div class="list-group" style="left: 0">
-                                          <p class="h2 text-center bg-primary">
+                                          <p class="h2 text-center bg-info">
                                                 Phân hệ Cán bộ Quận
                                           </p>
                                           <p class="h4 text-center">Chọn phường bạn muốn quan sát</p>
                                           <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle m-3 btn-lg"
-                                                      style="width: 200px;" type="button" id="dropdownMenuButton1"
+                                                <button class="btn dropdown-toggle m-3 btn-lg" style="width: 250px;"
+                                                       type="button" id="dropdownMenuButton1"
                                                       data-bs-toggle="dropdown" aria-expanded="false">
                                                       Quận 1
                                                 </button>
@@ -337,9 +340,9 @@
                                           </div> -->
                                           <hr>
                                           <div class="dropdown">
-                                                <button class="btn btn-lg btn-primary dropdown-toggle m-3" type="button"
-                                                      id="AdInfo" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="h6 bi bi-badge-ad">Quản lý bảng quảng cáo</i>
+                                                <button class="btn btn-lg dropdown-toggle m-3" type="button"
+                                                      id="AdInfo" data-bs-toggle="dropdown" aria-expanded="false" style="width: 245px;">
+                                                      <i class="h6 bi bi-badge-ad" style="font-style: normal;">Quản lý bảng quảng cáo</i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="AdInfo">
                                                       <li><a class="dropdown-item"
@@ -390,9 +393,9 @@
                                                 </ul>
                                           </div>
                                           <div class="dropdown">
-                                                <button class="btn btn-lg btn-primary dropdown-toggle m-3" type="button"
-                                                      id="ReportInfo" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="h6 bi bi-flag">Xử lý báo cáo người dân</i>
+                                                <button class="btn btn-lg dropdown-toggle m-3" type="button"
+                                                      id="ReportInfo" data-bs-toggle="dropdown" aria-expanded="false" style="width: 245px;">
+                                                      <i class="h6 bi bi-flag" style="font-style: normal;">Xử lý báo cáo người dân</i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="ReportInfo">
                                                       <li><a class="dropdown-item" href="./reportManagerBenNghe.html"><button
@@ -435,10 +438,10 @@
                                                 </ul>
                                           </div>
                                           <div class="dropdown">
-                                                <button class="btn btn-lg btn-primary dropdown-toggle m-3"
+                                                <button class="btn btn-lg  dropdown-toggle m-3"
                                                       style="width: 245px;" type="button" id="LicenseInfo"
                                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="h6 bi bi-clipboard-check">Yêu cầu cấp phép quảng cáo</i>
+                                                      <i class="h6 bi bi-clipboard-check" style="font-style: normal;">Yêu cầu cấp phép quảng cáo</i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="LicenseInfo">
                                                       <li><a class="dropdown-item" href="./adLicenseBenNghe.html"><button
@@ -482,9 +485,9 @@
                                           </div>
                                           <hr>
                                           <!-- More items -->
-                                          <button id="LogOut" class="btn btn-lg btn-primary m-3"
+                                          <button id="LogOut" class="btn btn-lg  m-3"
                                                 onclick="window.location.href='/login.html'"><i
-                                                      class="bi bi-person-circle">Đăng xuất</i>
+                                                      class="bi bi-person-circle" style="font-style: normal;">Đăng xuất</i>
                                           </button>
                                           <hr>
                                           <p class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</p>

@@ -3,6 +3,10 @@ body {
     padding: 0;
     overflow: hidden;
   }
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+  *{
+    font-family: 'Noto Serif', serif;
+  }
   #map {
     position: relative;
     top: 0;
@@ -106,20 +110,40 @@ body {
   }
   
   #AdInfodropdownMenuButton{
+    border: 1px solid black;
     position: absolute;
     top: 80px;
   }
+  #AdInfodropdownMenuButton:hover{
+    background-color: black;
+    color: white;
+  }
   #ReportInfodropdownMenuButton{
+    border: 1px solid black;
     position: absolute;
     top: 160px;
   }
+  #ReportInfodropdownMenuButton:hover{
+    background-color: black;
+    color: white;
+  }
   #LicenseInfodropdownMenuButton{
+    border: 1px solid black;
     position: absolute;
     top: 240px;
   }
+  #LicenseInfodropdownMenuButton:hover{
+    background-color: black;
+    color: white;
+  }
   #LogIn{
+    border: 1px solid black;
     position: absolute;
     top: 500px;
+  }
+  #LogIn:hover{
+    background-color: black;
+    color: white;
   }
   .dropdown-menu{
     max-height: 200px;
@@ -156,4 +180,34 @@ body {
     height: 20px;
     border-radius: 50%;
     cursor: pointer;
+  }
+  #dropdownMenuButton1{
+    border: 1px solid black;
+  }
+  #dropdownMenuButton1:hover{
+    color: #46BDC6;
+  }
+  #AdInfo{
+    border: 1px solid black;
+  }
+  #AdInfo:hover{
+    color: #46BDC6;
+  }
+  #ReportInfo{
+    border: 1px solid black;
+  }
+  #ReportInfo:hover{
+    color: #46BDC6;
+  }
+  #LicenseInfo{
+    border: 1px solid black;
+  }
+  #LicenseInfo:hover{
+    color: #46BDC6;
+  }
+  #LogOut{
+    border: 1px solid black;
+  }
+  #LogOut:hover{
+    color: #46BDC6;
   }

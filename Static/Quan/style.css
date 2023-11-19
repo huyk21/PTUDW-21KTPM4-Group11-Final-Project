@@ -3,6 +3,9 @@ body {
     padding: 0;
     overflow: hidden;
   }
+  *{
+    font-family: 'Roboto', sans-serif;
+  }
   #map {
     position: relative;
     top: 0;
@@ -157,3 +160,4 @@ body {
     border-radius: 50%;
     cursor: pointer;
   }
+  

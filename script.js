@@ -432,7 +432,7 @@ function showSidebar(properties) {
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
-      showReports(properties.address); // Assuming 'address' can be used to fetch reports
+      showReports(properties); // Assuming 'address' can be used to fetch reports
     });
 
     // Show the sidebar by adding the 'visible' class
@@ -440,7 +440,7 @@ function showSidebar(properties) {
   }, 150);
 }
 
-function showReports() {
+function showReports(properties) {
   // Mock-up report data
   var reportsData = [
     {
@@ -467,11 +467,13 @@ function showReports() {
                   <h6 class="card-title">Report by ${report.user}</h6>
                   <p class="card-text">${report.content}</p>
                   <footer class="blockquote-footer">${report.date}</footer>
+                  
               </div>
           </div>
+          
       `;
   });
-
+  reportsHtml += `<button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>`;
   // Set the reports HTML to the sidebar
   $("#infoContent").html(reportsHtml);
 
@@ -481,7 +483,7 @@ function showReports() {
     .off("click")
     .click(function () {
       // Assuming showSidebar is your function that shows the ad details
-      showSidebar(currentProperties); // currentProperties should be the current ad details
+      showSidebar(properties); // currentProperties should be the current ad details
     });
 }
 

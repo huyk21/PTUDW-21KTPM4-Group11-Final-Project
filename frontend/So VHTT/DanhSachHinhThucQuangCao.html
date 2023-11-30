@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Danh sách các hình thức quảng cáo</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <!--Modal-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+  <style>
+    .custom-header {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container py-2">
+      <button onclick ="history.back()" class="btn btn-primary"><i class="bi bi-arrow-left"></i></button>
+      <button onclick ="history.forward()" class="btn btn-primary"><i class="bi bi-arrow-right"></i></button>
+      <a href="index.html" class="btn btn-primary"><i class="bi bi-house"></i></a>
+    </div>
+  </header>
+  <main>
+
+    <div class="container">
+
+      <div class="container mt-3">
+        
+
+        <!-- Modal them hinh thuc quang cao-->
+        <div class="modal fade" id="themHinhThuc" tabindex="-1" role="dialog" aria-labelledby="themHinhThucLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title" id="themHinhThucLabel">Thêm hình thức quảng cáo</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Your form goes here -->
+                        <form>
+                            <div class="form-group">
+                                <label for="hinhThuc" class="mt-auto">
+                                    <h6>Tên hình thức quảng cáo</h6>
+                                </label>
+                                <input type="text" class="form-control" id="hinhThuc" placeholder="Nhập tên hình thức quảng cáo (vd: Cổ động chính trị)">
+                            </div>
+
+                            <button type="button" class="btn btn-secondary float-right mt-3" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary float-right mt-3 mr-1" data-dismiss="modal">Thêm</button>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <!-- Modal chinh sua hinh thuc quang cao-->
+          <div class="modal fade" id="chinhSuaHinhThuc" tabindex="-1" role="dialog" aria-labelledby="chinhSuaHinhThucLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header  bg-primary text-white">
+                        <h4 class="modal-title" id="chinhSuaHinhThucLabel">Chỉnh sửa hình thức quảng cáo</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="mt-1 text-center font-italic opacity-50">Lưu ý: Để trống nếu không chỉnh sửa</h6>
+                        <!-- Your form goes here -->
+                        <form>
+                            <div class="form-group">
+                                <label for="hinhThuc" class="mt-auto">
+                                    <h6>Tên hình thức quảng cáo</h6>
+                                </label>
+                                <input type="text" class="form-control" id="hinhThuc" placeholder="Nhập tên hình thức quảng cáo (vd: Cổ động chính trị)">
+                            </div>
+
+                            <button type="button" class="btn btn-secondary float-right mt-3" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary float-right mt-3 mr-1" data-dismiss="modal">Thêm</button>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+
+      <table class="table table-bordered">
+        <h2 class="text-center">Danh sách hình thức quảng cáo</h2>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success float-right mb-2" data-toggle="modal" data-target="#themHinhThuc">
+            <i class="bi bi-plus-square"></i> Thêm
+        </button>
+        <thead class="custom-header">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên hình thức quảng cáo</th>
+            <th scope="col">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">1</td>
+            <td>Cổ động chính trị</td>
+            <td>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaHinhThuc">
+                    <i class="bi bi-pencil-square text-secondary"></i>
+                </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td scope="row">2</td>
+            <td>Quảng cáo thương mại</td>
+            <td>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaHinhThuc">
+                    <i class="bi bi-pencil-square text-secondary"></i>
+                </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td scope="row">3</td>
+            <td>Xã hội hoá</td>
+            <td>
+                <button class="btn">
+                    <i class="bi bi-trash-fill text-danger"></i>
+                </button>
+                <button class="btn" data-toggle="modal" data-target="#chinhSuaHinhThuc">
+                    <i class="bi bi-pencil-square text-secondary"></i>
+                </button>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <!-- Table-->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+
+    
+  <!-- Include jQuery if needed for other scripts; otherwise, it's not required for Bootstrap 5 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  
+  <!-- Your custom script file -->
+  <script type="text/javascript" src="script.js"></script>
+
+
+  <!--Xóa thông tin 1 quận-->
+  <script>
+    document.querySelectorAll('.bi-trash-fill').forEach(item => {
+        item.onclick = () => {
+            if (confirm('Do you really want to remove this item ?')) {
+                ((item.parentElement).parentElement).parentElement.remove();
+            }
+        }
+    })
+  </script>
+</body>
+<footer>
+    <div class="container float-end">
+      <footer class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</footer>
+    </div>
+  </footer>
+
+</html>

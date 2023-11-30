@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Phân công khu vực quản lí cho tài khoản cán bộ</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <!--Modal-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+  <header>
+    <div class="container py-2">
+      <button onclick ="history.back()" class="btn btn-primary"><i class="bi bi-arrow-left"></i></button>
+      <button onclick ="history.forward()" class="btn btn-primary"><i class="bi bi-arrow-right"></i></button>
+      <a href="index.html" class="btn btn-primary"><i class="bi bi-house"></i></a>
+
+    </div>
+  
+  </header>
+
+  <main>
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Phân công khu vực quản lí cho cán bộ</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="tenTaiKhoan">Tên tài khoản</label>
+                                <input type="email" class="form-control" id="tenTaiKhoan" placeholder="Nhập tên tài khoản">
+                            </div>
+                            <div class="form-group">
+                                <label for="khuVuc">Phân công khu vực</label>
+                                <select class="form-control" id="khuVuc">
+                                    <option selected>Chưa phân công</option>
+                                    <option value="phuong">Cán bộ Phường</option>
+                                    <option value="quan">Cán bộ Quận</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+                            <!-- Additional selection fields -->
+                            <div class="form-group" id="chonQuanGroup" style="display: none;">
+                                <label for="chonQuan">Chọn quận</label>
+                                <select class="form-control" id="chonQuan">
+                                    <!-- Options for the second selection field -->
+                                    <option selected value="quan1">Quận 1</option>
+                                    <option value="quan4">Quận 4</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="chonPhuongGroup" style="display: none;">
+                                <label for="chonPhuong">Chọn phường</label>
+                                <select class="form-control" id="chonPhuong">
+                                    <!-- Options for the third selection field will depend on what you chose on second selection-->
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Phân công</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <!-- Table-->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+
+    
+  <!-- Include jQuery if needed for other scripts; otherwise, it's not required for Bootstrap 5 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+        // Handle the change event of the first selection
+        $('#khuVuc').change(function() {
+            var selectedOption = $(this).val();
+    
+            // Show/hide additional selection fields based on the selected option
+            if (selectedOption === 'phuong') {
+                $('#chonQuanGroup').show();
+                $('#chonPhuongGroup').show();
+            } else if (selectedOption === 'quan') {
+                $('#chonQuanGroup').show();
+                $('#chonPhuongGroup').hide();
+            } else {
+                $('#secondSelectionGroup').hide();
+                $('#thirdSelectionGroup').hide();
+            }
+        });
+    
+        // Handle the change event of the second selection
+        $('#chonQuan').change(function() {
+            var selectedOption = $(this).val();
+            var $thirdSelection = $('#chonPhuong');
+    
+            // Populate options for the third selection field based on the selected option in the second selection
+            $thirdSelection.empty(); // Clear existing options
+    
+            if (selectedOption === 'quan1') {
+                $thirdSelection.append('<option value="phuong1">Phường Đa Kao</option>');
+                $thirdSelection.append('<option value="phuong2">Phường Bến Nghé</option>');
+            } else if (selectedOption === 'quan4') {
+                $thirdSelection.append('<option value="phuong1">Phường 1</option>');
+                $thirdSelection.append('<option value="phuong2">Phường 2</option>');
+            }
+        });
+    });
+    </script>
+
+</body>
+<footer>
+    <div class="container float-end">
+      <footer class="border-0 m-0 p-0"><i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh</footer>
+    </div>
+  </footer>
+
+</html>

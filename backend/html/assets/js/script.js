@@ -2,6 +2,12 @@ const HCMlong = 106.702003;
 const HCMlat = 10.772417;
 const clusterBreakpointZoomLevel = 13; // Adjust this value as needed
 // Event listener for the button
+fetch("/data/AdData.json")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data); // Process your JSON data here
+  })
+  .catch((error) => console.error("Error fetching JSON:", error));
 
 let showReportedMarkers = true; // Flag to toggle visibility
 let markers = []; // Array to store markers
@@ -522,7 +528,7 @@ function buttonLeave(id) {
 }
 async function loadData() {
   try {
-    const response = await fetch("/AdData.json");
+    const response = await fetch("../data/AdData.json");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

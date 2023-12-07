@@ -6,8 +6,8 @@ dotenv.config();
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import PhuongRoutes from "./routes/PhuongRoutes.js";
-import NguoiDanRoutes from "./routes/NguoiDanRoutes.js";
+import SoVHTTRoutes from "./routes/SoVHTTRoutes.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
 const port = process.env.PORT || 4000;
@@ -36,7 +36,7 @@ app.engine(
 );
 
 app.set("view engine", "hbs"); // set view engine
-app.use("/api/nguoidan", NguoiDanRoutes);
+app.use("/api/sovhtt", SoVHTTRoutes);
 app.get("/", (req, res) => {
   res.render("index", { layout: "layout" });
 });

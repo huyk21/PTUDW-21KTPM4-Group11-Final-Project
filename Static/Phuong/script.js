@@ -1,9 +1,12 @@
-const HCMlong = 106.660172;
-const HCMlat = 10.762622;
+//map center
+const HCMlong = 106.6993006;
+const HCMlat = 10.7890103;
 
+//access Token
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 
+//main function
 function main() {
   var map = new mapboxgl.Map({
     container: "map",
@@ -12,6 +15,7 @@ function main() {
     zoom: 15,
   });
 
+  //add custom map controls
   map.addControl(
     new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -70,30 +74,30 @@ function main() {
       for (const ad of data.features) {
         // Create a DOM element for each marker.
         const el = document.createElement("div");
-        //add if statement here to adjust color of icon
+        //adjust color of icon
         switch (ad.properties.status) {
           case "ĐÃ QUY HOẠCH": {
-            el.className = "marker"
-            break
+            el.className = "marker";
+            break;
           }
 
           case "CHƯA QUY HOẠCH": {
-            el.className = "yellow"
-            break
+            el.className = "yellow";
+            break;
           }
 
           case "ĐÃ CẤP PHÉP": {
-            el.className = "green"
-            break
+            el.className = "green";
+            break;
           }
 
           case "BỊ BÁO CÁO": {
-            el.className = "red"
-            break
+            el.className = "red";
+            break;
           }
 
           default: {
-            el.className = "marker"
+            el.className = "marker";
           }
         }
 
@@ -152,18 +156,6 @@ function main() {
 
       // Center the map on the clicked location
       map.flyTo({ center: lngLat });
-
-      // Perform a reverse geocode on the clicked location
-      var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
-
-      $.get(url, function (data) {
-        if (data.features.length > 0) {
-          var placeName = data.features[0].place_name;
-          showSidebar(`<strong>Location:</strong> ${placeName}`);
-        } else {
-          showSidebar("No location information found.");
-        }
-      });
     });
   });
 
@@ -177,8 +169,6 @@ function main() {
       // Show the sidebar
     });
 
-    // If you want to be able to close the sidebar, you'd add an event listener
-    // to a close button inside the sidebar. For example:
     var closeButton = document.getElementById("closeSideBar");
     closeButton.addEventListener("click", function () {});
   });
@@ -241,15 +231,13 @@ function main() {
 main();
 
 function addControls(map) {
-  // Assuming the rest of your code before this...
-
-  // 1. Add Fullscreen control
+  // add Fullscreen control
   map.addControl(new mapboxgl.FullscreenControl());
 
-  // 2. Add Zoom controls (Zoom in / Zoom out)
+  // add Zoom controls (Zoom in / Zoom out)
   map.addControl(new mapboxgl.NavigationControl());
 
-  // 3. Add User Location control (this will show the user's location and allow for tracking)
+  // add User Location control (this will show the user's location and allow for tracking)
   map.addControl(
     new mapboxgl.GeolocateControl({
       positionOptions: {
@@ -261,6 +249,7 @@ function addControls(map) {
   );
 }
 
+//asynchronous function to grab data from json config file
 async function grabAdData() {
   try {
     const data = await fetch("/AdData.json");
@@ -276,13 +265,13 @@ function showSidebar(properties) {
   // Update the content of the sidebar
   $("#infoContent").html(`
     <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
-    <p class="fw-bold">Số lượng: ${properties.quantity}</p>
-    <p class="fw-bold">Khu vực: ${properties.area}</p>
-    <p class="fw-bold">Loại vị trí: ${properties.landType}</p>
-    <p class="fw-bold">Hình thức quảng cáo: ${properties.adFormat}</p>
-    <p class="fw-bold">Trạng thái: ${properties.status}</p>
-    <p class="fw-bold">Loại bảng quảng cáo: ${properties.boardType}</p>
-    <p class="fw-bold">Kích thước: ${properties.size}</p>
+    <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
+    <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
+    <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
+    <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
+    <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
+    <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
+    <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
   `);
 
   // Show the sidebar by adding the 'visible' class
@@ -320,7 +309,22 @@ function openReportModal() {
   overlay.style.display = "block"; // Show the overlay
 }
 
+//function to close the overlay
 function closeOverlay() {
   var overlay = document.getElementById("pageOverlay");
   overlay.style.display = "none"; // Hide the overlay
+}
+
+//function to adjust buttons on sidebar when hovering
+function buttonHover(id) {
+  let button = document.getElementById(id);
+  button.classList.add("bg-black");
+  button.style.color = "white";
+}
+
+//function to return button state after stop hovering
+function buttonLeave(id) {
+  let button = document.getElementById(id);
+  button.classList.remove("bg-black");
+  button.style.color = "";
 }

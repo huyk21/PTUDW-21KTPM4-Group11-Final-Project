@@ -1,6 +1,7 @@
 const HCMlong = 106.702003;
 const HCMlat = 10.772417;
 const clusterBreakpointZoomLevel = 13; // Adjust this value as needed
+
 // Event listener for the button
 fetch("/data/AdData.json")
   .then((response) => response.json())

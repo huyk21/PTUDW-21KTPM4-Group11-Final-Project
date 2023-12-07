@@ -1,2 +1,6 @@
-npm init -y
+Terminal: 
+
+npm i
+
+npm run server
 

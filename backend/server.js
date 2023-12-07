@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import SoVHTTRoutes from "./routes/SoVHTTRoutes.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
 const port = process.env.PORT || 4000;

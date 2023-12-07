@@ -39,6 +39,8 @@ app.use("/api/sovhtt", SoVHTTRoutes);
 app.get("/", (req, res) => {
   res.render("index", { layout: "layout" });
 });
+app.use(notFound);
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

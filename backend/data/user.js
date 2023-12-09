@@ -7,9 +7,20 @@ const accounts = [
         "isQuan": false,
         "isSo": false,
         "dateOfBirth": "1998-05-12",
-        "email": "phamquocduy@gmail.com",
+        "email": "phamquocduy3112003@gmail.com",
         "phoneNo": "0903309930",
         "username": "pqduy.phuong",
+        "password": bcrypt.hashSync("CanBoPhuong", 10)
+    },
+    {
+        "name": "Lưu Đình Huy",
+        "isPhuong": true,
+        "isQuan": false,
+        "isSo": false,
+        "dateOfBirth": "2001-11-20",
+        "email": "ldhuy21@clc.fitus.edu.vn",
+        "phoneNo": "0909990112",
+        "username": "ldhuy.phuong",
         "password": bcrypt.hashSync("CanBoPhuong", 10)
     },
     {

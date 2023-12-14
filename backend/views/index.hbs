@@ -1,253 +1,292 @@
- <div class="overlay" id="pageOverlay"></div>
-    <div class="container-fluid" style="padding-left: 0">
-      <div class="row">
-        <!-- Sidebar/Navbar area -->
-        <!-- Sidebar/Navbar area -->
-        <!-- Replace your existing sidebar with this -->
+<div class="overlay" id="pageOverlay"></div>
+<div class="container-fluid" style="padding-left: 0">
+  <div class="row">
+    <!-- Sidebar/Navbar area -->
+    <!-- Sidebar/Navbar area -->
+    <!-- Replace your existing sidebar with this -->
 
-        <!-- Map area -->
-       <div class="col-md-12">
-          <div id="map" style="height: 100vh; width: 100vw">
-            <!-- Report Modal -->
+    <!-- Map area -->
+    <div class="col-md-12">
+      <div id="map" style="height: 100vh; width: 100vw">
+        <!-- Report Modal -->
 
-            <div
-              class="modal fade"
-              id="reportModal"
-              tabindex="-1"
-              aria-labelledby="reportModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="reportModalLabel">
-                      Nội Dung Báo Cáo
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="reportForm">
-                      <!-- Personal Information -->
-                      <div class="mb-3">
-                        <label for="first-name" class="form-label">Họ</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="first-name"
-                          placeholder="Họ"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="last-name" class="form-label">Tên</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="last-name"
-                          placeholder="Tên"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          id="email"
-                          placeholder="you@company.com"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="phone-number" class="form-label"
-                          >Số điện thoại</label
-                        >
-                        <div class="input-group">
-                          <span class="input-group-text" id="country-code"
-                            >VN +84</span
-                          >
-                          <input
-                            type="tel"
-                            class="form-control"
-                            id="phone-number"
-                            placeholder="Số điện thoại"
-                          />
-                        </div>
-                      </div>
-                      <!-- Report Type -->
-                      <div class="mb-3">
-                        <label for="report-type" class="form-label"
-                          >Hình thức báo cáo</label
-                        >
-                        <select class="form-select" id="report-type">
-                          <option selected>Chọn hình thức báo cáo</option>
-                          <!-- Option items here -->
-                          <option value="to-giac-sai-pham">
-                            Tố giác sai phạm
-                          </option>
-                          <option value="dang-ky-noi-dung">
-                            Đăng ký nội dung
-                          </option>
-                          <option value="dong-gop-y-kien">
-                            Đóng góp ý kiến
-                          </option>
-                          <option value="giai-dap-thac-mac">
-                            Giải đáp thắc mắc
-                          </option>
-                        </select>
-                      </div>
-                      <!-- Report Content -->
-                      <!-- WYSIWYG Editor for Report Content -->
-                      <div class="mb-3">
-                        <label for="report-content" class="form-label"
-                          >Nội dung báo cáo</label
-                        >
-                        <div id="summernote"></div>
-                      </div>
-                      
-                     
-                      <!-- Captcha -->
-                      <div class="mb-3">
-                        <button
-                          class="g-recaptcha"
-                          data-sitekey="6LehigkpAAAAANXmQHe3C2YykPnRrfBwMcPzkZlN"
-                          data-callback="onSubmit"
-                          data-action="submit"
-                        >
-                          CAptcha
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn btn-primary"
-                      form="reportForm"
-                    >
-                      Gửi báo cáo
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              id="extension"
-              class="d-flex flex-column justify-content-center align-items-center sidebar-container"
-            >
-              <button id="toggleSidebarButton" class="btn btn-sm m-1">☰</button>
-              <button id="toadManager" class="btn btn-lg m-3 sidebar-button" onmouseover="buttonHover('toadManager')" onmouseleave="buttonLeave('toadManager')"><i class="bi bi-badge-ad""></i></button>
-              <button id="toadReport" class="btn btn-lg m-3 sidebar-button"  onmouseover="buttonHover('toadReport')" onmouseleave="buttonLeave('toadReport')"><i class="bi bi-flag"></i></button>
-              
-              <button id="toLogIn" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href='/login.html'" onmouseover="buttonHover('toLogIn')" onmouseleave="buttonLeave('toLogIn')"><i class="bi bi-person-circle"></i></button>
-              <button id="toHelp" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href=''" onmouseover="buttonHover('toHelp')" onmouseleave="buttonLeave('toHelp')"><i class="bi bi-bug"></i></button>
-              <button id="toBugReport" class="btn btn-lg m-3 sidebar-button" onclick="window.location.href=''" onmouseover="buttonHover('toBugReport')" onmouseleave="buttonLeave('toBugReport')"><i class="bi bi-question-circle"></i></button>
-              <button id="toggleMarkers" class="btn btn-lg m-3 sidebar-button" onmouseover="buttonHover('toggleMarkers')" onmouseleave="buttonLeave('toggleMarkers')" data-tooltip="Ẩn Quảng Cáo" ><i class="bi bi-toggle-off"></i></button>
-              <button id="toggleReportedMarkers" class="btn btn-lg m-3 sidebar-button" onmouseover="buttonHover('toggleReportedMarkers')" onmouseleave="buttonLeave('toggleReportedMarkers')" data-tooltip="Ẩn Báo Cáo"><i class="bi bi-toggle-off"></i></button>
-              <!-- The rest of the sidebar content will go here -->
-              <!-- ... -->
-            </div>
-              <!-- The rest of the sidebar content will go here -->
-              <!-- ... -->
-            </div>
-            <div id="nav-sidebar">
-              <button
-                type="button"
-                class="closeSideBar"
-                aria-label="Close"
-                id="closeSideBar"
-              >
-                &times;
-                <!-- This is a common way to represent a close button -->
-              </button>
-              <!-- Navigation items here -->
-              <div class="list-group" style="left: 0">
-                <!-- Navigation sidebar goes here -->
-                <div class="card d-flex flex-column justify-content-between">
-                  <div class="card-header container bg-info">
-                    <p class="h2 text-center">
-                      Xin chào, Người Dân
-                    </p>
-                  </div>
-                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                    <a href="" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-archive"></i> &nbsp;Đã lưu</p>
-                    </a>
-                    <a href="" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-clock-history"></i> &nbsp;Gần đây</p>
-                    </a>
-                  </div>
-                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                    <a href="#" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-badge-ad""></i> &nbsp;Tìm kiếm biển quảng cáo</p>
-                    </a>
-                    <a href="#" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-flag"></i> &nbsp;Xem lại báo cáo đã gửi</p>
-                    </a>
-                    
-                  </div>
-                  <div class="card-body sidebar-elements py-0 border-bottom border-dark">
-                    <a href="/login.html" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-person-circle"></i> &nbsp;Đăng nhập</p>
-                    </a>
-                    <a href="" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-bug"></i> &nbsp;Báo cáo lỗi</p>
-                    </a>
-                    <a href="" class="container-fluid">
-                      <p class="h5 fw-normal"><i class="bi bi-question-circle"></i> &nbsp;Trợ giúp</p>
-                    </a>
-                    
-                  </div>
-                 
-                  <div class="card-footer">
-                    <p class="border-0 m-0 p-0">
-                        <i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh
-                    </p>
-                </div>
-                </div>
-              </div>
-            </div>
-            </div>
-            <div id="sidebar" class="col-md-3 col-lg-3">
-              <div class="card container-fluid">
-                <div class="container-fluid" id="billboard-img">
-                  <img src="../assets/img/billboard.jpg" class="img-fluid rounded-lg" alt="image of the billboard">
-                </div>
-                <div class="card-header d-flex justify-content-between">
-                  <p class="text-center fs-5 fw-semibold align-bottom ">
-                    Thông tin địa điểm:
-                  </p>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Close"
-                    id="closeSidebar"
-                  ></button>
-                 
-                </div>
+        <div
+          class="modal fade"
+          id="reportModal"
+          tabindex="-1"
+          aria-labelledby="reportModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">
+                  Nội Dung Báo Cáo
+                </h5>
                 <button
-                type="button"
-                class="btn btn-warning btn-sm"
-                id="reportButton"
-              >
-                Báo cáo
-              </button>
-                <div class="card-body" id="infoContent">
-                  <!-- Content will be dynamically inserted here -->
-                </div>
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="reportForm">
+                  <!-- Personal Information -->
+                  <div class="mb-3">
+                    <label for="first-name" class="form-label">Họ</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="first-name"
+                      placeholder="Họ"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="last-name" class="form-label">Tên</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="last-name"
+                      placeholder="Tên"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone-number" class="form-label">Số điện thoại</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="country-code">VN +84</span>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phone-number"
+                        placeholder="Số điện thoại"
+                      />
+                    </div>
+                  </div>
+                  <!-- Report Type -->
+                  <div class="mb-3">
+                    <label for="report-type" class="form-label">Hình thức báo
+                      cáo</label>
+                    <select class="form-select" id="report-type">
+                      <option selected>Chọn hình thức báo cáo</option>
+                      <!-- Option items here -->
+                      <option value="to-giac-sai-pham">
+                        Tố giác sai phạm
+                      </option>
+                      <option value="dang-ky-noi-dung">
+                        Đăng ký nội dung
+                      </option>
+                      <option value="dong-gop-y-kien">
+                        Đóng góp ý kiến
+                      </option>
+                      <option value="giai-dap-thac-mac">
+                        Giải đáp thắc mắc
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Report Content -->
+                  <!-- WYSIWYG Editor for Report Content -->
+                  <div class="mb-3">
+                    <label for="report-content" class="form-label">Nội dung báo
+                      cáo</label>
+                    <div id="summernote"></div>
+                  </div>
+
+                  <!-- Captcha -->
+                  <div class="mb-3">
+                    <button
+                      class="g-recaptcha"
+                      data-sitekey="6LehigkpAAAAANXmQHe3C2YykPnRrfBwMcPzkZlN"
+                      data-callback="onSubmit"
+                      data-action="submit"
+                    >
+                      CAptcha
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary" form="reportForm">
+                  Gửi báo cáo
+                </button>
               </div>
             </div>
           </div>
         </div>
-        
+        <div
+          id="extension"
+          class="d-flex flex-column justify-content-center align-items-center sidebar-container"
+        >
+          <button id="toggleSidebarButton" class="btn btn-sm m-1">☰</button>
+          <button
+            id="toadManager"
+            class="btn btn-lg m-3 sidebar-button"
+            onmouseover="buttonHover('toadManager')"
+            onmouseleave="buttonLeave('toadManager')"
+          ><i class="bi bi-badge-ad"></i></button>
+          <button
+            id="toadReport"
+            class="btn btn-lg m-3 sidebar-button"
+            onmouseover="buttonHover('toadReport')"
+            onmouseleave="buttonLeave('toadReport')"
+          ><i class="bi bi-flag"></i></button>
+          <button
+            id="toLogIn"
+            class="btn btn-lg m-3 sidebar-button"
+            onclick="window.location.href='/login.html'"
+            onmouseover="buttonHover('toLogIn')"
+            onmouseleave="buttonLeave('toLogIn')"
+          ><i class="bi bi-person-circle"></i></button>
+          <button
+            id="toHelp"
+            class="btn btn-lg m-3 sidebar-button"
+            onclick="window.location.href=''"
+            onmouseover="buttonHover('toHelp')"
+            onmouseleave="buttonLeave('toHelp')"
+          ><i class="bi bi-bug"></i></button>
+          <button
+            id="toBugReport"
+            class="btn btn-lg m-3 sidebar-button"
+            onclick="window.location.href=''"
+            onmouseover="buttonHover('toBugReport')"
+            onmouseleave="buttonLeave('toBugReport')"
+          ><i class="bi bi-question-circle"></i></button>
+          <button
+            id="toggleMarkers"
+            class="btn btn-lg m-3 sidebar-button"
+            onmouseover="buttonHover('toggleMarkers')"
+            onmouseleave="buttonLeave('toggleMarkers')"
+            data-tooltip="Ẩn Quảng Cáo"
+          ><i class="bi bi-toggle-off"></i></button>
+          <button
+            id="toggleReportedMarkers"
+            class="btn btn-lg m-3 sidebar-button"
+            onmouseover="buttonHover('toggleReportedMarkers')"
+            onmouseleave="buttonLeave('toggleReportedMarkers')"
+            data-tooltip="Ẩn Báo Cáo"
+          ><i class="bi bi-toggle-off"></i></button>
+          <!-- The rest of the sidebar content will go here -->
+          <!-- ... -->
+        </div>
+        <!-- The rest of the sidebar content will go here -->
+        <!-- ... -->
       </div>
-    </div> 
+      <div id="nav-sidebar">
+        <button
+          type="button"
+          class="closeSideBar"
+          aria-label="Close"
+          id="closeSideBar"
+        >
+          &times;
+          <!-- This is a common way to represent a close button -->
+        </button>
+        <!-- Navigation items here -->
+        <div class="list-group" style="left: 0">
+          <!-- Navigation sidebar goes here -->
+          <div class="card d-flex flex-column justify-content-between">
+            <div class="card-header container bg-info">
+              <p class="h2 text-center">
+                Xin chào, Người Dân
+              </p>
+            </div>
+            <div
+              class="card-body sidebar-elements py-0 border-bottom border-dark"
+            >
+              <a href="" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-archive"></i>
+                  &nbsp;Đã lưu</p>
+              </a>
+              <a href="" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-clock-history"></i>
+                  &nbsp;Gần đây</p>
+              </a>
+            </div>
+            <div
+              class="card-body sidebar-elements py-0 border-bottom border-dark"
+            >
+              <a href="#" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-badge-ad"></i>
+                  &nbsp;Tìm kiếm biển quảng cáo</p>
+              </a>
+              <a href="#" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-flag"></i>
+                  &nbsp;Xem lại báo cáo đã gửi</p>
+              </a>
+
+            </div>
+            <div
+              class="card-body sidebar-elements py-0 border-bottom border-dark"
+            >
+              <a href="/login.html" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-person-circle"></i>
+                  &nbsp;Đăng nhập</p>
+              </a>
+              <a href="" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-bug"></i>
+                  &nbsp;Báo cáo lỗi</p>
+              </a>
+              <a href="" class="container-fluid">
+                <p class="h5 fw-normal"><i class="bi bi-question-circle"></i>
+                  &nbsp;Trợ giúp</p>
+              </a>
+
+            </div>
+
+            <div class="card-footer">
+              <p class="border-0 m-0 p-0">
+                <i class="bi bi-c-circle"></i>&nbsp;Ứng dụng được phát triển bởi
+                Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sidebar" class="col-md-3 col-lg-3">
+      <div class="card container-fluid">
+        <div class="container-fluid" id="billboard-img">
+          <img
+            src="../assets/img/billboard.jpg"
+            class="img-fluid rounded-lg"
+            alt="image of the billboard"
+          />
+        </div>
+        <div class="card-header d-flex justify-content-between">
+          <p class="text-center fs-5 fw-semibold align-bottom">
+            Thông tin địa điểm:
+          </p>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            id="closeSidebar"
+          ></button>
+
+        </div>
+        <button type="button" class="btn btn-warning btn-sm" id="reportButton">
+          Báo cáo
+        </button>
+        <div class="card-body" id="infoContent">
+          <!-- Content will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

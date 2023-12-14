@@ -15,6 +15,10 @@ import ReportSolution from "../models/ReportSolutionModel.js";
 import Ward from "../models/WardModel.js";
 
 const index = asyncHandler(async (req, res) => {
+  res.render("index", { layout: "layoutSoVHTT" });
+});
+
+const dbGenerator = asyncHandler(async (req, res) => {
   const Users = await User.find({});
 
   const Locations = await Location.find({});
@@ -89,6 +93,7 @@ const danhSachHinhThucQuangCao = asyncHandler(async (req, res) => {
 
 export {
   index,
+  dbGenerator,
   danhSachQuan,
   danhSachPhuong,
   danhSachQuangCao,

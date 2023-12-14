@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   index,
+  dbGenerator,
   danhSachQuan,
   danhSachPhuong,
   danhSachQuangCao,
@@ -15,6 +16,7 @@ import {
 } from "../controllers/SoVHTTController.js";
 
 router.route("/").post(index).get(index);
+router.route("/database").post(dbGenerator).get(dbGenerator);
 router.route("/danh-sach-quan").post(danhSachQuan).get(danhSachQuan);
 router.route("/danh-sach-phuong").post(danhSachPhuong).get(danhSachPhuong);
 router

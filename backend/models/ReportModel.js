@@ -7,7 +7,8 @@ const reportSchema = new mongoose.Schema({
     phoneNo: {type: String, required: true},
     reportDetails: {type: String, required: true},
     reportDate: {type: Date, required: true},
-    location: {type: String, required: true}
+    location: {type: String, required: true},
+    locationID: {type: mongoose.Schema.Types.ObjectId, req: true, ref: "Location"}
 })
 
 const Report = mongoose.model("Report", reportSchema)

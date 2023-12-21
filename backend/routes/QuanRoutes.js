@@ -16,5 +16,5 @@ router.route('/report').get(showReport);
 router.route('/report').post(sendReport);
 
 router.route('/login').get(login);
-router.route('/logout').get(logout)
+router.route('/logout').get(logout);
 export default router;

@@ -39,8 +39,8 @@ app.engine(
 
 app.set("view engine", "hbs"); // set view engine
 app.use("/api/sovhtt", SoVHTTRoutes);
-app.use("/api/quan",QuanRoutes);
-app.use("/api/phuong",PhuongRoutes);
+app.use("/api/quan", QuanRoutes);
+app.use("/api/phuong", PhuongRoutes);
 app.get("/", (req, res) => {
   res.render("index", { layout: "layout" });
 });

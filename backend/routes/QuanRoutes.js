@@ -1,9 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { index,login,editAd,showAd,editAdMananger,showLicense,editLicense,deleteLicense,showReport,sendReport, logout } from "../controllers/QuanController.js";
+import { index,login,editAd,showAd,editAdMananger,
+    showLicense,editLicense,deleteLicense,showReport,sendReport, 
+    logout,createAdboard,deleteAd } from "../controllers/QuanController.js";
 //xử lý trên trang chủ quận
 router.route('/').get(index);
-router.route('/').put(editAd);
+router.route('/:id').put(editAd);
+router.route('/').post(createAdboard)
+router.route('/:id').delete(deleteAd);
 //xử lý trên trang quản lý bảng quảng cáo
 router.route('/ad').get(showAd);
 router.route('/ad').put(editAdMananger);

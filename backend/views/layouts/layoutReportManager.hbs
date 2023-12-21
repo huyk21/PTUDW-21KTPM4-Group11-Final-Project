@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phân hệ cán bộ phường</title>
+    <title>Xử lý báo cáo của người dân</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <!-- Mapbox API -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
     <link
@@ -19,12 +23,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-    <!-- Local stylesheet and jquery-->
+    <!-- Local stylesheets and jquery -->
     <link rel="stylesheet" href="/backend/html/assets/css/style_Phuong.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
-  <body>
+
+  <body class="overflow-scroll">
     {{{body}}}
+    <!-- Bootstrap JavaScript Libraries -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link
       rel="stylesheet"
@@ -37,8 +43,15 @@
     <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom script file -->
-    <script type="text/javascript" src="/Static/Phuong/script.js"></script>
+    <!-- Your custom script file -->
+    <script type="text/javascript" src="/backend/html/assets/js/Phuong.js"></script>
 
+    <!-- Modal Scripts -->
+    <script>
+      const myModal = new bootstrap.Modal(
+        document.getElementById("reportDetails"),
+        options
+      );
+    </script>
   </body>
 </html>

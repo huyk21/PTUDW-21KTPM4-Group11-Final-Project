@@ -58,6 +58,27 @@ const updateLocation = asyncHandler(async (req, res) => {
   }
 });
 
+const readAdBoardOfLocation = asyncHandler(async (req, res) => {
+  const location = await Location.findById(req.params.id);
+
+  if (location) {
+    // location.address = address;
+    // location.district = district;
+    // location.ward = ward;
+    // location.locationType = locationType;
+    // location.adFormat = adFormat;
+    // location.status = status;
+
+    res.json(location.$getPopulatedDocs());
+
+    const updatedLocation = await location.save();
+    res.json(updatedLocation);
+  } else {
+    res.status(404);
+    throw new Error("Location not found");
+  }
+});
+
 const deleteLocation = asyncHandler(async (req, res) => {
   const location = await Location.findById(req.params.id);
 

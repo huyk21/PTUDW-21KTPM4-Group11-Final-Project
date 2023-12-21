@@ -2,7 +2,9 @@ import express from "express";
 const router = express.Router();
 import {
   index,
-  dbGenerator,
+  addLocation,
+  updateLocation,
+  deleteLocation,
   danhSachQuan,
   danhSachPhuong,
   danhSachQuangCao,
@@ -16,7 +18,10 @@ import {
 } from "../controllers/SoVHTTController.js";
 
 router.route("/").post(index).get(index);
-router.route("/database").post(dbGenerator).get(dbGenerator);
+router.route("/them-diem-dat").post(addLocation);
+router.route("/sua-diem-dat/:id").post(updateLocation);
+router.route("/xoa-diem-dat/:id").delete(deleteLocation);
+// router.route("/database").post(dbGenerator).get(dbGenerator);
 router.route("/danh-sach-quan").post(danhSachQuan).get(danhSachQuan);
 router.route("/danh-sach-phuong").post(danhSachPhuong).get(danhSachPhuong);
 router

@@ -3,8 +3,13 @@ const router = express.Router();
 import { index,login,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport, 
     logout,createAdboard,deleteAd } from "../controllers/QuanController.js";
+import { authUser, logoutUser } from "../controllers/UserController.js";
+import { protect, quanvhtt } from "../middleware/authMiddleware.js";
+
 //xử lý trên trang chủ quận
-router.route('/').get(index);
+router.post('/login',authUser);
+router.post('/logout',logoutUser)
+router.route('/').get(protect,quanvhtt,index);
 router.route('/:id').put(editAd);
 router.route('/').post(createAdboard)
 router.route('/:id').delete(deleteAd);

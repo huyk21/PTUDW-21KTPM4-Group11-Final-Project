@@ -36,5 +36,13 @@ const sovhtt = (req, res, next) => {
     throw new Error("Khong can bo so vh tt");
   }
 };
+const quanvhtt = (req, res, next) => {
+  if (req.user && req.user.isQuan) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Khong can bo quan vh tt");
+  }
+};
 
-export { protect, sovhtt };
+export { protect, sovhtt ,quanvhtt};

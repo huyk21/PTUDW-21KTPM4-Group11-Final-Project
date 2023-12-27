@@ -1,0 +1,189 @@
+<main>
+  <div class="container">
+
+    <div class="container mt-3">
+
+      <!-- Modal them Quan-->
+      <div
+        class="modal fade"
+        id="themQuan"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="themQuanLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="themQuanLabel">Thêm quận</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Your form goes here -->
+              <form>
+                <div class="form-group">
+                  <label for="formThemQuan">
+                    <h6>Tên quận</h6>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="formThemQuan"
+                    placeholder="Nhập tên quận (vd: Quận 5)"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary float-right mt-3"
+                  data-dismiss="modal"
+                >Hủy</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary float-right mt-3 mr-1"
+                  data-dismiss="modal"
+                >Thêm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="chinhSuaQuan"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="chinhSuaQuanLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="chinhSuaQuanLabel">Chỉnh sửa quận</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Your form goes here -->
+              <form>
+                <div class="form-group">
+                  <label for="formChinhSuaQuan">
+                    <h6>Tên quận</h6>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="formChinhSuaQuan"
+                    placeholder="Nhập tên quận (vd: Quận 5)"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary float-right mt-3"
+                  data-dismiss="modal"
+                >Hủy</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary float-right mt-3 mr-1"
+                  data-dismiss="modal"
+                >Thêm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách Quận</h2>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-success float-right mb-2"
+        data-toggle="modal"
+        data-target="#themQuan"
+      >
+        <i class="bi bi-person-plus"></i>
+        Thêm
+      </button>
+
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên quận</th>
+          <th scope="col">Số lượng phường</th>
+          <th scope="col">Số lượng điểm đặt</th>
+          <th scope="col">Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">1</td>
+          <td>Quận 1</td>
+          <td>10</td>
+          <td>25</td>
+          <td>
+            <a href="DanhSachPhuongQuan1.html">Chi tiết
+              <i class="bi bi-info-circle"></i></a>
+          </td>
+          <td>
+            <a href="#" class="pe-auto">
+              <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
+            </a>
+          </td>
+          <td>
+            <a
+              href="#"
+              class="text-secondary float-end pe-auto"
+              data-toggle="modal"
+              data-target="#chinhSuaQuan"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">2</td>
+          <td>Quận 4</td>
+          <td>18</td>
+          <td>25</td>
+          <td>
+            <a href="DanhSachPhuongQuan4.html">Chi tiết
+              <i class="bi bi-info-circle"></i></a>
+          </td>
+          <td>
+            <a href="#" class="pe-auto">
+              <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
+            </a>
+          </td>
+          <td>
+            <a
+              href="#"
+              class="text-secondary float-end pe-auto"
+              data-toggle="modal"
+              data-target="#chinhSuaQuan"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</main>

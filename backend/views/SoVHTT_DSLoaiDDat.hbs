@@ -1,0 +1,183 @@
+<main>
+
+  <div class="container">
+
+    <div class="container mt-3">
+
+      <!-- Modal them hinh thuc quang cao-->
+      <div
+        class="modal fade"
+        id="themLoai"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="themLoaiLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="themLoaiLabel">Thêm loại vị trí điểm
+                đặt</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Your form goes here -->
+              <form>
+                <div class="form-group">
+                  <label for="loai" class="mt-auto">
+                    <h6>Tên loại vị trí</h6>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="loai"
+                    placeholder="Nhập tên loại vị trí điểm đặt (vd: Đất công/Công viên/Hành lang an toàn giao thông)"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary float-right mt-3"
+                  data-dismiss="modal"
+                >Hủy</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary float-right mt-3 mr-1"
+                  data-dismiss="modal"
+                >Thêm</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal chinh sua hinh thuc quang cao-->
+      <div
+        class="modal fade"
+        id="chinhSuaLoai"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="chinhSuaLoaiLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="chinhSuaLoaiLabel">Chỉnh sửa loại vị
+                trí điểm đặt</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h6 class="mt-1 text-center font-italic opacity-50">Lưu ý: Để
+                trống nếu không chỉnh sửa</h6>
+              <!-- Your form goes here -->
+              <form>
+                <div class="form-group">
+                  <label for="loai" class="mt-auto">
+                    <h6>Tên loại vị trí</h6>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="loai"
+                    placeholder="Nhập tên loại vị trí điểm đặt (vd: Đất công/Công viên/Hành lang an toàn giao thông)"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary float-right mt-3"
+                  data-dismiss="modal"
+                >Hủy</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary float-right mt-3 mr-1"
+                  data-dismiss="modal"
+                >Thêm</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách loại vị trí điểm đặt</h2>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-success float-right mb-2"
+        data-toggle="modal"
+        data-target="#themLoai"
+      >
+        <i class="bi bi-plus-square"></i>
+        Thêm
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên loại</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">1</td>
+          <td>Đất công/Công viên/Hành lang an toàn giao thông</td>
+          <td>
+            <button class="btn">
+              <i class="bi bi-trash-fill text-danger"></i>
+            </button>
+            <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+              <i class="bi bi-pencil-square text-secondary"></i>
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">2</td>
+          <td>Đất tư nhân/Nhà ở riêng lẻ</td>
+          <td>
+            <button class="btn">
+              <i class="bi bi-trash-fill text-danger"></i>
+            </button>
+            <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+              <i class="bi bi-pencil-square text-secondary"></i>
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">3</td>
+          <td>Trung tâm thương mại, Chợ, Cây xăng, Nhà chờ xe buýt</td>
+          <td>
+            <button class="btn">
+              <i class="bi bi-trash-fill text-danger"></i>
+            </button>
+            <button class="btn" data-toggle="modal" data-target="#chinhSuaLoai">
+              <i class="bi bi-pencil-square text-secondary"></i>
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</main>

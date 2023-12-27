@@ -1,0 +1,165 @@
+<main>
+
+  <div class="container">
+    <div class="container mt-3">
+      <!-- Modal them xet duyet yeu cau cap phep quang cao-->
+      <div
+        class="modal fade"
+        id="xetYeuCau"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="xetYeuCauLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="xetYeuCauLabel">Xét duyệt yêu cầu cấp
+                phép</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <!-- Modal body content goes here -->
+              <p>Xác nhận phê duyệt yêu cầu cấp phép</p>
+            </div>
+            <div class="modal-footer">
+              <!-- Three buttons with spacing -->
+
+              <button
+                type="submit"
+                class="btn btn-success mr-2"
+                data-dismiss="modal"
+              >Phê duyệt</button>
+              <button
+                type="submit"
+                class="btn btn-danger mr-2"
+                data-dismiss="modal"
+              >Từ chối</button>
+              <button
+                type="button"
+                class="btn btn-secondary mr-2"
+                data-dismiss="modal"
+              >Hủy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal hien anh quang cao-->
+      <div
+        class="modal fade"
+        id="hienAnh"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="hienAnhLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="hienAnhLabel">Hình ảnh bảng quảng cáo</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <!-- Modal body content goes here -->
+              <img
+                src="/billboard.jpg"
+                class="img-fluid"
+                alt="image not found"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách các yêu cầu cấp phép quảng cáo</h2>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn bg-opacity-0 float-right mb-2">
+        <i class="bi bi-funnel"></i>
+        Lọc
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col" class="text-center align-middle">#</th>
+          <th scope="col" class="text-center align-middle">Bảng/Điểm đặt</th>
+          <th scope="col" class="text-center align-middle">Nội dung quảng cáo</th>
+          <th scope="col" class="text-center align-middle">Thông tin công ty</th>
+          <th scope="col" class="text-center align-middle">Email</th>
+          <th scope="col" class="text-center align-middle">Số điện thoại</th>
+          <th scope="col" class="text-center align-middle">Ngày bắt đầu hợp đồng</th>
+          <th scope="col" class="text-center align-middle">Ngày kết thúc hợp
+            đồng</th>
+          <th scope="col" class="text-center align-middle">Hình ảnh</th>
+          <th scope="col" class="text-center align-middle">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">1</td>
+          <td>Quảng cáo thương mại / Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
+          <td>Tôn Vinsteel Thăng Long</td>
+          <td>Công ty TNHH Vinsteel</td>
+          <td>ctyvinsteel@gmail.com</td>
+          <td>0123456789</td>
+          <td>23/11/2023</td>
+          <td>23/03/2024</td>
+          <td>
+            <button class="btn" data-toggle="modal" data-target="#hienAnh">
+              <i class="bi bi-info-circle text-secondary"></i>
+              Xem
+            </button>
+          </td>
+          <td>
+            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
+              <i class="bi bi-info-circle text-secondary"></i>
+              Xử lí
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">2</td>
+          <td>Quảng cáo thương mại / Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
+          <td>Tôn Vinsteel Thăng Long</td>
+          <td>Công ty TNHH Vinsteel</td>
+          <td>ctyvinsteel@gmail.com</td>
+          <td>0123456789</td>
+          <td>23/11/2023</td>
+          <td>23/03/2024</td>
+          <td>
+            <button class="btn" data-toggle="modal" data-target="#hienAnh">
+              <i class="bi bi-info-circle text-secondary"></i>
+              Xem
+            </button>
+          </td>
+          <td>
+            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
+              <i class="bi bi-info-circle text-secondary"></i>
+              Xử lí
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</main>

@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="./index.html"><i
+      <a class="navbar-brand" href="/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Xử lý báo cáo của người dân</a>
       <button
@@ -21,11 +21,8 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              href="./index.html"
-              aria-current="page"
-            >Trang chủ <span class="visually-hidden">(current)</span></a>
+            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+              <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -37,10 +34,10 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="./adManager.html">Quản lý điểm
-                đặt/biển quảng cáo</a>
-              <a class="dropdown-item" href="./adLicense.html">Yêu cầu cấp phép
+              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
                 quảng cáo</a>
+              <a class="dropdown-item" href="/adLicense">Yêu cầu cấp phép quảng
+                cáo</a>
             </div>
           </li>
         </ul>
@@ -55,7 +52,9 @@
   <div class="card text-center">
     <div class="card-header">
       <h4 class="card-title text-left">
-        Thông tin báo cáo của người dân trong khu vực Phường Đa Kao, Quận 1
+        Thông tin báo cáo của người dân trong khu vực
+        {{ward.name}},
+        {{district.name}}
       </h4>
     </div>
   </div>
@@ -106,82 +105,27 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr class="table-light opacity-100">
-          <td scope="row">19:05:34 15/11/2023</td>
-          <td>Phạm Quốc Duy</td>
-          <td>duy@gmail.com</td>
-          <td>0123333444</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Tố giác sai phạm</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#reportDetails"
-            >Chi tiết</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">21:30:34 10/11/2023</td>
-          <td>Lưu Đình Huy</td>
-          <td>huy@gmail.com</td>
-          <td>0902001002</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Đóng góp ý kiến</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#reportDetails"
-            >Chi tiết</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">10:06:59 13/11/2023</td>
-          <td>Nguyễn Thành Đạt</td>
-          <td>dat@gmail.com</td>
-          <td>0903009001</td>
-          <td>Nguyễn Bỉnh Khiêm - Mạc Đĩnh Chi</td>
-          <td>Giải đáp thắc mắc</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#reportDetails"
-            >Chi tiết</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">07:23:44 09/11/2023</td>
-          <td>Nguyễn Thành Luân</td>
-          <td>luan@gmail.com</td>
-          <td>0123456789</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Đăng ký nội dung</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#reportDetails"
-            >Chi tiết</a>
-          </td>
-        </tr>
+        {{#each report}}
+          <tr class="table-light opacity-100">
+            <td scope="row">{{report.reportDate}}</td>
+            <td>{{report.reporter}}</td>
+            <td>{{report.email}}</td>
+            <td>{{report.phoneNo}}</td>
+            <td>{{report.location}}</td>
+            <td>{{report.reportFormat}}</td>
+            <td>
+              <a
+                name="edit"
+                id="edit"
+                class="btn btn-success"
+                href="#"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#reportDetails"
+              >Chi tiết</a>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>
@@ -224,15 +168,10 @@
                 <div class="card-header fw-bold">Nội dung báo cáo</div>
                 <div class="card-body">
                   <h5 class="card-title">
-                    Về việc vi phạm bản quyền hình ảnh
+                    Về việc {{report.reportFormat}}
                   </h5>
                   <p class="card-text">
-                    Tôi muốn báo cáo về vi phạm bản quyền hình ảnh sản phẩm được
-                    đăng trên biển quảng cáo như trên, hiện tại hình ảnh trên
-                    biển quảng cáo đó đang thuộc bản quyền sở hữu của tôi nhưng
-                    tôi lại thấy nó xuất hiện trên bảng quảng cáo mà không có sự
-                    cho phép của tôi. Tôi muốn yêu cầu biển quảng cáo này được
-                    gỡ xuống sớm hết mức có thể. Xin cảm ơn
+                    {{report.reportDetails}}
                   </p>
                 </div>
                 <div class="card-footer">

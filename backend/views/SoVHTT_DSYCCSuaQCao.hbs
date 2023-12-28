@@ -2,7 +2,7 @@
 
   <div class="container">
     <div class="container mt-3">
-      <!-- Modal them diem dat quang cao-->
+      <!-- Modal them yeu cau chinh sua quang cao-->
       <div
         class="modal fade"
         id="xetYeuCau"
@@ -30,8 +30,10 @@
                 <div class="col-md-6">
                   <!-- Left side of the split body -->
                   <div class="container">
-                    <p><strong>Loại bảng:</strong> Trụ/Cụm pano</p>
-                    <p><strong>Kích thước:</strong> Trụ/Cụm pano</p>
+                    <p><strong>Loại bảng:</strong> {{adboard.properties.boardType}}</p>
+                    <p><strong>Kích thước:</strong> {{adboard.properties.size}}</p>
+                    <p><strong>Số lượng:</strong> {{adboard.properties.quantity}}</p>
+                    <p><strong>Ngày hết hạn hợp đồng:</strong> {{adboard.properties.expirationDate}}</p>
                     <p><strong>Hình ảnh:</strong></p>
                     <img
                       src="/billboard.jpg"
@@ -44,9 +46,10 @@
                 <div class="col-md-6 border-left">
                   <!-- Right side of the split body with vertical line -->
                   <div class="container">
-                    <p class="text-success"><strong>Loại bảng:</strong>
-                      Trụ/Cụm pano</p>
-                    <p><strong>Kích thước:</strong> Trụ/Cụm pano</p>
+                    <p><strong>Loại bảng mới:</strong> {{adjustboard.newBoardType}}</p>
+                    <p><strong>Kích thước mới:</strong> {{adjustboard.newSize}}</p>
+                    <p><strong>Số lượng mới:</strong> {{adjustboard.newQuantity}}</p>
+                    <p><strong>Ngày hết hạn hợp đồng mới:</strong> {{adjustboard.newExpirationDate}}</p>
                     <p><strong>Hình ảnh:</strong></p>
                     <img
                       src="/billboard.jpg"
@@ -110,66 +113,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại bảng</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại bảng</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại bảng</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại bảng</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
+        {{#each adjustboard}}
+          <tr>
+            <td scope="row">{{adjustboard._id}}</td>
+            <td>{{location.address}}</td>
+            <td>{{district.name}}</td>
+            <td>{{ward.name}}</td>
+            <td>{{adjustboard.adjustDate}}</td>
+            <td>{{adjustboard.reason}}</td>
+            <td>
+              <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
+                <i class="bi bi-info-circle text-secondary"></i>
+                Xử lí
+              </button>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

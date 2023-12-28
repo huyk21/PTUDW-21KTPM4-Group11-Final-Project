@@ -131,56 +131,34 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Quận 1</td>
-          <td>10</td>
-          <td>25</td>
-          <td>
-            <a href="DanhSachPhuongQuan1.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-          <td>
-            <a href="#" class="pe-auto">
-              <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
-            </a>
-          </td>
-          <td>
-            <a
-              href="#"
-              class="text-secondary float-end pe-auto"
-              data-toggle="modal"
-              data-target="#chinhSuaQuan"
-            >
-              <i class="bi bi-pencil-square"></i>
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td scope="row">2</td>
-          <td>Quận 4</td>
-          <td>18</td>
-          <td>25</td>
-          <td>
-            <a href="DanhSachPhuongQuan4.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-          <td>
-            <a href="#" class="pe-auto">
-              <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
-            </a>
-          </td>
-          <td>
-            <a
-              href="#"
-              class="text-secondary float-end pe-auto"
-              data-toggle="modal"
-              data-target="#chinhSuaQuan"
-            >
-              <i class="bi bi-pencil-square"></i>
-            </a>
-          </td>
-        </tr>
+        {{#each district}}
+          <tr>
+            <td scope="row">{{district._id}}</td>
+            <td>{{district.name}}</td>
+            <td>{{district.wards}}</td>
+            <td>25</td>
+            <!--Calculate the number of locations to put here-->
+            <td>
+              <a href="/">Chi tiết
+                <i class="bi bi-info-circle"></i></a>
+            </td>
+            <td>
+              <a href="#" class="pe-auto">
+                <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
+              </a>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-secondary float-end pe-auto"
+                data-toggle="modal"
+                data-target="#chinhSuaQuan"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
 

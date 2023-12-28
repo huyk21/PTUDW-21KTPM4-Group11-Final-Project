@@ -3,7 +3,7 @@
   <div class="container">
 
     <div class="container mt-3">
-      <!-- Modal them Quan-->
+      <!-- Modal them Quang Cao-->
       <div
         class="modal fade"
         id="themQuangCao"
@@ -191,106 +191,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Trụ/Cụm pano</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>2.5m x 10m</td>
-          <td>Cổ động chính trị</td>
-          <td>Đất công/công viên/hành lang</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td> <a href="">Xem</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaQuangCao"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td scope="row">Trụ/Cụm pano</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>2.5m x 10m</td>
-          <td>Cổ động chính trị</td>
-          <td>Cây xăng</td>
-          <td>Chưa quy hoạch</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td> <a href="">Xem</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaQuangCao"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td scope="row">Cổng chào</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>7.5m x 10m</td>
-          <td>Quảng cáo thương mại</td>
-          <td>Chợ</td>
-          <td>Chưa quy hoạch</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td> <a href="">Xem</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaQuangCao"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td scope="row">Trụ hộp đèn</td>
-          <td>Nguyễn Bỉnh Khiêm - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>5m x 10m</td>
-          <td>Xã hội hóa</td>
-          <td>Nhà chờ xe buýt</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td> <a href="">Xem</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaQuangCao"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
+        {{#each adboard}}
+          <tr>
+            <td scope="row">{{adboard._id}}</td>
+            <td>{{adboard.properties.boardType}}</td>
+            <td>{{location.address}}</td>
+            <td>{{ward.name}} - {{district.name}}</td>
+            <td>{{adboard.properties.size}}</td>
+            <td>{{location.adFormat}}</td>
+            <td>{{location.locationType}}</td>
+            <td>{{location.status}}</td>
+            <td> <a href="">Chi tiết</a></td>
+            <td> <a href="">Xem</a></td>
+            <td>
+              <button class="btn">
+                <i class="bi bi-trash-fill text-danger"></i>
+              </button>
+              <button
+                class="btn"
+                data-toggle="modal"
+                data-target="#chinhSuaQuangCao"
+              >
+                <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

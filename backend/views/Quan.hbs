@@ -35,10 +35,7 @@
               <div class="modal-body">
                 <form id="reportForm">
                   <div class="mb-3">
-                    <label
-                      for="quantity"
-                      class="col-form-label"
-                    >Quantity</label>
+                    <label for="quantity" class="col-form-label">Số lượng</label>
                     <textarea
                       class="form-control"
                       id="quantity"
@@ -46,27 +43,29 @@
                     ></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="area" class="col-form-label">Area</label>
+                    <label for="area" class="col-form-label">Khu vực</label>
                     <textarea class="form-control" id="area"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="landtype" class="col-form-label">Land Type</label>
+                    <label for="landtype" class="col-form-label">Loại đất</label>
                     <textarea class="form-control" id="landtype"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="adformat" class="col-form-label">Ad Format</label>
+                    <label for="adformat" class="col-form-label">Hình thức quảng
+                      cáo</label>
                     <textarea class="form-control" id="adformat"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="status" class="col-form-label">Status</label>
+                    <label for="status" class="col-form-label">Tình trạng</label>
                     <textarea class="form-control" id="status"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="boardtype" class="col-form-label">Board Type</label>
+                    <label for="boardtype" class="col-form-label">Loại bảng
+                      quảng cáo</label>
                     <textarea class="form-control" id="boardtype"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="size" class="col-form-label">Size</label>
+                    <label for="size" class="col-form-label">Kích thước</label>
                     <textarea class="form-control" id="size"></textarea>
                   </div>
                   <!-- Include other form fields as needed -->
@@ -78,10 +77,10 @@
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  Close
+                  Đóng
                 </button>
                 <button type="submit" class="btn btn-primary" form="reportForm">
-                  Save
+                  Lưu
                 </button>
               </div>
             </div>
@@ -104,108 +103,17 @@
               class="dropdown-menu"
               aria-labelledby="AdInfodropdownMenuButton"
             >
-              <li>
-                <a class="dropdown-item" href="./adManagerBenNghe.html"><button
-                    id="Adphuong1q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Nghé
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adManagerCoGiang.html"><button
-                    id="Adphuong2q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cô Giang
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adManagerBenThanh.html"><button
-                    id="Adphuong3q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Thành
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adManagerCauKho.html"><button
-                    id="Adphuong4q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Kho
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adManagerDaKao.html"><button
-                    id="Adphuong5q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Đa Kao
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adManagerCauOngLanh.html"
-                ><button
-                    id="Adphuong6q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Ông Lãnh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adManagerNguyenThaiBinh.html"
-                ><button
-                    id="Adphuong7q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Thái Bình
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adManagerNguyenCuTrinh.html"
-                ><button
-                    id="Adphuong8q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Cư Trinh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adManagerPhamNguLao.html"
-                ><button
-                    id="Adphuong9q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Phạm Ngũ Lão
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adManagerTanDinh.html"><button
-                    id="Adphuong10q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Tân Định
-                  </button></a>
-              </li>
+              {{#each ward}}
+                <li>
+                  <a class="dropdown-item" href="/adManager"><button
+                      id="adManager{{ward._id}}"
+                      class="btn btn-secondary"
+                      style="width: 150px"
+                    >
+                      {{ward.name}}
+                    </button></a>
+                </li>
+              {{/each}}
             </ul>
           </div>
           <div class="dropdown">
@@ -223,126 +131,17 @@
               class="dropdown-menu"
               aria-labelledby="ReportInfodropdownMenuButton"
             >
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerBenNghe.html"
-                ><button
-                    id="Adphuong1q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Nghé
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerCoGiang.html"
-                ><button
-                    id="Adphuong2q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cô Giang
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerBenThanh.html"
-                ><button
-                    id="Adphuong3q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Thành
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerCauKho.html"
-                ><button
-                    id="Adphuong4q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Kho
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerDaKao.html"
-                ><button
-                    id="Adphuong5q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Đa Kao
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerCauOngLanh.html"
-                ><button
-                    id="Adphuong6q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Ông Lãnh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerNguyenThaiBinh.html"
-                ><button
-                    id="Adphuong7q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Thái Bình
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerNguyenCuTrinh.html"
-                ><button
-                    id="Adphuong8q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Cư Trinh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerPhamNguLao.html"
-                ><button
-                    id="Adphuong9q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Phạm Ngũ Lão
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./reportManagerTanDinh.html"
-                ><button
-                    id="Adphuong10q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Tân Định
-                  </button></a>
-              </li>
+              {{#each ward}}
+                <li>
+                  <a class="dropdown-item" href="/reportManager"><button
+                      id="reportManager{{ward._id}}"
+                      class="btn btn-secondary"
+                      style="width: 150px"
+                    >
+                      {{ward.name}}
+                    </button></a>
+                </li>
+              {{/each}}
             </ul>
           </div>
           <div class="dropdown">
@@ -360,108 +159,17 @@
               class="dropdown-menu"
               aria-labelledby="LicenseInfodropdownMenuButton"
             >
-              <li>
-                <a class="dropdown-item" href="./adLicenseBenNghe.html"><button
-                    id="Adphuong1q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Nghé
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adLicenseCoGiang.html"><button
-                    id="Adphuong2q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cô Giang
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adLicenseBenThanh.html"><button
-                    id="Adphuong3q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Bến Thành
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adLicenseCauKho.html"><button
-                    id="Adphuong4q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Kho
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adLicenseDaKao.html"><button
-                    id="Adphuong5q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Đa Kao
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adLicenseCauOngLanh.html"
-                ><button
-                    id="Adphuong6q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Cầu Ông Lãnh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adLicenseNguyenThaiBinh.html"
-                ><button
-                    id="Adphuong7q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Thái Bình
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adLicenseNguyenCuTrinh.html"
-                ><button
-                    id="Adphuong8q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Nguyễn Cư Trinh
-                  </button></a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="./adLicensePhamNguLao.html"
-                ><button
-                    id="Adphuong9q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Phạm Ngũ Lão
-                  </button></a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="./adLicenseTanDinh.html"><button
-                    id="Adphuong10q1"
-                    class="btn btn-secondary"
-                    style="width: 150px"
-                  >
-                    Tân Định
-                  </button></a>
-              </li>
+              {{#each ward}}
+                <li>
+                  <a class="dropdown-item" href="/adLicense"><button
+                      id="adLicense{{ward._id}}"
+                      class="btn btn-secondary"
+                      style="width: 150px"
+                    >
+                      {{ward.name}}
+                    </button></a>
+                </li>
+              {{/each}}
             </ul>
           </div>
           <button
@@ -497,155 +205,23 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Quận 1
+                {{district.name}}
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong1q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Nghé
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong2q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cô Giang
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong3q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Thành
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong4q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Kho
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong5q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Đa Kao
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong6q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Ông Lãnh
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong7q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Thái Bình
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong8q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Cư Trinh
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong9q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Phạm Ngũ Lão
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"><button
-                      id="phuong10q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Tân Định
-                    </button></a>
-                </li>
+                {{#each ward}}
+                  <li>
+                    <a class="dropdown-item" href="#"><button
+                        id="{{ward._id}}"
+                        class="btn btn-secondary"
+                        style="width: 150px"
+                      >
+                        {{ward.name}}
+                      </button></a>
+                  </li>
+                {{/each}}
               </ul>
             </div>
-            <!-- <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle m-3 btn-lg"
-                                                      style="width: 200px;" type="button" id="dropdownMenuButton2"
-                                                      data-bs-toggle="dropdown" aria-expanded="false">
-                                                      Quận 4
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong1q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 1</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong2q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 2</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong3q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 3</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong4q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 4</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong6q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 6</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong8q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 8</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong9q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 9</button></a></li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong10q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 10</button></a>
-                                                      </li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong13q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 13</button></a>
-                                                      </li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong14q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 14</button></a>
-                                                      </li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong15q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 15</button></a>
-                                                      </li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong16q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 16</button></a>
-                                                      </li>
-                                                      <li><a class="dropdown-item" href="#"><button id="phuong18q4"
-                                                                        class="btn btn-secondary"
-                                                                        style="width: 150px;">Phường 18</button></a>
-                                                      </li>
-                                                </ul>
-                                          </div> -->
+
             <hr />
             <div class="dropdown">
               <button
@@ -660,120 +236,17 @@
                   bảng quảng cáo</i>
               </button>
               <ul class="dropdown-menu" aria-labelledby="AdInfo">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerBenNghe.html"
-                  ><button
-                      id="Adphuong1q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Nghé
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerCoGiang.html"
-                  ><button
-                      id="Adphuong2q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cô Giang
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerBenThanh.html"
-                  ><button
-                      id="Adphuong3q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Thành
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="./adManagerCauKho.html"><button
-                      id="Adphuong4q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Kho
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="./adManagerDaKao.html"><button
-                      id="Adphuong5q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Đa Kao
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerCauOngLanh.html"
-                  ><button
-                      id="Adphuong6q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Ông Lãnh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerNguyenThaiBinh.html"
-                  ><button
-                      id="Adphuong7q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Thái Bình
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerNguyenCuTrinh.html"
-                  ><button
-                      id="Adphuong8q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Cư Trinh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerPhamNguLao.html"
-                  ><button
-                      id="Adphuong9q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Phạm Ngũ Lão
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adManagerTanDinh.html"
-                  ><button
-                      id="Adphuong10q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Tân Định
-                    </button></a>
-                </li>
+                {{#each ward}}
+                  <li>
+                    <a class="dropdown-item" href="/adManager"><button
+                        id="adManager{{ward._id}}/main"
+                        class="btn btn-secondary"
+                        style="width: 150px"
+                      >
+                        {{ward.name}}
+                      </button></a>
+                  </li>
+                {{/each}}
               </ul>
             </div>
             <div class="dropdown">
@@ -789,126 +262,17 @@
                   cáo người dân</i>
               </button>
               <ul class="dropdown-menu" aria-labelledby="ReportInfo">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerBenNghe.html"
-                  ><button
-                      id="Adphuong1q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Nghé
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerCoGiang.html"
-                  ><button
-                      id="Adphuong2q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cô Giang
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerBenThanh.html"
-                  ><button
-                      id="Adphuong3q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Thành
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerCauKho.html"
-                  ><button
-                      id="Adphuong4q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Kho
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerDaKao.html"
-                  ><button
-                      id="Adphuong5q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Đa Kao
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="reportManagerCauOngLanh.html"
-                  ><button
-                      id="Adphuong6q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Ông Lãnh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerNguyenThaiBinh.html"
-                  ><button
-                      id="Adphuong7q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Thái Bình
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerNguyenCuTrinh.html"
-                  ><button
-                      id="Adphuong8q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Cư Trinh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerPhamNguLao.html"
-                  ><button
-                      id="Adphuong9q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Phạm Ngũ Lão
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./reportManagerTanDinh.html"
-                  ><button
-                      id="Adphuong10q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Tân Định
-                    </button></a>
-                </li>
+                {{#each ward}}
+                  <li>
+                    <a class="dropdown-item" href="/reportManager"><button
+                        id="reportManager{{ward._id}}/main"
+                        class="btn btn-secondary"
+                        style="width: 150px"
+                      >
+                        {{ward.name}}
+                      </button></a>
+                  </li>
+                {{/each}}
               </ul>
             </div>
             <div class="dropdown">
@@ -926,120 +290,17 @@
                 >Yêu cầu cấp phép quảng cáo</i>
               </button>
               <ul class="dropdown-menu" aria-labelledby="LicenseInfo">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseBenNghe.html"
-                  ><button
-                      id="Adphuong1q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Nghé
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseCoGiang.html"
-                  ><button
-                      id="Adphuong2q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cô Giang
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseBenThanh.html"
-                  ><button
-                      id="Adphuong3q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Bến Thành
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="./adLicenseCauKho.html"><button
-                      id="Adphuong4q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Kho
-                    </button></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="./adLicenseDaKao.html"><button
-                      id="Adphuong5q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Đa Kao
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseCauOngLanh.html"
-                  ><button
-                      id="Adphuong6q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Cầu Ông Lãnh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseNguyenThaiBinh.html"
-                  ><button
-                      id="Adphuong7q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Thái Bình
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseNguyenCuTrinh.html"
-                  ><button
-                      id="Adphuong8q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Nguyễn Cư Trinh
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicensePhamNguLao.html"
-                  ><button
-                      id="Adphuong9q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Phạm Ngũ Lão
-                    </button></a>
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="./adLicenseTanDinh.html"
-                  ><button
-                      id="Adphuong10q1"
-                      class="btn btn-secondary"
-                      style="width: 150px"
-                    >
-                      Tân Định
-                    </button></a>
-                </li>
+                {{#each ward}}
+                  <li>
+                    <a class="dropdown-item" href="/adLicense"><button
+                        id="adLicense{{ward._id}}/main"
+                        class="btn btn-secondary"
+                        style="width: 150px"
+                      >
+                        {{ward.name}}
+                      </button></a>
+                  </li>
+                {{/each}}
               </ul>
             </div>
             <hr />
@@ -1069,7 +330,7 @@
               />
             </div>
             <div class="card-header d-flex justify-content-between">
-              Location Information
+              Thông tin địa điểm:
               <button
                 type="button"
                 class="btn-close"
@@ -1085,7 +346,7 @@
               class="btn btn-warning btn-sm m-3"
               id="reportButton"
             >
-              Edit
+              Chỉnh sửa
             </button>
           </div>
         </div>

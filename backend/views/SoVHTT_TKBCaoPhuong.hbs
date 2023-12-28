@@ -2,7 +2,7 @@
   <div class="container">
 
     <div class="container mt-3">
-      <!-- Modal them diem dat quang cao-->
+      <!-- Modal hien thi chi tiet bao cao-->
       <div
         class="modal fade"
         id="hienChiTiet"
@@ -29,13 +29,8 @@
                 <div class="col-md-6">
                   <!-- Left side of the split body -->
                   <div class="container">
-                    <h5>Về việc vi phạm bản quyền hình ảnh</h5>
-                    <p>Tôi muốn báo cáo về vi phạm bản quyền hình ảnh sản phẩm
-                      được đăng trên biển quảng cáo như trên, hiện tại hình ảnh
-                      trên biển quảng cáo đó đang thuộc bản quyền sở hữu của tôi
-                      nhưng tôi lại thấy nó xuất hiện trên bảng quảng cáo mà
-                      không có sự cho phép của tôi. Tôi muốn yêu cầu biển quảng
-                      cáo này được gỡ xuống sớm hết mức có thể. Xin cảm ơn.
+                    <h5>Về việc {{report.reportFormat}}</h5>
+                    <p>{{report.reportDetails}}
                     </p>
                   </div>
                 </div>
@@ -69,7 +64,8 @@
 
     <table class="table table-bordered">
       <h2 class="text-center">Thống kê báo cáo của người dân trong khu vực
-        Phường Đa Kao, Quận 1</h2>
+        {{ward.name}},
+        {{district.name}}</h2>
       <!-- Button trigger modal -->
       <button type="button" class="btn bg-opacity-0 float-right mb-2">
         <i class="bi bi-funnel"></i>
@@ -91,77 +87,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>19:05:34 - 15/11/2023</td>
-          <td>Phạm Quốc Duy</td>
-          <td>duy@gmail.com</td>
-          <td>0123333444</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Tố giác sai phạm</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#hienChiTiet">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xem
-            </button>
-          </td>
-          <td>Yêu cầu dỡ bỏ</td>
-
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>21:30:34 - 10/11/2023</td>
-          <td>Lưu Đình Huy</td>
-          <td>huy@gmail.com</td>
-          <td>0902001002</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Đóng góp ý kiến</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#hienChiTiet">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xem
-            </button>
-          </td>
-          <td>Ghi nhận ý kiến</td>
-
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>10:06:59 - 13/11/2023</td>
-          <td>Nguyễn Thành Đạt</td>
-          <td>dat@gmail.com</td>
-          <td>0903009001</td>
-          <td>Nguyễn Bỉnh Khiêm - Mạc Đĩnh Chi</td>
-          <td>Giải đáp thắc mắc</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#hienChiTiet">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xem
-            </button>
-          </td>
-          <td>Cung cấp thông tin</td>
-
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td>07:23:44 - 09/11/2023</td>
-          <td>Nguyễn Thành Luân</td>
-          <td>luan@gmail.com</td>
-          <td>0123456789</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Đăng ký nội dung</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#hienChiTiet">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xem
-            </button>
-          </td>
-          <td>Phê duyệt nội dung</td>
-
-        </tr>
+        {{#each report}}
+          <tr>
+            <td scope="row">{{report._id}}</td>
+            <td>{{report.reportDate}}</td>
+            <td>{{report.reporter}}</td>
+            <td>{{report.email}}</td>
+            <td>{{report.phoneNo}}</td>
+            <td>{{report.location}}</td>
+            <td>{{report.reportFormat}}</td>
+            <td>
+              <button
+                class="btn"
+                data-toggle="modal"
+                data-target="#hienChiTiet"
+              >
+                <i class="bi bi-info-circle text-secondary"></i>
+                Xem
+              </button>
+            </td>
+            <td>{{reportsolution.method}}</td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

@@ -2,7 +2,8 @@
   <div class="container">
 
     <table class="table table-bordered">
-      <h2 class="text-center">Thống kê báo cáo các phường của Quận 1</h2>
+      <h2 class="text-center">Thống kê báo cáo các phường của
+        {{district.name}}</h2>
       <!-- Button trigger modal -->
       <button type="button" class="btn bg-opacity-0 float-right mb-2">
         <i class="bi bi-funnel"></i>
@@ -19,53 +20,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Phường Đa Kao</td>
-          <td>25</td>
-          <td>20/25</td>
-          <td>
-            <a href="ThongKeBaoCaoPhuong.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
+        {{#each ward}}
+          <tr>
+            <td scope="row">{{ward._id}}</td>
+            <td>{{ward.name}}</td>
+            <td>25</td>
+            <td>20/25</td>
+            <!--Apply flexible calculations here-->
+            <td>
+              <a href="/thongkephuong">Chi tiết
+                <i class="bi bi-info-circle"></i></a>
+            </td>
 
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>Phường 2</td>
-          <td>25</td>
-          <td>20/25</td>
-          <td>
-            <a href="ThongKeBaoCaoPhuong.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>Phường 3</td>
-          <td>25</td>
-          <td>20/25</td>
-          <td>
-            <a href="ThongKeBaoCaoPhuong.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td>Phường 4</td>
-          <td>25</td>
-          <td>20/25</td>
-          <td>
-            <a href="ThongKeBaoCaoPhuong.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-
-        </tr>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

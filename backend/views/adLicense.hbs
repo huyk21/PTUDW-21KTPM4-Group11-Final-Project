@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="./index.html"><i
+      <a class="navbar-brand" href="/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Cấp phép quảng cáo cho công ty</a>
       <button
@@ -21,11 +21,8 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              href="./index.html"
-              aria-current="page"
-            >Trang chủ <span class="visually-hidden">(current)</span></a>
+            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+              <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -37,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="./adManager.html">Quản lý điểm
-                đặt/biển quảng cáo</a>
-              <a class="dropdown-item" href="./reportManager.html">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
+                quảng cáo</a>
+              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
             </div>
           </li>
         </ul>
@@ -55,7 +52,8 @@
     <div class="card-header">
       <h4 class="card-title text-left">
         Danh sách cấp phép quảng cáo cho các công ty/doanh nghiệp trong khu vực
-        Phường Đa Kao, Quận 1
+        {{ward.name}},
+        {{district.name}}
       </h4>
     </div>
 
@@ -134,50 +132,36 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr class="table-light opacity-100">
-          <td scope="row">
-            Quảng cáo thương mại / Đinh Tiên Hoàng - Mạc Đĩnh Chi
-          </td>
-          <td>Tôn Vinsteel Thăng Long</td>
-          <td>Công ty TNHH Vinsteel</td>
-          <td>ctyvinsteel@gmail.com</td>
-          <td>0123456789</td>
-          <td>23/11/2023</td>
-          <td>23/03/2024</td>
-          <td>Đã Duyệt</td>
-          <td>
-            <a
-              name="cancel"
-              id="cancel"
-              class="btn btn-light active disabled"
-              href="#"
-              role="button"
-            >Hủy</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">
-            Quảng cáo thương mại / Điện Biên Phủ - Mạc Đĩnh Chi
-          </td>
-          <td>Trà xanh thiên nhiên Coogin</td>
-          <td>Công ty TNHH Coogin</td>
-          <td>ctycoogin@gmail.com</td>
-          <td>0902001002</td>
-          <td>19/10/2023</td>
-          <td>19/01/2024</td>
-          <td>Chưa Duyệt</td>
-          <td>
-            <a
-              name="cancel"
-              id="cancel"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#cancelRequest"
-            >Hủy</a>
-          </td>
-        </tr>
+        {{#each licenserequest}}
+          <tr class="table-light opacity-100">
+            <td scope="row">
+              {{location.adFormat}}
+              /
+              {{location.address}}
+            </td>
+            <td>{{licenserequest.adContent}}</td>
+            <td>{{licenserequest.companyInfo}}
+              /
+              {{licenserequest.companyAddress}}
+              <!--Remove the company address if there is no more space--></td>
+            <td>{{licenserequest.companyEmail}}</td>
+            <td>{{licenserequest.companyPhone}}</td>
+            <td>{{licenserequest.startDate}}</td>
+            <td>{{licenserequest.expirationDate}}</td>
+            <td>{{licenserequest.processStatus}}</td>
+            <td>
+              <a
+                name="cancel"
+                id="cancel"
+                class="btn {{#if (eq licenserequest.processStatus "Đã xử lý")}} btn-light active disabled {{else}} btn-success {{/if}}"
+                href="#"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequest"
+              >Hủy</a>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

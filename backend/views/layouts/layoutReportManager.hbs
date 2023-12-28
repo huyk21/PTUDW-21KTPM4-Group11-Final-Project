@@ -53,5 +53,22 @@
         options
       );
     </script>
+    
+    <script>
+      const checkboxes = document.querySelectorAll(".form-check-input");
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("click", function () {
+          // If the clicked checkbox is checked, uncheck the other checkbox
+          if (this.checked) {
+            checkboxes.forEach((otherCheckbox) => {
+              if (otherCheckbox !== this) {
+                otherCheckbox.checked = false;
+              }
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

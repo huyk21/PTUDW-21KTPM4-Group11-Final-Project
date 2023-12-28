@@ -253,97 +253,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>1 trụ/bảng</td>
-          <td>Cổ động chính trị</td>
-          <td>Đất công/công viên/hành lang</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaDiemDat"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>1 trụ/bảng</td>
-          <td>Cổ động chính trị</td>
-          <td>Cây xăng</td>
-          <td>Chưa quy hoạch</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaDiemDat"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>1 trụ/bảng</td>
-          <td>Quảng cáo thương mại</td>
-          <td>Chợ</td>
-          <td>Chưa quy hoạch</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaDiemDat"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td>Nguyễn Bỉnh Khiêm - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>1 trụ/bảng</td>
-          <td>Xã hội hóa</td>
-          <td>Nhà chờ xe buýt</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td> <a href="">Chi tiết</a></td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaDiemDat"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
+        {{#each location}}
+          <tr>
+            <td scope="row">{{location._id}}</td>
+            <td>{{location.address}}</td>
+            <td>{{ward.name}} - {{district.name}}</td>
+            <td>{{adboard.properties.quantity}}</td>
+            <td>{{location.adFormat}}</td>
+            <td>{{location.locationType}}</td>
+            <td>{{location.status}}</td>
+            <td> <a href="">Chi tiết</a></td>
+            <td>
+              <button class="btn">
+                <i class="bi bi-trash-fill text-danger"></i>
+              </button>
+              <button
+                class="btn"
+                data-toggle="modal"
+                data-target="#chinhSuaDiemDat"
+              >
+                <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

@@ -77,12 +77,9 @@ const sendReport=asyncHandler(async(req,res)=>{
     res.send("this is post report");
 });
 
-const login = asyncHandler(async (req, res) => {
-    res.send("this is login");
-  });
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export { index, login,logout,editAd,showAd,editAdMananger,
+export {index,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport,
     createAdboard,deleteAd };

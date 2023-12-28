@@ -1,13 +1,15 @@
 import express from "express";
 const router = express.Router();
-import { index,login,editAd,showAd,editAdMananger,
+import {index,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport, 
-    logout,createAdboard,deleteAd } from "../controllers/QuanController.js";
-import { authUser, logoutUser } from "../controllers/UserController.js";
+    createAdboard,deleteAd } from "../controllers/QuanController.js";
+import { login,authUser, logoutUser } from "../controllers/UserController.js";
 import { protect, quanvhtt } from "../middleware/authMiddleware.js";
 
+
 //xử lý trên trang chủ quận
-router.post('/login',authUser);
+router.route('/login').post(login)
+router.post('/auth',authUser);
 router.post('/logout',logoutUser)
 router.route('/').get(protect,quanvhtt,index);
 router.route('/:id').put(editAd);
@@ -24,6 +26,5 @@ router.route('/license').delete(deleteLicense);
 router.route('/report').get(showReport);
 router.route('/report').post(sendReport);
 
-router.route('/login').get(login);
-router.route('/logout').get(logout);
+
 export default router;

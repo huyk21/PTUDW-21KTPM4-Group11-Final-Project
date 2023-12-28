@@ -4,14 +4,15 @@ import {index,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport, 
     createAdboard,deleteAd } from "../controllers/QuanController.js";
 import { login,authUser, logoutUser } from "../controllers/UserController.js";
-import { protect, quanvhtt } from "../middleware/authMiddleware.js";
+import { protect, quan } from "../middleware/authMiddleware.js";
 
 
 //xử lý trên trang chủ quận
+router.route('/').get(index);
 router.route('/login').post(login)
 router.post('/auth',authUser);
 router.post('/logout',logoutUser)
-router.route('/').get(protect,quanvhtt,index);
+//router.route('/').get(protect,quan,index);
 router.route('/:id').put(editAd);
 router.route('/').post(createAdboard)
 router.route('/:id').delete(deleteAd);

@@ -1,0 +1,76 @@
+<main>
+  <div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center">Tạo tài khoản cho cán bộ</h2>
+            <form>
+              <div class="form-group">
+                <label for="tenTaiKhoan">Tên tài khoản</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="tenTaiKhoan"
+                  placeholder="Nhập tên tài khoản"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="matKhau">Mật khẩu</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="matKhau"
+                  placeholder="Nhập mật khẩu"
+                />
+              </div>
+              <div class="form-group">
+                <label for="xacNhanMatKhau">Xác nhận mật khẩu</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="xacNhanMatKhau"
+                  placeholder="Nhập lại mật khẩu để xác nhận"
+                />
+              </div>
+              <div class="form-group">
+                <label for="khuVuc">Phân công khu vực</label>
+                <select class="form-control" id="khuVuc">
+                  <option selected>Chưa phân công</option>
+                  <option value="phuong">Cán bộ Phường</option>
+                  <option value="quan">Cán bộ Quận</option>
+                  <!-- Add more options as needed -->
+                </select>
+              </div>
+              <!-- Additional selection fields -->
+              <div class="form-group" id="chonQuanGroup" style="display: none;">
+                <label for="chonQuan">Chọn quận</label>
+                <select class="form-control" id="chonQuan">
+                  <!-- Options for the second selection field -->
+                  <option selected value="quan1">Quận 1</option>
+                  <option value="quan4">Quận 4</option>
+                </select>
+              </div>
+
+              <div
+                class="form-group"
+                id="chonPhuongGroup"
+                style="display: none;"
+              >
+                <label for="chonPhuong">Chọn phường</label>
+                <select class="form-control" id="chonPhuong">
+                  <!-- Options for the third selection field will depend on what you chose on second selection-->
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Tạo tài
+                khoản</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

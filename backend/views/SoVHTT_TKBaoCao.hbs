@@ -19,28 +19,19 @@
         </tr>
       </thead>
       <tbody id="">
-        <tr>
-          <td scope="row">1</td>
-          <td>Quận 1</td>
-          <td>100</td>
-          <td>50/100</td>
-          <td>
-            <a href="ThongKeBaoCaoQuan.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-
-        </tr>
-        <tr>
-          <td scope="row">2</td>
-          <td>Quận 4</td>
-          <td>70</td>
-          <td>50/70</td>
-          <td>
-            <a href="ThongKeBaoCaoQuan.html">Chi tiết
-              <i class="bi bi-info-circle"></i></a>
-          </td>
-
-        </tr>
+        {{#each district}}
+          <tr>
+            <td scope="row">{{district._id}}</td>
+            <td>{{district.name}}</td>
+            <td>100</td>
+            <td>50/100</td>
+            <!--Adjust flexibly here-->
+            <td>
+              <a href="/thongkequan">Chi tiết
+                <i class="bi bi-info-circle"></i></a>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

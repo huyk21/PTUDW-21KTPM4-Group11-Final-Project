@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="./index.html"><i
+      <a class="navbar-brand" href="/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Quản lý điểm đặt quảng cáo & bảng quảng cáo</a>
       <button
@@ -20,11 +20,8 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              href="./index.html"
-              aria-current="page"
-            >Trang chủ <span class="visually-hidden">(current)</span></a>
+            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+              <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -36,9 +33,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="./reportManager.html">Xử lý báo cáo</a>
-              <a class="dropdown-item" href="./adLicense.html">Yêu cầu cấp phép
-                quảng cáo</a>
+              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/adLicense">Yêu cầu cấp phép quảng
+                cáo</a>
             </div>
           </li>
         </ul>
@@ -53,8 +50,9 @@
   <div class="card text-center">
     <div class="card-header">
       <h4 class="card-title text-left">
-        Thông tin điểm đặt quảng cáo, biển quảng cáo của khu vực Phường Đa Kao,
-        Quận 1
+        Thông tin điểm đặt quảng cáo, biển quảng cáo của khu vực
+        {{ward.name}},
+        {{district.name}}
       </h4>
     </div>
     <!-- Card Body -->
@@ -121,82 +119,29 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr class="table-light opacity-100">
-          <td scope="row">Trụ/Cụm pano</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>2.5m x 10m</td>
-          <td>1 trụ/bảng</td>
-          <td>Cổ động chính trị</td>
-          <td>Đất công/công viên/hành lang</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#adConfig"
-            >Chỉnh sửa</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">Trụ/Cụm pano</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>2.5m x 10m</td>
-          <td>1 trụ/bảng</td>
-          <td>Cổ động chính trị</td>
-          <td>Cây xăng</td>
-          <td>Chưa quy hoạch</td>
-          <td>
-            <a
-              href="#"
-              class="btn btn-light active disabled"
-              role="button"
-            >Chỉnh sửa</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">Cổng chào</td>
-          <td>Đinh Tiên Hoàng - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>7.5m x 10m</td>
-          <td>1 trụ/bảng</td>
-          <td>Quảng cáo thương mại</td>
-          <td>Chợ</td>
-          <td>Chưa quy hoạch</td>
-          <td>
-            <a
-              href="#"
-              class="btn btn-light active disabled"
-              role="button"
-            >Chỉnh sửa</a>
-          </td>
-        </tr>
-        <tr class="table-light opacity-100">
-          <td scope="row">Trụ hộp đèn</td>
-          <td>Nguyễn Bỉnh Khiêm - Mạc Đĩnh Chi</td>
-          <td>Phường Đa Kao - Quận 1</td>
-          <td>5m x 10m</td>
-          <td>1 trụ/bảng</td>
-          <td>Xã hội hóa</td>
-          <td>Nhà chờ xe buýt</td>
-          <td>Đã quy hoạch, cấp phép</td>
-          <td>
-            <a
-              name="edit"
-              id="edit"
-              class="btn btn-success"
-              href="#"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#adConfig"
-            >Chỉnh sửa</a>
-          </td>
-        </tr>
+        {{#each adboard}}
+          <tr class="table-light opacity-100">
+            <td scope="row">{{adboard.properties.boardType}}</td>
+            <td>{{location.address}}</td>
+            <td>{{ward.name}} - {{district.name}}</td>
+            <td>{{adboard.properties.size}}</td>
+            <td>{{adboard.properties.quantity}}</td>
+            <td>{{location.adFormat}}</td>
+            <td>{{location.locationType}}</td>
+            <td>{{location.status}}</td>
+            <td>
+              <a
+                name="edit"
+                id="edit"
+                class="btn {{#if (or (eq location.status "ĐÃ CẤP PHÉP") ((eq location.status "ĐÃ QUY HOẠCH")))}}btn-success {{else}} btn-light active disabled {{/if}}"
+                href="#"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#adConfig"
+              >Chỉnh sửa</a>
+            </td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

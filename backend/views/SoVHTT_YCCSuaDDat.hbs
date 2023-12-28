@@ -2,7 +2,7 @@
 
   <div class="container">
     <div class="container mt-3">
-      <!-- Modal them diem dat quang cao-->
+      <!-- Modal chinh sua diem dat-->
       <div
         class="modal fade"
         id="xetYeuCau"
@@ -29,36 +29,25 @@
               <div class="row">
                 <div class="col-md-6">
                   <!-- Left side of the split body -->
-                  <!-- 
-                                        <td>Trụ/Cụm pano</td>
-                                        <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-                                        <td>Phường Đa Kao - Quận 1</td>
-                                        <td>1 trụ/bảng</td>
-                                        <td>Cổ động chính trị</td>
-                                        <td>Đất công/công viên/hành lang</td>
-                                        <td>Đã quy hoạch, cấp phép</td>
-                                    -->
                   <div class="container">
                     <p><strong>Địa chỉ:</strong>
-                      Điện Biên Phủ - Mạc Đĩnh Chi</p>
-                    <p><strong>Khu vực:</strong> Phường Đa Kao - Quận 1</p>
-                    <p><strong>Số lượng:</strong> 1 trụ/bảng</p>
-                    <p><strong>Hình thức:</strong> Cổ động chính trị</p>
+                      {{location.address}}</p>
+                    <p><strong>Khu vực:</strong> {{ward.name}} - {{district.name}}</p>
+                    <p><strong>Hình thức:</strong> {{location.adFormat}}</p>
                     <p><strong>Phân loại:</strong>
-                      Đất công/công viên/hành lang</p>
+                      {{location.locationType}}</p>
                   </div>
                   <h5 class="text-center bg-secondary text-white">Trước</h5>
                 </div>
                 <div class="col-md-6 border-left">
                   <!-- Right side of the split body with vertical line -->
                   <div class="container">
-                    <p><strong>Địa chỉ:</strong>
-                      Điện Biên Phủ - Mạc Đĩnh Chi</p>
-                    <p><strong>Khu vực:</strong> Phường Đa Kao - Quận 1</p>
-                    <p><strong>Số lượng:</strong> 1 trụ/bảng</p>
-                    <p><strong>Hình thức:</strong> Cổ động chính trị</p>
-                    <p class="text-success"><strong>Phân loại:</strong>
-                      Cây xăng</p>
+                    <p><strong>Địa chỉ mới:</strong>
+                      {{adjustlocation.newAddress}}</p>
+                    <p><strong>Khu vực mới:</strong> {{ward.name}} - {{district.name}}</p>
+                    <p><strong>Hình thức mới:</strong> {{adjustlocation.newAdFormat}}</p>
+                    <p><strong>Phân loại mới:</strong>
+                      {{adjustlocation.newLocationType}}</p>
                   </div>
                   <h5 class="text-center bg-secondary text-white">Sau</h5>
                 </div>
@@ -116,13 +105,14 @@
         </tr>
       </thead>
       <tbody>
+        {{#each adjustlocation}}
         <tr>
-          <td scope="row">1</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại vị trí điểm đặt</td>
+          <td scope="row">{{adjustlocation._id}}</td>
+          <td>{{adjustlocation.newAddress}}</td>
+          <td>{{district.name}}</td>
+          <td>{{ward.name}}</td>
+          <td>{{adjustlocation.adjustDate}}</td>
+          <td>{{adjustlocation.reason}}</td>
           <td>
             <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
               <i class="bi bi-info-circle text-secondary"></i>
@@ -130,52 +120,7 @@
             </button>
           </td>
         </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại vị trí điểm đặt</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại vị trí điểm đặt</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">4</td>
-          <td>Điện Biên Phủ - Mạc Đĩnh Chi</td>
-          <td>Quận 1</td>
-          <td>Phường Đa Kao</td>
-          <td>12:20:22 - 01/10/2023</td>
-          <td>Chỉnh sửa loại vị trí điểm đặt</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
-
+        {{/each}}
       </tbody>
     </table>
   </div>

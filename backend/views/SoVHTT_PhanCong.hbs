@@ -30,8 +30,9 @@
                 <label for="chonQuan">Chọn quận</label>
                 <select class="form-control" id="chonQuan">
                   <!-- Options for the second selection field -->
-                  <option selected value="quan1">Quận 1</option>
-                  <option value="quan4">Quận 4</option>
+                  {{#each district}}
+                    <option value="{{district._id}}">{{district.name}}</option>
+                  {{/each}}
                 </select>
               </div>
 
@@ -43,6 +44,9 @@
                 <label for="chonPhuong">Chọn phường</label>
                 <select class="form-control" id="chonPhuong">
                   <!-- Options for the third selection field will depend on what you chose on second selection-->
+                  {{#each ward}}
+                    <option value="{{ward._id}}">{{ward.name}}</option>
+                  {{/each}}
                 </select>
               </div>
 

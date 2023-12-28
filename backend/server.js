@@ -9,6 +9,7 @@ import path from "path";
 import SoVHTTRoutes from "./routes/SoVHTTRoutes.js";
 import QuanRoutes from "./routes/QuanRoutes.js";
 import PhuongRoutes from "./routes/PhuongRoutes.js";
+import UserRoutes from "./routes/UserRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
@@ -41,9 +42,24 @@ app.set("view engine", "hbs"); // set view engine
 app.use("/api/sovhtt", SoVHTTRoutes);
 app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
+app.use("/api/", UserRoutes);
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layout" });
+  res.render("index", { layout: "layout2" });
 });
+if (process.env.NODE_ENV === "production") {
+  // const __dirname = path.resolve();
+  // app.use('/uploads', express.static('/var/data/uploads'));
+  // app.use(express.static(path.join(__dirname, '/frontend/build')));
+  // app.get('*', (req, res) =>
+  //   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  // );
+} else {
+  const __dirname = path.resolve();
+  app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 app.use(notFound);
 app.use(errorHandler);
 app.listen(port, () => {

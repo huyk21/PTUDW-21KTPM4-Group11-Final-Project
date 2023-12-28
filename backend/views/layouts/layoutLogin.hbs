@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,11 +14,19 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="/backend/html/assets/css/login-styles.css" />
+    <link rel="stylesheet" href="/assets/css/login-styles.css" />
+    {{! recaptcha }}
+    <script
+      src="https://www.google.com/recaptcha/api.js?render=6LfLbz4pAAAAAEyL_4ny7HhVX3ALpBrgAmE60mXg"
+    ></script>
+
   </head>
 
   <body>
     {{{body}}}
+    {{! <script src="/backend/html/assets/js/login.js"></script> }}
+    <script src="/assets/js/login_temp.js"></script>
+
     <!-- Bootstrap JavaScript Libraries -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -33,6 +40,5 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="/backend/html/assets/js/login.js"></script>
   </body>
 </html>

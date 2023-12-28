@@ -9,6 +9,7 @@ import path from "path";
 import SoVHTTRoutes from "./routes/SoVHTTRoutes.js";
 import QuanRoutes from "./routes/QuanRoutes.js";
 import PhuongRoutes from "./routes/PhuongRoutes.js";
+import UserRoutes from "./routes/UserRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
@@ -41,8 +42,9 @@ app.set("view engine", "hbs"); // set view engine
 app.use("/api/sovhtt", SoVHTTRoutes);
 app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
+app.use("/api/", UserRoutes);
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layout" });
+  res.render("index", { layout: "layout2" });
 });
 app.use(notFound);
 app.use(errorHandler);

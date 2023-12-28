@@ -33,16 +33,24 @@ const sovhtt = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error("Khong can bo so vh tt");
+    throw new Error("Khong phai can bo so vh tt");
   }
 };
-const quanvhtt = (req, res, next) => {
+// User must be an admin
+const phuong = (req, res, next) => {
+  if (req.user && req.user.isPhuong) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Khong phai can bo phuong");
+  }
+};
+const quan = (req, res, next) => {
   if (req.user && req.user.isQuan) {
     next();
   } else {
     res.status(401);
-    throw new Error("Khong can bo quan vh tt");
+    throw new Error("Khong phai can bo quan");
   }
 };
-
-export { protect, sovhtt ,quanvhtt};
+export { protect, sovhtt, phuong, quan };

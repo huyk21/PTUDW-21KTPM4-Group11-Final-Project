@@ -1,8 +1,12 @@
 import express from "express";
 const router = express.Router();
 import {login,logout,index,showAd,editAdMananger,showLicense,editLicense,deleteLicense,showReport,sendReport} from "../controllers/PhuongController.js";
+
+import { authUser, logoutUser } from "../controllers/UserController.js";
+import { protect, sovhtt } from "../middleware/authMiddleware.js";
+
 //xử lý trên trang chủ phường
-router.route('/').get(index);
+router.route("/").post(index).get(index);
 //Xử lý trên trang bảng quảng cáo
 router.route('/adMananger_phuong').get(showAd);
 router.route('/adMananger_phuong').put(editAdMananger);

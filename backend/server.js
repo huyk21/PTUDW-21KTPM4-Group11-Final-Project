@@ -28,7 +28,6 @@ app.engine(
   "hbs",
   expressHbs.engine({
     layoutsDir: path.join(__dirname, "/views/layouts"),
-    partialsDir: path.join(__dirname, " /views/partials"),
     defaultLayout: "layout",
     extname: "hbs",
     runtimeOptions: {
@@ -44,22 +43,8 @@ app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
 app.use("/api/", UserRoutes);
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layout2" });
+  res.render("login", { layout: "layoutLogin" });
 });
-if (process.env.NODE_ENV === "production") {
-  // const __dirname = path.resolve();
-  // app.use('/uploads', express.static('/var/data/uploads'));
-  // app.use(express.static(path.join(__dirname, '/frontend/build')));
-  // app.get('*', (req, res) =>
-  //   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-  // );
-} else {
-  const __dirname = path.resolve();
-  app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-  app.get("/", (req, res) => {
-    res.send("API is running....");
-  });
-}
 app.use(notFound);
 app.use(errorHandler);
 app.listen(port, () => {

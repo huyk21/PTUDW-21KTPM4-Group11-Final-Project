@@ -1,5 +1,12 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import AdBoard from "../models/AdBoardModel.js";
+import Report from "../models/ReportModel.js";
+import LicenseRequest from "../models/LicenseRequest.js";
+import AdjustBoard from "../models/AdjustBoardModel.js";
+import Location from "../models/LocationModel.js";
+import Ward from "../models/WardModel.js";
+import District from "../models/DistrictModel.js"
+
 //xử lý trên trang chủ quận
 const createAdboard=asyncHandler(async(req,res)=>{
     const adboard=new AdBoard({
@@ -55,14 +62,52 @@ const editAd=asyncHandler(async (req, res) => {
 
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd=asyncHandler(async(req,res)=>{
-    res.send("this is adMananger");
+    const adjustBoard=await AdjustBoard.find({});
+    const adjustedBoardsDetails = await Promise.all(
+        adjustBoard.map(async (adjustBoard) => {
+        const adBoardDetails = await AdBoard.findById(adjustBoard.forID);
+        const locationDetails = await Location.findById(adBoardDetails.location);
+        const districtDetails= await District.findById(locationDetails.district);
+        const wardDetail=await Ward.findById(locationDetails.ward);
+        return {
+          adjustBoard,
+          adBoardDetails,
+          locationDetails,
+          districtDetails,
+          wardDetail
+        };
+      })
+    );
+
+    res.render('adManager',{
+        layout:'layoutAdManager',
+        adjustedBoardsDetails:adjustedBoardsDetails
+})
+
 });
 const editAdMananger=asyncHandler(async(req,res)=>{
     res.send("this is edited adMananger");
 });
 //xử lý trên trang yeu cầu cấp phép
 const showLicense=asyncHandler(async(req,res)=>{
-    res.send("this is adLicense");
+    const licenses=await LicenseRequest.find({});
+    const licenseDetail = await Promise.all(
+        licenses.map(async (license) => {
+        const location = await Location.findById(license.for);
+        const ward =await Ward.findById(location.ward);
+        const dictrict=await District.findById(location.district);
+        return {
+            license,
+            location,
+            ward,
+            dictrict,
+        };
+      })
+    );
+    res.render('adLicense',{
+        layout:'layoutAdLicense',
+        licenseDetail:licenseDetail
+})
 });
 const editLicense=asyncHandler(async(req,res)=>{
     res.send("this is edited License");
@@ -72,7 +117,40 @@ const deleteLicense=asyncHandler(async(req,res)=>{
 });
 //xử lý trên trang báo cáo của người dân
 const showReport=asyncHandler(async(req,res)=>{
-    res.send("this is report");
+    const reports=await Report.find({});
+    const reportDetail = await Promise.all(
+        reports.map(async (report) => {
+        const location = await Location.findById(report.locationID);
+        const ward =await Ward.findById(location.ward);
+        const dictrict=await District.findById(location.district);
+        return {
+            report,
+            location,
+            ward,
+            dictrict,
+        };
+      })
+    );
+    res.render('reportManager',{
+        layout:'layoutReportManager',
+        reportDetail:reportDetail,
+})
+});
+const showReportId=asyncHandler(async(req,res)=>{
+    const reports=await Report.find({});
+    const reportId = req.params.reportId
+    const report = await Report.findById(reportId);
+    if (!report) {
+        // Handle the case where the report with the given ID is not found
+        res.status(404).send('Report not found');
+        return;
+      }
+    //res.json(report);
+    res.render('reportManager2',{
+        layout:'layoutReportManager',
+        reports:reports,
+        report:report,
+})
 });
 const sendReport=asyncHandler(async(req,res)=>{
     res.send("this is post report");
@@ -81,6 +159,6 @@ const sendReport=asyncHandler(async(req,res)=>{
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export {index,editAd,showAd,editAdMananger,
+export {showReportId,index,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport,
     createAdboard,deleteAd };

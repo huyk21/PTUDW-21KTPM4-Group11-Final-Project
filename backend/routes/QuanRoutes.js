@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {index,editAd,showAd,editAdMananger,
+import {showReportId,index,editAd,showAd,editAdMananger,
     showLicense,editLicense,deleteLicense,showReport,sendReport, 
     createAdboard,deleteAd } from "../controllers/QuanController.js";
 import { login,authUser, logoutUser } from "../controllers/UserController.js";
@@ -25,6 +25,7 @@ router.route('/license').put(editLicense);
 router.route('/license').delete(deleteLicense);
 //xử lý trên trang báo cáo
 router.route('/report').get(showReport);
+router.route('/report/:reportId').get(showReportId);
 router.route('/report').post(sendReport);
 
 

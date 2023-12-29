@@ -12,7 +12,11 @@ import PhuongRoutes from "./routes/PhuongRoutes.js";
 import UserRoutes from "./routes/UserRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+import handlebars from 'handlebars';
 
+handlebars.registerHelper('eq', function (a, b, options) {
+  return a === b ? options.fn(this) : options.inverse(this);
+});
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
@@ -34,7 +38,16 @@ app.engine(
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
     },
-    helpers: {},
+    helpers: {
+      formatDate: (date) => {
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      },
+      showIndex: (index) => index + 1,
+    },
   })
 );
 
@@ -43,9 +56,9 @@ app.use("/api/sovhtt", SoVHTTRoutes);
 app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
 app.use("/api/", UserRoutes);
-app.get("/", (req, res) => {
-  res.render("index", { layout: "layout2" });
-});
+// app.get("/", (req, res) => {
+//   res.render("index", { layout: "layout2" });
+// });
 if (process.env.NODE_ENV === "production") {
   // const __dirname = path.resolve();
   // app.use('/uploads', express.static('/var/data/uploads'));

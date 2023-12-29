@@ -119,21 +119,21 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each adboard}}
+        {{#each adjustedBoardsDetails}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{adboard.properties.boardType}}</td>
-            <td>{{location.address}}</td>
-            <td>{{ward.name}} - {{district.name}}</td>
-            <td>{{adboard.properties.size}}</td>
-            <td>{{adboard.properties.quantity}}</td>
-            <td>{{location.adFormat}}</td>
-            <td>{{location.locationType}}</td>
-            <td>{{location.status}}</td>
+            <td scope="row">{{adBoardDetails.properties.boardType}}</td>
+            <td>{{locationDetails.address}}</td>
+            <td>{{wardDetail.name}} - {{districtDetails.name}}</td>
+            <td>{{adBoardDetails.properties.size}}</td>
+            <td>{{adBoardDetails.properties.quantity}}</td>
+            <td>{{locationDetails.adFormat}}</td>
+            <td>{{locationDetails.locationType}}</td>
+            <td>{{locationDetails.status}}</td>
             <td>
               <a
                 name="edit"
                 id="edit"
-                class="btn {{#if (or (eq location.status "ĐÃ CẤP PHÉP") ((eq location.status "ĐÃ QUY HOẠCH")))}}btn-success {{else}} btn-light active disabled {{/if}}"
+                class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
                 href="#"
                 role="button"
                 data-bs-toggle="modal"

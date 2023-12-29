@@ -105,23 +105,24 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each reportDetail}}
+        {{#each reports}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{report.reportDate}}</td>
-            <td>{{report.reporter}}</td>
-            <td>{{report.email}}</td>
-            <td>{{report.phoneNo}}</td>
-            <td>{{report.location}}</td>
-            <td>{{report.reportFormat}}</td>
+            <td scope="row">{{this.reportDate}}</td>
+            <td>{{this.reporter}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phoneNo}}</td>
+            <td>{{this.location}}</td>
+            <td>{{this.reportFormat}}</td>
             <td>
               <a
                 name="edit"
-                id="edit"
+                id="editButton"
                 class="btn btn-success"
-                href="/api/quan/report/{{report._id}}"
+                href="/api/quan/report/{{this._id}}"
                 role="button"
-                {{!-- data-bs-toggle="modal" --}}
+                data-bs-toggle="modal"
                 data-bs-target="#reportDetails"
+                
               >Chi tiết</a>
             </td>
           </tr>
@@ -155,6 +156,7 @@
           <button
             type="button"
             class="btn-close"
+            onclick="window.location.href='/api/quan/report'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -167,16 +169,16 @@
               <div class="card">
 
                 <div class="card-header fw-bold">Nội dung báo cáo</div>
-                {{#each report}}       
+         
                 <div class="card-body">
                   <h5 class="card-title">
-                    Về việc {{this.reportFormat}}
+                    Về việc {{report.reportFormat}}
                   </h5>
                   <p class="card-text">
-                    {{this.reportDetails}}
+                    {{report.reportDetails}}
                   </p>
                 </div>
-                {{/each}}
+          
 
                 <div class="card-footer">
                   <p class="fw-bold">Cập nhật tình trạng xử lý</p>
@@ -225,6 +227,7 @@
           <button
             type="button"
             class="btn btn-secondary"
+            onclick="window.location.href='/api/quan/report'"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy

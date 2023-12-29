@@ -105,14 +105,14 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each reports}}
+        {{#each reportDetail}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{this.reportDate}}</td>
-            <td>{{this.reporter}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this.phoneNo}}</td>
-            <td>{{this.location}}</td>
-            <td>{{this.reportFormat}}</td>
+            <td scope="row">{{report.reportDate}}</td>
+            <td>{{report.reporter}}</td>
+            <td>{{report.email}}</td>
+            <td>{{report.phoneNo}}</td>
+            <td>{{report.location}}</td>
+            <td>{{report.reportFormat}}</td>
             <td>
               <a
                 name="edit"

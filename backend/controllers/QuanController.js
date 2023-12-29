@@ -138,6 +138,19 @@ const showReport=asyncHandler(async(req,res)=>{
 });
 const showReportId=asyncHandler(async(req,res)=>{
     const reports=await Report.find({});
+    const reportDetail = await Promise.all(
+        reports.map(async (report) => {
+        const location = await Location.findById(report.locationID);
+        const ward =await Ward.findById(location.ward);
+        const dictrict=await District.findById(location.district);
+        return {
+            report,
+            location,
+            ward,
+            dictrict,
+        };
+      })
+    );
     const reportId = req.params.reportId
     const report = await Report.findById(reportId);
     if (!report) {
@@ -148,7 +161,7 @@ const showReportId=asyncHandler(async(req,res)=>{
     //res.json(report);
     res.render('reportManager2',{
         layout:'layoutReportManager',
-        reports:reports,
+        reportDetail:reportDetail,
         report:report,
 })
 });

@@ -10,6 +10,9 @@ import SoVHTTRoutes from "./routes/SoVHTTRoutes.js";
 import QuanRoutes from "./routes/QuanRoutes.js";
 import PhuongRoutes from "./routes/PhuongRoutes.js";
 import UserRoutes from "./routes/UserRoutes.js";
+
+import AdBoard from "./models/AdBoardModel.js";
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
@@ -17,7 +20,7 @@ const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(__dirname + "/html"));
@@ -28,7 +31,6 @@ app.engine(
   "hbs",
   expressHbs.engine({
     layoutsDir: path.join(__dirname, "/views/layouts"),
-    partialsDir: path.join(__dirname, " /views/partials"),
     defaultLayout: "layout",
     extname: "hbs",
     runtimeOptions: {
@@ -44,7 +46,60 @@ app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
 app.use("/api/", UserRoutes);
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layout2" });
+  res.render("index", { layout: "layoutDan" });
+});
+app.post("/loaddata", async (req, res) => {
+  try {
+    const adboards = await AdBoard.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      {
+        $unwind: "$location",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "location.district",
+          foreignField: "_id",
+          as: "district",
+        },
+      },
+      {
+        $unwind: "$district",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "location.ward",
+          foreignField: "_id",
+          as: "ward",
+        },
+      },
+      {
+        $unwind: "$ward",
+      },
+      {
+        $project: {
+          type: 1,
+          adboard: "$properties", // Rename 'properties' to 'adboard'
+          geometry: 1,
+          location: 1,
+          district: 1,
+          ward: 1,
+          _id: 0
+        },
+      },
+    ]);
+    res.json(adboards);
+  } catch (error) {
+    console.error(error);
+  }
 });
 if (process.env.NODE_ENV === "production") {
   // const __dirname = path.resolve();

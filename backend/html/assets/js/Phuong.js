@@ -6,12 +6,7 @@ let showReportedMarkers = true; // Flag to toggle visibility
 let markers = []; // Array to store markers
 //access Token
 // Event listener for the button
-fetch("./data/AdData.json")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data); // Process your JSON data here
-  })
-  .catch((error) => console.error("Error fetching JSON:", error));
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 var map = new mapboxgl.Map({
@@ -25,8 +20,8 @@ function main() {
   // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
     // Load your data
-    const geojsonData = await loadData();
-
+    const geojsonData = await loadData()
+    console.log(geojsonData);
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
       type: "geojson",
@@ -115,7 +110,7 @@ function main() {
 
   // Assuming your 'unclustered-point' layer is for individual points
   map.on("mouseenter", "unclustered-point", function (e) {
-    const status = e.features[0].properties.status;
+    const status = e[0].properties.location.status;
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -124,9 +119,8 @@ function main() {
     map.getCanvas().style.cursor = "pointer";
 
     // Create a popup and set its content based on the feature properties
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var properties = e.features[0].properties;
-
+    var coordinates = e[0].geometry.coordinates.slice();
+    var location = e[0].properties.location;
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
@@ -141,11 +135,11 @@ function main() {
       .setLngLat(coordinates)
       .setHTML(
         `
-        <h6>${properties.adFormat}</h6>
-        <p>${properties.address}</p>
-        <p>${properties.area}</p>
-        <p>${properties.landType}</p>
-        <p style="font-weight: 900; font-style: italic">${properties.status}</p>
+        <h6>${location.adFormat}</h6>
+        <p>${location.address}</p>
+        <p>${e[0].properties.ward.name}</p>
+        <p>${location.locationType}</p>
+        <p style="font-weight: 900; font-style: italic">${location.status}</p>
         `
       )
       .addTo(map);
@@ -160,7 +154,8 @@ function main() {
   });
   map.on("click", "unclustered-point", function (e) {
     e.originalEvent.stopPropagation();
-    const status = e.features[0].properties.status;
+    const status = e[0].properties.location.status;
+
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -168,10 +163,10 @@ function main() {
       // Prevent the 'click' event from propagating to the map
 
       // Fly to the point
-      map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 15 });
+      map.flyTo({ center: e[0].geometry.coordinates, zoom: 15 });
 
       // Pass the properties of this specific feature to the sidebar
-      showSidebar(e.features[0].properties);
+      showSidebar(e[0]);
     }
   });
   // Assuming you've already added your 'clusters' layer and your 'ads' source.
@@ -179,10 +174,10 @@ function main() {
   // When a click event occurs on a feature in the clusters layer, zoom in
   map.on("click", "clusters", function (e) {
     // Get the cluster id from the features properties
-    var clusterId = e.features[0].properties.cluster_id;
+    var clusterId = e[0].properties.cluster_id;
 
     // Get the point coordinates from the feature
-    var point = e.features[0].geometry.coordinates;
+    var point = e[0].geometry.coordinates;
 
     // Get the cluster expansion zoom
     map
@@ -241,7 +236,6 @@ function main() {
                 <h6>Thông tin vị trí: </h6>
                 <p>Địa chỉ: ${data.features[0].place_name}</p>
                 <p class="fw-bold">Chưa có thông tin quảng cáo</p>
-                <button id="reportLocationBtn" class="btn btn-primary btn-sm" style="background-color: red; border-color: red; color: white;">Báo cáo</button>
               `;
             var popup = new mapboxgl.Popup({ offset: 25 })
               .setLngLat(e.lngLat)
@@ -390,31 +384,31 @@ function addControls(map) {
 }
 
 // Function to show sidebar with property information
-function showSidebar(properties) {
+function showSidebar(object) {
   hideSidebar();
   // Start with the image of the ad
   var sidebarContent = `
         <div class="sidebar-section">
-            <img src="${properties.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
+            <img src="${object.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
         </div>
     `;
   setTimeout(() => {
     // Update the content of the sidebar
     $("#infoContent").html(`
-            <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
-            <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
-            <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
-            <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
-            <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
-            <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
-            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
-            <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
+            <h5 class="fw-bold">Địa chỉ: ${object.properties.location.address}</h5>
+            <p class="fw-bold fs-6">Số lượng: ${object.properties.adboard.quantity}</p>
+            <p class="fw-bold fs-6">Khu vực: ${object.properties.ward.name}</p>
+            <p class="fw-bold fs-6">Loại vị trí: ${object.properties.location.locationType}</p>
+            <p class="fw-bold fs-6">Hình thức quảng cáo: ${object.properties.location.adFormat}</p>
+            <p class="fw-bold fs-6">Trạng thái: ${object.properties.location.status}</p>
+            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${object.properties.adboard.boardType}</p>
+            <p class="fw-bold fs-6">Kích thước: ${object.properties.adboard.size}</p>
             <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
         `);
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
-      showReports(properties); // Assuming 'address' can be used to fetch reports
+      showReports(object); // Assuming 'address' can be used to fetch reports
     });
 
     // Show the sidebar by adding the 'visible' class
@@ -459,13 +453,39 @@ function buttonLeave(id) {
 }
 async function loadData() {
   try {
-    const response = await fetch("../data/AdData.json");
+    const response = await fetch("/loaddata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({})
+    });
+
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
-    return response.json();
+
+    const data = await response.json();
+
+    let featureCollection = {
+      type: "FeatureCollection",
+      features: data.map((feature) => {
+        const { type, geometry, ...properties } = feature;
+        return {
+          type: "Feature",
+          geometry: geometry,
+          properties: properties,
+        };
+      }),
+    };
+
+    console.log(featureCollection);
+    return JSON.stringify(featureCollection);
+
   } catch (error) {
-    console.error(`Error loading data: ${error}`);
+    console.error(error);
+    // Depending on how you want to handle errors, you might want to rethrow the error
+    // or return a default value like `null` or `{}`.
     return null;
   }
 }

@@ -153,22 +153,6 @@ const logout = asyncHandler(async (req, res) => {
   res.send("this is logout");
 });
 export {
-  index,
-  editAd,
-  showAd,
-  editAdMananger,
-  showLicense,
-  editLicense,
-  deleteLicense,
-  showReport,
-  sendReport,
-  createAdboard,
-  deleteAd,
-};
-const logout = asyncHandler(async (req, res) => {
-  res.send("this is logout");
-});
-export {
   showReportId,
   index,
   editAd,

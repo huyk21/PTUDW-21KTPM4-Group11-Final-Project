@@ -13,7 +13,7 @@ import Ward from "../models/WardModel.js";
 
 //xử lý trên trang chủ phường
 const index = asyncHandler(async (req, res) => {
-  res.render("Phuong", { layout: "layoutPhuong" });
+  res.render("Phuong", {layout: "layoutPhuong"})
 });
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {

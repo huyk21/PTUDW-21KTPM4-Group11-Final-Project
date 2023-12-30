@@ -20,7 +20,7 @@ function main() {
   // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
     // Load your data
-    const geojsonData = await loadData()
+    const geojsonData = await loadData();
     console.log(geojsonData);
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
@@ -110,7 +110,7 @@ function main() {
 
   // Assuming your 'unclustered-point' layer is for individual points
   map.on("mouseenter", "unclustered-point", function (e) {
-    const status = e[0].properties.location.status;
+    const status = e.features[0].properties.location.status;
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -119,8 +119,8 @@ function main() {
     map.getCanvas().style.cursor = "pointer";
 
     // Create a popup and set its content based on the feature properties
-    var coordinates = e[0].geometry.coordinates.slice();
-    var location = e[0].properties.location;
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var location = e.features[0].properties.location;
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
@@ -137,7 +137,7 @@ function main() {
         `
         <h6>${location.adFormat}</h6>
         <p>${location.address}</p>
-        <p>${e[0].properties.ward.name}</p>
+        <p>${e.features[0].properties.ward.name}</p>
         <p>${location.locationType}</p>
         <p style="font-weight: 900; font-style: italic">${location.status}</p>
         `
@@ -154,7 +154,7 @@ function main() {
   });
   map.on("click", "unclustered-point", function (e) {
     e.originalEvent.stopPropagation();
-    const status = e[0].properties.location.status;
+    const status = e.features[0].properties.location.status;
 
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
@@ -163,10 +163,10 @@ function main() {
       // Prevent the 'click' event from propagating to the map
 
       // Fly to the point
-      map.flyTo({ center: e[0].geometry.coordinates, zoom: 15 });
+      map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 15 });
 
       // Pass the properties of this specific feature to the sidebar
-      showSidebar(e[0]);
+      showSidebar(e.features[0].properties);
     }
   });
   // Assuming you've already added your 'clusters' layer and your 'ads' source.
@@ -174,10 +174,10 @@ function main() {
   // When a click event occurs on a feature in the clusters layer, zoom in
   map.on("click", "clusters", function (e) {
     // Get the cluster id from the features properties
-    var clusterId = e[0].properties.cluster_id;
+    var clusterId = e.features[0].properties.cluster_id;
 
     // Get the point coordinates from the feature
-    var point = e[0].geometry.coordinates;
+    var point = e.features[0].geometry.coordinates;
 
     // Get the cluster expansion zoom
     map
@@ -384,31 +384,31 @@ function addControls(map) {
 }
 
 // Function to show sidebar with property information
-function showSidebar(object) {
+function showSidebar(properties) {
   hideSidebar();
   // Start with the image of the ad
   var sidebarContent = `
         <div class="sidebar-section">
-            <img src="${object.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
+            <img src="${properties.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
         </div>
     `;
   setTimeout(() => {
     // Update the content of the sidebar
     $("#infoContent").html(`
-            <h5 class="fw-bold">Địa chỉ: ${object.properties.location.address}</h5>
-            <p class="fw-bold fs-6">Số lượng: ${object.properties.adboard.quantity}</p>
-            <p class="fw-bold fs-6">Khu vực: ${object.properties.ward.name}</p>
-            <p class="fw-bold fs-6">Loại vị trí: ${object.properties.location.locationType}</p>
-            <p class="fw-bold fs-6">Hình thức quảng cáo: ${object.properties.location.adFormat}</p>
-            <p class="fw-bold fs-6">Trạng thái: ${object.properties.location.status}</p>
-            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${object.properties.adboard.boardType}</p>
-            <p class="fw-bold fs-6">Kích thước: ${object.properties.adboard.size}</p>
+            <h5 class="fw-bold">Địa chỉ: ${properties.location.address}</h5>
+            <p class="fw-bold fs-6">Số lượng: ${properties.adboard.quantity}</p>
+            <p class="fw-bold fs-6">Khu vực: ${properties.ward.name}</p>
+            <p class="fw-bold fs-6">Loại vị trí: ${properties.location.locationType}</p>
+            <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.location.adFormat}</p>
+            <p class="fw-bold fs-6">Trạng thái: ${properties.location.status}</p>
+            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.adboard.boardType}</p>
+            <p class="fw-bold fs-6">Kích thước: ${properties.adboard.size}</p>
             <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
         `);
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
-      showReports(object); // Assuming 'address' can be used to fetch reports
+      showReports(properties); // Assuming 'address' can be used to fetch reports
     });
 
     // Show the sidebar by adding the 'visible' class
@@ -453,16 +453,15 @@ function buttonLeave(id) {
 }
 async function loadData() {
   try {
-    const response = await fetch("/loaddata", {
-      method: "POST",
+    const response = await fetch("/api/loaddata", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({})
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
@@ -478,10 +477,7 @@ async function loadData() {
         };
       }),
     };
-
-    console.log(featureCollection);
-    return JSON.stringify(featureCollection);
-
+    return featureCollection;
   } catch (error) {
     console.error(error);
     // Depending on how you want to handle errors, you might want to rethrow the error

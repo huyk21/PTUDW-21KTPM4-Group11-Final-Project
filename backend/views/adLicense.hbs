@@ -132,28 +132,30 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each licenserequest}}
+        {{title}}
+        {{#each licenseDetail}}
           <tr class="table-light opacity-100">
             <td scope="row">
               {{location.adFormat}}
               /
               {{location.address}}
             </td>
-            <td>{{licenserequest.adContent}}</td>
-            <td>{{licenserequest.companyInfo}}
+            <td>{{license.adContent}}</td>
+            <td>{{license.companyInfo}}
               /
-              {{licenserequest.companyAddress}}
+              {{license.companyAddress}}
               <!--Remove the company address if there is no more space--></td>
-            <td>{{licenserequest.companyEmail}}</td>
-            <td>{{licenserequest.companyPhone}}</td>
-            <td>{{licenserequest.startDate}}</td>
-            <td>{{licenserequest.expirationDate}}</td>
-            <td>{{licenserequest.processStatus}}</td>
+            <td>{{license.companyEmail}}</td>
+            <td>{{license.companyPhone}}</td>
+            <td>{{license.startDate}}</td>
+            <td>{{license.expirationDate}}</td>
+            <td>{{license.processStatus}}</td>
             <td>
               <a
                 name="cancel"
                 id="cancel"
-                class="btn {{#if (eq licenserequest.processStatus "Đã xử lý")}} btn-light active disabled {{else}} btn-success {{/if}}"
+                class="btn {{#eq license.processStatus 'Đã xử lý'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+
                 href="#"
                 role="button"
                 data-bs-toggle="modal"

@@ -62,31 +62,62 @@ const editAd=asyncHandler(async (req, res) => {
 
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd=asyncHandler(async(req,res)=>{
-    const adjustBoard=await AdjustBoard.find({});
-    const adjustedBoardsDetails = await Promise.all(
-        adjustBoard.map(async (adjustBoard) => {
-        const adBoardDetails = await AdBoard.findById(adjustBoard.forID);
-        const locationDetails = await Location.findById(adBoardDetails.location);
-        const districtDetails= await District.findById(locationDetails.district);
-        const wardDetail=await Ward.findById(locationDetails.ward);
-        return {
-          adjustBoard,
-          adBoardDetails,
-          locationDetails,
-          districtDetails,
-          wardDetail
-        };
-      })
-    );
-
+  const adboards=await AdBoard.find({});
+  const adboardDetails = await Promise.all(
+      adboards.map(async (adboard) => {
+      const locationDetails = await Location.findById(adboard.location);
+      const districtDetails= await District.findById(locationDetails.district);
+      const wardDetail=await Ward.findById(locationDetails.ward);
+      return {
+        adboard,
+        locationDetails,
+        districtDetails,
+        wardDetail
+      };
+    })
+  );
+    
     res.render('adManager',{
         layout:'layoutAdManager',
-        adjustedBoardsDetails:adjustedBoardsDetails
+        adboardDetails:adboardDetails
 })
-
 });
-const editAdMananger=asyncHandler(async(req,res)=>{
-    res.send("this is edited adMananger");
+const showAdId=asyncHandler(async(req,res)=>{
+  const adboards=await AdBoard.find({});
+  const adboardDetails = await Promise.all(
+      adboards.map(async (adboard) => {
+      const locationDetails = await Location.findById(adboard.location);
+      const districtDetails= await District.findById(locationDetails.district);
+      const wardDetail=await Ward.findById(locationDetails.ward);
+      return {
+        adboard,
+        locationDetails,
+        districtDetails,
+        wardDetail
+      };
+    })
+  );
+  const id = req.params.adId;
+  const result = adboardDetails.find(details => details.adboard._id.toString() === id.toString());
+  res.render('adManager2',{
+      layout:'layoutAdManager',
+      adboardDetails:adboardDetails,
+      result:result
+})
+});
+const store=asyncHandler(async(req,res)=>{
+    const adjustBoard=new AdjustBoard({
+      for:"Biển quảng cáo",
+      forID:req.body.id,
+      newQuantity:req.body.quantity,
+      newBoardType:req.body.boardType,
+      newSize:req.body.size,
+      newExpirationDate:"2024-01-02",
+      adjustDate:req.body.time,
+      reason:req.body.reason,
+  });
+  const createAdjustBoard=await adjustBoard.save();
+  res.status(201).redirect('/api/quan/ad');
 });
 //xử lý trên trang yeu cầu cấp phép
 const showLicense=asyncHandler(async(req,res)=>{
@@ -172,6 +203,6 @@ const sendReport=asyncHandler(async(req,res)=>{
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export {showReportId,index,editAd,showAd,editAdMananger,
+export {showAdId,showReportId,index,editAd,showAd,store,
     showLicense,editLicense,deleteLicense,showReport,sendReport,
     createAdboard,deleteAd };

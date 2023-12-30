@@ -14,8 +14,8 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 import handlebars from 'handlebars';
 
-handlebars.registerHelper('eq', function (a, b, options) {
-  return a === b ? options.fn(this) : options.inverse(this);
+handlebars.registerHelper('eq', function (a, b, c,options) {
+  return a === b||a === c? options.fn(this) : options.inverse(this);
 });
 const port = process.env.PORT || 4000;
 connectDB();

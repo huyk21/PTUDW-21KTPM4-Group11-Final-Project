@@ -45,7 +45,6 @@
 
     <!-- Your custom script file -->
     <script type="text/javascript" src="/assets/js/Phuong.js"></script>
-
     <!-- Modal Scripts -->
     <script>
       const myModal = new bootstrap.Modal(
@@ -69,6 +68,17 @@
           }
         });
       });
+    </script>
+    <script>
+      window.onload = function() {
+    // Get the button by its ID
+    var button = document.getElementById("editButton");
+    
+    // Trigger a click on the button
+    if (button) {
+      button.click();
+    }
+  };
     </script>
   </body>
 </html>

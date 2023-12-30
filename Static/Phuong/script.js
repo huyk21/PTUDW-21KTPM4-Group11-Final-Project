@@ -1,21 +1,203 @@
-//map center
-const HCMlong = 106.6993006;
-const HCMlat = 10.7890103;
+const HCMlong = 106.702003;
+const HCMlat = 10.772417;
+const clusterBreakpointZoomLevel = 13; // Adjust this value as needed
 
+let showReportedMarkers = true; // Flag to toggle visibility
+let markers = []; // Array to store markers
 //access Token
+// Event listener for the button
+fetch("/backend/data/AdData.json")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data); // Process your JSON data here
+  })
+  .catch((error) => console.error("Error fetching JSON:", error));
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
-
+var map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/streets-v11",
+  center: [HCMlong, HCMlat],
+  zoom: 13,
+});
 //main function
 function main() {
-  var map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/streets-v11",
-    center: [HCMlong, HCMlat],
-    zoom: 15,
+  // After the map has been loaded, you add your data source and layers.
+  map.on("load", async function () {
+    // Load your data
+    const geojsonData = await loadData();
+
+    // Add the source with your GeoJSON data and enable clustering
+    map.addSource("ads", {
+      type: "geojson",
+      data: geojsonData,
+      cluster: true,
+      clusterMaxZoom: 18,
+      clusterRadius: 50,
+    });
+
+    // Add a layer for the clusters
+    map.addLayer({
+      id: "clusters",
+      type: "circle",
+      source: "ads",
+      visibility: "visible",
+      filter: ["has", "point_count"],
+      paint: {
+        // Paint properties here
+        "circle-color": [
+          "step",
+          ["get", "point_count"],
+          "#51bbd6", // Color for clusters with count < 100
+          3,
+          "#f1f075", // Color for clusters with count < 750
+          10,
+          "#f28cb1", // Color for clusters with count >= 750
+        ],
+        "circle-radius": [
+          "step",
+          ["get", "point_count"],
+          20, // Radius for clusters with count < 100
+          100,
+          30, // Radius for clusters with count < 750
+          750,
+          40, // Radius for clusters with count >= 750
+        ],
+      },
+    });
+
+    // Add a layer for the cluster counts
+    map.addLayer({
+      id: "cluster-count",
+      type: "symbol",
+      source: "ads",
+      filter: ["has", "point_count"],
+      visibility: "visible",
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+        "text-size": 12,
+      },
+      paint: {
+        "text-color": "#000000", // Specify the text color if needed
+      },
+    });
+
+    // Add a layer for individual points (non-clustered)
+    map.addLayer({
+      id: "unclustered-point",
+      type: "circle",
+      source: "ads",
+      filter: ["!", ["has", "point_count"]],
+      visibility: "visible", // Explicitly set the initial visibility
+
+      paint: {
+        // Use a 'case' expression to assign a color based on the 'status' property
+        "circle-color": [
+          "match",
+          ["get", "status"],
+          "ĐÃ QUY HOẠCH",
+          "#51bbd6", // Blue
+          "CHƯA QUY HOẠCH",
+          "#ffff00", // Yellow
+          "ĐÃ CẤP PHÉP",
+          "#00ff00", // Green
+          "BỊ BÁO CÁO",
+          "#ff0000", // Red
+          "blue", // Default color (white)
+        ],
+        "circle-radius": 12, // Radius for individual points
+        "circle-opacity": 1,
+      },
+    });
+  });
+  let currentPopup = null; // This will hold the currently open popup
+
+  // Assuming your 'unclustered-point' layer is for individual points
+  map.on("mouseenter", "unclustered-point", function (e) {
+    const status = e.features[0].properties.status;
+    if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
+      hideSidebar();
+      return;
+    }
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = "pointer";
+
+    // Create a popup and set its content based on the feature properties
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var properties = e.features[0].properties;
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    // Close the previous popup if it exists
+    if (currentPopup) {
+      currentPopup.remove();
+    }
+    currentPopup = new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(
+        `
+        <h6>${properties.adFormat}</h6>
+        <p>${properties.address}</p>
+        <p>${properties.area}</p>
+        <p>${properties.landType}</p>
+        <p style="font-weight: 900; font-style: italic">${properties.status}</p>
+        `
+      )
+      .addTo(map);
   });
 
-  //add custom map controls
+  map.on("mouseleave", "unclustered-point", function () {
+    map.getCanvas().style.cursor = ""; // Reset the cursor style
+    if (currentPopup) {
+      currentPopup.remove(); // Remove the current popup
+      currentPopup = null; // Reset the current popup reference
+    }
+  });
+  map.on("click", "unclustered-point", function (e) {
+    e.originalEvent.stopPropagation();
+    const status = e.features[0].properties.status;
+    if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
+      hideSidebar();
+      return;
+    } else {
+      // Prevent the 'click' event from propagating to the map
+
+      // Fly to the point
+      map.flyTo({ center: e.features[0].geometry.coordinates, zoom: 15 });
+
+      // Pass the properties of this specific feature to the sidebar
+      showSidebar(e.features[0].properties);
+    }
+  });
+  // Assuming you've already added your 'clusters' layer and your 'ads' source.
+
+  // When a click event occurs on a feature in the clusters layer, zoom in
+  map.on("click", "clusters", function (e) {
+    // Get the cluster id from the features properties
+    var clusterId = e.features[0].properties.cluster_id;
+
+    // Get the point coordinates from the feature
+    var point = e.features[0].geometry.coordinates;
+
+    // Get the cluster expansion zoom
+    map
+      .getSource("ads")
+      .getClusterExpansionZoom(clusterId, function (err, zoom) {
+        if (err) return;
+
+        // Ease to the point with the new zoom level
+        map.easeTo({
+          center: point,
+          zoom: 15,
+        });
+      });
+  });
+
   map.addControl(
     new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -31,109 +213,66 @@ function main() {
     if (currentMarker) {
       currentMarker.remove();
     }
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ["unclustered-point"],
+    });
+    if (features.length > 0) {
+      // No features under the click, so this is a map click
+      // Perform reverse geocoding and create a marker as you have it in your snippet
+      currentMarker = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+    } else {
+      // Construct the URL for reverse geocoding using the clicked coordinates
+      var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.lngLat.lng},${e.lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
 
-    // Construct the URL for reverse geocoding using the clicked coordinates
-    var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.lngLat.lng},${e.lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
+      // Create a marker at the clicked location
+      currentMarker = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
 
-    // Create a marker at the clicked location
-    currentMarker = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+      // Fetch the result
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data && data.features && data.features.length > 0) {
+            var popupContent = `
+                <h6>Thông tin vị trí: </h6>
+                <p>Địa chỉ: ${data.features[0].place_name}</p>
+                <p class="fw-bold">Chưa có thông tin quảng cáo</p>
+                <button id="reportLocationBtn" class="btn btn-primary btn-sm" style="background-color: red; border-color: red; color: white;">Báo cáo</button>
+              `;
+            var popup = new mapboxgl.Popup({ offset: 25 })
+              .setLngLat(e.lngLat)
+              .setHTML(popupContent)
+              .addTo(map);
 
-    // Fetch the result
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && data.features && data.features.length > 0) {
-          var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<h6>Thông tin vị trí: </h6>
-          <p>Địa chỉ: ${data.features[0].place_name}</p>
-          <p class="fw-bold">Chưa có thông tin quảng cáo</p>`
-          );
-          currentMarker.setPopup(popup).togglePopup(); // Set popup to marker and show it
-        } else {
-          throw new Error("Unable to find the address of the location");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching address: ", error);
-        currentMarker.remove(); // Remove the marker if geocoding fails.
-      });
+            // Set up the event listener for the report button
+            // It must be done after the popup is added to the map so the button exists in the DOM
+            setTimeout(() => {
+              document
+                .getElementById("reportLocationBtn")
+                .addEventListener("click", () => {
+                  openReportModal();
+                });
+            }, 10); // Delaying just a bit to ensure the DOM is updated
+
+            currentMarker.setPopup(popup); // Set popup to marker and show it
+          } else {
+            throw new Error("Unable to find the address of the location");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching address: ", error);
+          if (currentMarker) {
+            currentMarker.remove(); // Remove the marker if geocoding fails.
+          }
+        });
+    }
   });
 
   addControls(map);
-
-  grabAdData()
-    .catch((error) => {
-      console.log(`Error found: ${error.message}`);
-    })
-    .then((data) => {
-      for (const ad of data.features) {
-        // Create a DOM element for each marker.
-        const el = document.createElement("div");
-        //adjust color of icon
-        switch (ad.properties.status) {
-          case "ĐÃ QUY HOẠCH": {
-            el.className = "marker";
-            break;
-          }
-
-          case "CHƯA QUY HOẠCH": {
-            el.className = "yellow";
-            break;
-          }
-
-          case "ĐÃ CẤP PHÉP": {
-            el.className = "green";
-            break;
-          }
-
-          case "BỊ BÁO CÁO": {
-            el.className = "red";
-            break;
-          }
-
-          default: {
-            el.className = "marker";
-          }
-        }
-
-        // Add markers to the map.
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(ad.geometry.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setHTML(
-              `
-          <h6>${ad.properties.adFormat}</h6>
-          <p>${ad.properties.address}</p>
-          <p>${ad.properties.area}</p>
-          <p>${ad.properties.landType}</p>
-          <p style="font-weight: 900; font-style: italic">${ad.properties.status}</p>
-          `
-            )
-          )
-          .addTo(map);
-        // Add 'mouseenter' event listener to show the popup.
-        el.addEventListener("mouseenter", () => {
-          marker.getPopup().addTo(map);
-        });
-
-        // Add 'mouseleave' event listener to remove the popup.
-        el.addEventListener("mouseleave", () => {
-          marker.getPopup().remove();
-        });
-        marker.getElement().addEventListener("click", function (event) {
-          // Prevents the map click event (and thus the reverse geocoding) from firing
-          event.stopPropagation();
-
-          // Pass the properties of this specific feature to the sidebar
-          showSidebar(ad.properties);
-        });
-      }
-    });
 
   // Prevent clicks inside the sidebar from propagating to the map, which would hide the sidebar
   $("#sidebar").click(function (event) {
@@ -155,9 +294,11 @@ function main() {
       var lngLat = e.lngLat;
 
       // Center the map on the clicked location
-      map.flyTo({ center: lngLat });
+      map.flyTo({ center: lngLat, zoom: 15 });
     });
   });
+
+  // Event listener for the 'Report Issue' button
 
   document.addEventListener("DOMContentLoaded", function () {
     var overlay = document.getElementById("pageOverlay");
@@ -169,6 +310,8 @@ function main() {
       // Show the sidebar
     });
 
+    // If you want to be able to close the sidebar, you'd add an event listener
+    // to a close button inside the sidebar. For example:
     var closeButton = document.getElementById("closeSideBar");
     closeButton.addEventListener("click", function () {});
   });
@@ -227,9 +370,6 @@ function main() {
     }
   });
 }
-
-main();
-
 function addControls(map) {
   // add Fullscreen control
   map.addControl(new mapboxgl.FullscreenControl());
@@ -249,54 +389,43 @@ function addControls(map) {
   );
 }
 
-//asynchronous function to grab data from json config file
-async function grabAdData() {
-  try {
-    const data = await fetch("/AdData.json");
-    const jsonData = await data.json();
-    return jsonData;
-  } catch (error) {
-    throw new Error(`Error found: ${error.message}`);
-  }
-}
-
 // Function to show sidebar with property information
 function showSidebar(properties) {
-  // Update the content of the sidebar
-  $("#infoContent").html(`
-    <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
-    <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
-    <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
-    <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
-    <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
-    <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
-    <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
-    <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
-  `);
+  hideSidebar();
+  // Start with the image of the ad
+  var sidebarContent = `
+        <div class="sidebar-section">
+            <img src="${properties.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
+        </div>
+    `;
+  setTimeout(() => {
+    // Update the content of the sidebar
+    $("#infoContent").html(`
+            <h5 class="fw-bold">Địa chỉ: ${properties.address}</h5>
+            <p class="fw-bold fs-6">Số lượng: ${properties.quantity}</p>
+            <p class="fw-bold fs-6">Khu vực: ${properties.area}</p>
+            <p class="fw-bold fs-6">Loại vị trí: ${properties.landType}</p>
+            <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.adFormat}</p>
+            <p class="fw-bold fs-6">Trạng thái: ${properties.status}</p>
+            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.boardType}</p>
+            <p class="fw-bold fs-6">Kích thước: ${properties.size}</p>
+            <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
+        `);
 
-  // Show the sidebar by adding the 'visible' class
-  $("#sidebar").addClass("visible");
+    // Add event listener to the new button
+    $("#viewReportsBtn").click(function () {
+      showReports(properties); // Assuming 'address' can be used to fetch reports
+    });
+
+    // Show the sidebar by adding the 'visible' class
+    $("#sidebar").addClass("visible");
+  }, 150);
 }
 
 // Function to hide the sidebar
 function hideSidebar(map) {
   $("#sidebar").removeClass("visible");
 }
-// On map click, show sidebar with the location information
-map.on("click", function (e) {
-  // Perform a reverse geocode on the clicked location
-  var lngLat = e.lngLat;
-  var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`;
-
-  $.get(url, function (data) {
-    if (data.features.length > 0) {
-      var placeName = data.features[0].place_name;
-      showSidebar(`<strong>Location:</strong> ${placeName}`);
-    } else {
-      showSidebar("No location information found.");
-    }
-  });
-});
 
 // Function to open the report modal
 function openReportModal() {
@@ -328,3 +457,116 @@ function buttonLeave(id) {
   button.classList.remove("bg-black");
   button.style.color = "";
 }
+async function loadData() {
+  try {
+    const response = await fetch("../data/AdData.json");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  } catch (error) {
+    console.error(`Error loading data: ${error}`);
+    return null;
+  }
+}
+let isLayerVisible = true; // A flag to track the visibility state
+
+// Function to toggle layer opacity
+function toggleMarkers() {
+  const layers = ["clusters", "cluster-count", "unclustered-point"]; // Add all layer IDs you want to toggle here
+
+  layers.forEach((layerId) => {
+    // Check if the layer exists on the map
+    if (map.getLayer(layerId)) {
+      // Get the current visibility of the layer
+      var visibility = map.getLayoutProperty(layerId, "visibility");
+
+      // If the layer's visibility is undefined or visible, hide it
+      if (visibility !== "none") {
+        map.setLayoutProperty(layerId, "visibility", "none");
+      } else {
+        // Otherwise, show the layer
+        map.setLayoutProperty(layerId, "visibility", "visible");
+      }
+    }
+  });
+}
+
+function toggleReportedMarkers() {
+  const unclusteredLayerId = "unclustered-point"; // The ID of your unclustered points layer
+
+  // Change the opacity for markers with status "BỊ BÁO CÁO"
+  const opacityExpression = [
+    "case",
+    ["==", ["get", "status"], "BỊ BÁO CÁO"],
+    showReportedMarkers ? 0 : 1, // toggle opacity for these markers
+    1,
+  ]; // keep other markers unaffected
+
+  map.setPaintProperty(unclusteredLayerId, "circle-opacity", opacityExpression);
+
+  // Toggle the flag
+  showReportedMarkers = !showReportedMarkers;
+}
+
+// Example of modifying the click event handler
+map.on("click", "unclustered-point", (e) => {
+  // Rest of your click handling logic...
+});
+
+// Event listener for the button
+
+$(document).ready(function () {
+  $(".summernote").summernote();
+});
+main();
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    console.log("Entered fullscreen mode");
+    // If your sidebar needs to be moved inside the fullscreen element:
+    document.fullscreenElement.appendChild(document.getElementById("sidebar"));
+  } else {
+    console.log("Exited fullscreen mode");
+    // Move the sidebar back to its original container if needed
+  }
+});
+// Get a reference to the toggle button element
+// Get a reference to the button element
+const toggleReportedMarkersButton = document.getElementById(
+  "toggleReportedMarkers"
+);
+
+// Select the <i> element with the class "bi-toggle-off" within the button
+const toggleButton =
+  toggleReportedMarkersButton.querySelector(".bi.bi-toggle-off");
+
+// Now, you can work with the "toggleOffIcon" element as needed
+
+// Add a click event listener to toggle the state and color
+toggleButton.addEventListener("click", function () {
+  toggleReportedMarkers();
+  // Check if the toggle button is currently in the off state
+  if (toggleButton.classList.contains("bi-toggle-off")) {
+    toggleButton.classList.remove("bi-toggle-off");
+    toggleButton.classList.add("bi-toggle-on");
+  } else {
+    toggleButton.classList.remove("bi-toggle-on");
+    toggleButton.classList.add("bi-toggle-off");
+  }
+});
+const toggleMarkersButton = document.getElementById("toggleMarkers");
+const toggleButton2 = toggleMarkersButton.querySelector(".bi-toggle-off");
+
+// Now, you can work with the "toggleOffIcon" element as needed
+toggleButton2.addEventListener("click", toggleMarkers);
+// Add a click event listener to toggle the state and color
+toggleButton2.addEventListener("click", function () {
+  // Check if the toggle button is currently in the off state
+  if (toggleButton2.classList.contains("bi-toggle-off")) {
+    toggleButton2.classList.remove("bi-toggle-off");
+    toggleButton2.classList.add("bi-toggle-on");
+  } else {
+    toggleButton2.classList.remove("bi-toggle-on");
+    toggleButton2.classList.add("bi-toggle-off");
+  }
+});

@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   showReportId,
+  showReportId,
   index,
   editAd,
   showAd,
@@ -34,6 +35,7 @@ router.route("/license").put(editLicense);
 router.route("/license").delete(deleteLicense);
 //xử lý trên trang báo cáo
 router.route("/report").get(showReport);
+router.route("/report/:reportId").get(showReportId);
 router.route("/report/:reportId").get(showReportId);
 router.route("/report").post(sendReport);
 

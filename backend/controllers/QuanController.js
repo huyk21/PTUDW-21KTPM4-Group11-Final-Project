@@ -87,24 +87,7 @@ const editAdMananger = asyncHandler(async (req, res) => {
 });
 //xử lý trên trang yeu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
-  const licenses = await LicenseRequest.find({});
-  const licenseDetail = await Promise.all(
-    licenses.map(async (license) => {
-      const location = await Location.findById(license.for);
-      const ward = await Ward.findById(location.ward);
-      const dictrict = await District.findById(location.district);
-      return {
-        license,
-        location,
-        ward,
-        dictrict,
-      };
-    })
-  );
-  res.render("adLicense", {
-    layout: "layoutAdLicense",
-    licenseDetail: licenseDetail,
-  });
+  res.send("this is adLicense");
 });
 const editLicense = asyncHandler(async (req, res) => {
   res.send("this is edited License");
@@ -133,6 +116,35 @@ const showReport = asyncHandler(async (req, res) => {
     reportDetail: reportDetail,
   });
 });
+const showReportId = asyncHandler(async (req, res) => {
+  const reports = await Report.find({});
+  const reportDetail = await Promise.all(
+    reports.map(async (report) => {
+      const location = await Location.findById(report.locationID);
+      const ward = await Ward.findById(location.ward);
+      const dictrict = await District.findById(location.district);
+      return {
+        report,
+        location,
+        ward,
+        dictrict,
+      };
+    })
+  );
+  const reportId = req.params.reportId;
+  const report = await Report.findById(reportId);
+  if (!report) {
+    // Handle the case where the report with the given ID is not found
+    res.status(404).send("Report not found");
+    return;
+  }
+  //res.json(report);
+  res.render("reportManager2", {
+    layout: "layoutReportManager",
+    reportDetail: reportDetail,
+    report: report,
+  });
+});
 const sendReport = asyncHandler(async (req, res) => {
   res.send("this is post report");
 });
@@ -141,6 +153,23 @@ const logout = asyncHandler(async (req, res) => {
   res.send("this is logout");
 });
 export {
+  index,
+  editAd,
+  showAd,
+  editAdMananger,
+  showLicense,
+  editLicense,
+  deleteLicense,
+  showReport,
+  sendReport,
+  createAdboard,
+  deleteAd,
+};
+const logout = asyncHandler(async (req, res) => {
+  res.send("this is logout");
+});
+export {
+  showReportId,
   index,
   editAd,
   showAd,

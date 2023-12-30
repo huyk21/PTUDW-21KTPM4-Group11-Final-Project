@@ -17,6 +17,9 @@ import handlebars from "handlebars";
 handlebars.registerHelper("eq", function (a, b, options) {
   return a === b ? options.fn(this) : options.inverse(this);
 });
+handlebars.registerHelper("eq", function (a, b, options) {
+  return a === b ? options.fn(this) : options.inverse(this);
+});
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();

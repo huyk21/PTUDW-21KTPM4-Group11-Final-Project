@@ -61,51 +61,88 @@ const editAd=asyncHandler(async (req, res) => {
   });
 
 //xử lý trên trang quản lý bảng quảng cáo
-const showAd=asyncHandler(async(req,res)=>{
-  const adboards=await AdBoard.find({});
-  const adboardDetails = await Promise.all(
-      adboards.map(async (adboard) => {
-      const locationDetails = await Location.findById(adboard.location);
-      const districtDetails= await District.findById(locationDetails.district);
-      const wardDetail=await Ward.findById(locationDetails.ward);
-      return {
-        adboard,
-        locationDetails,
-        districtDetails,
-        wardDetail
-      };
-    })
-  );
+// const showAd=asyncHandler(async(req,res)=>{
+//   const adboards=await AdBoard.find({});
+//   const adboardDetails = await Promise.all(
+//       adboards.map(async (adboard) => {
+//       const locationDetails = await Location.findById(adboard.location);
+//       const districtDetails= await District.findById(locationDetails.district);
+//       const wardDetail=await Ward.findById(locationDetails.ward);
+//       return {
+//         adboard,
+//         locationDetails,
+//         districtDetails,
+//         wardDetail
+//       };
+//     })
+//   );
     
-    res.render('adManager',{
-        layout:'layoutAdManager',
-        adboardDetails:adboardDetails
-})
-});
-const showAdId=asyncHandler(async(req,res)=>{
-  const adboards=await AdBoard.find({});
-  const adboardDetails = await Promise.all(
-      adboards.map(async (adboard) => {
-      const locationDetails = await Location.findById(adboard.location);
-      const districtDetails= await District.findById(locationDetails.district);
-      const wardDetail=await Ward.findById(locationDetails.ward);
-      return {
-        adboard,
-        locationDetails,
-        districtDetails,
-        wardDetail
-      };
-    })
-  );
-  const id = req.params.adId;
-  const result = adboardDetails.find(details => details.adboard._id.toString() === id.toString());
-  res.render('adManager2',{
-      layout:'layoutAdManager',
-      adboardDetails:adboardDetails,
-      result:result
-})
-});
+//     res.render('adManager',{
+//         layout:'layoutAdManager',
+//         adboardDetails:adboardDetails
+// })
+// });
+// const showAdId=asyncHandler(async(req,res)=>{
+//   const adboards=await AdBoard.find({});
+//   const adboardDetails = await Promise.all(
+//       adboards.map(async (adboard) => {
+//       const locationDetails = await Location.findById(adboard.location);
+//       const districtDetails= await District.findById(locationDetails.district);
+//       const wardDetail=await Ward.findById(locationDetails.ward);
+//       return {
+//         adboard,
+//         locationDetails,
+//         districtDetails,
+//         wardDetail
+//       };
+//     })
+//   );
+//   const id = req.params.adId;
+//   const result = adboardDetails.find(details => details.adboard._id.toString() === id.toString());
+//   res.render('adManager2',{
+//       layout:'layoutAdManager',
+//       adboardDetails:adboardDetails,
+//       result:result
+// })
+// });
 const store=asyncHandler(async(req,res)=>{
+    const licenseRequest=new LicenseRequest({
+      for:"6581b80e58c250685e4e8086",
+      adContent:req.body.adContent,
+      companyInfo:req.body.companyInfo,
+      companyEmail:req.body.companyEmail,
+      companyPhone:req.body.companyPhone,
+      companyAddress:req.body.companyAddress,
+      startDate:req.body.startDate,
+      expirationDate:req.body.endDate,
+      processStatus:"Đang xử lý",
+  });
+  const createLicenseRequest=await licenseRequest.save();
+  res.status(201).redirect('/api/license');
+});
+//xử lý trên trang yeu cầu cấp phép
+// const showLicense=asyncHandler(async(req,res)=>{
+//     const licenses=await LicenseRequest.find({});
+//     const licenseDetail = await Promise.all(
+//         licenses.map(async (license) => {
+//         const location = await Location.findById(license.for);
+//         const ward =await Ward.findById(location.ward);
+//         const dictrict=await District.findById(location.district);
+//         return {
+//             license,
+//             location,
+//             ward,
+//             dictrict,
+//         };
+//       })
+//     );
+//     res.render('adLicense',{
+//         layout:'layoutAdLicense',
+//         licenseDetail:licenseDetail
+// })
+// });
+const createLicense=asyncHandler(async(req,res)=>{
+    res.json(req.body);
     const adjustBoard=new AdjustBoard({
       for:"Biển quảng cáo",
       forID:req.body.id,
@@ -117,34 +154,17 @@ const store=asyncHandler(async(req,res)=>{
       reason:req.body.reason,
   });
   const createAdjustBoard=await adjustBoard.save();
-  res.status(201).redirect('/api/quan/ad');
-});
-//xử lý trên trang yeu cầu cấp phép
-const showLicense=asyncHandler(async(req,res)=>{
-    const licenses=await LicenseRequest.find({});
-    const licenseDetail = await Promise.all(
-        licenses.map(async (license) => {
-        const location = await Location.findById(license.for);
-        const ward =await Ward.findById(location.ward);
-        const dictrict=await District.findById(location.district);
-        return {
-            license,
-            location,
-            ward,
-            dictrict,
-        };
-      })
-    );
-    res.render('adLicense',{
-        layout:'layoutAdLicense',
-        licenseDetail:licenseDetail
-})
-});
-const editLicense=asyncHandler(async(req,res)=>{
-    res.send("this is edited License");
+  res.status(201).redirect('/api/adManager');
 });
 const deleteLicense=asyncHandler(async(req,res)=>{
-    res.send("this is delete adLicense");
+  const license = await LicenseRequest.findById(req.params.liId);
+  if (license) {
+    await LicenseRequest.deleteOne({ _id: license._id });
+    res.redirect('/api/license');
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
 });
 //xử lý trên trang báo cáo của người dân
 const showReport=asyncHandler(async(req,res)=>{
@@ -203,6 +223,6 @@ const sendReport=asyncHandler(async(req,res)=>{
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export {showAdId,showReportId,index,editAd,showAd,store,
-    showLicense,editLicense,deleteLicense,showReport,sendReport,
+export {showReportId,index,editAd,store,
+  createLicense,deleteLicense,showReport,sendReport,
     createAdboard,deleteAd };

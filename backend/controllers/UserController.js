@@ -4,6 +4,7 @@ import User from "../models/UserModel.js";
 import request from "request";
 import AdBoard from "../models/AdBoardModel.js";
 import Report from "../models/ReportModel.js";
+import ReportSolution from "../models/ReportSolutionModel.js";
 import LicenseRequest from "../models/LicenseRequest.js";
 import AdjustBoard from "../models/AdjustBoardModel.js";
 import Location from "../models/LocationModel.js";
@@ -141,6 +142,64 @@ const deleteLicense=asyncHandler(async(req,res)=>{
     throw new Error('Product not found');
   }
 });
+//xử lý trên trang report
+const showReport=asyncHandler(async(req,res)=>{
+  const reports=await Report.find({});
+  const reportDetail = await Promise.all(
+      reports.map(async (report) => {
+      const location = await Location.findById(report.locationID);
+      const ward =await Ward.findById(location.ward);
+      const dictrict=await District.findById(location.district);
+      return {
+          report,
+          location,
+          ward,
+          dictrict,
+      };
+    })
+  );
+  res.render('reportManager',{
+      layout:'layoutReportManager',
+      reportDetail:reportDetail,
+})
+});
+const showReportId=asyncHandler(async(req,res)=>{
+  const reports=await Report.find({});
+  const reportDetail = await Promise.all(
+      reports.map(async (report) => {
+      const location = await Location.findById(report.locationID);
+      const ward =await Ward.findById(location.ward);
+      const dictrict=await District.findById(location.district);
+      return {
+          report,
+          location,
+          ward,
+          dictrict,
+      };
+    })
+  );
+  const reportId = req.params.reportId
+  const report = await Report.findById(reportId);
+  if (!report) {
+      // Handle the case where the report with the given ID is not found
+      res.status(404).send('Report not found');
+      return;
+    }
+  //res.json(report);
+  res.render('reportManagerUser',{
+      layout:'layoutReportManager',
+      reportDetail:reportDetail,
+      report:report,
+})
+});
+const editReport=asyncHandler(async (req, res) => {
+  const reportSolution = await ReportSolution.updateOne({ for: req.params.reportId },{
+    method:req.body.method,
+    status:req.body.processed
+  });
+  res.redirect('/api/report');
+});
+//===============================================================
 const login = asyncHandler(async (req, res) => {
   const secretKey = '6Ld51jspAAAAAHTGCUIEF1xOkEFflM0AB08xFJSt';
   if(!req.body.captcha){
@@ -200,4 +259,5 @@ const logoutUser = (req, res) => {
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
-export { login,authUser, logoutUser,showAd,showAdId,showLicense,showLicenseId,store,createLicense,deleteLicense };
+export { login,authUser, logoutUser,showAd,showAdId,showLicense,
+  showLicenseId,store,createLicense,deleteLicense,showReport,showReportId,editReport };

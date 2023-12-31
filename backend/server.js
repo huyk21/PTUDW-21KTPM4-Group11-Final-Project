@@ -1,4 +1,6 @@
 import express from "express";
+import methodOverride from 'method-override';
+
 import expressHbs from "express-handlebars";
 
 import dotenv from "dotenv";
@@ -23,7 +25,7 @@ handlebars.registerHelper('eq', function (a, b, c,options) {
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
-
+app.use(methodOverride('_method'));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

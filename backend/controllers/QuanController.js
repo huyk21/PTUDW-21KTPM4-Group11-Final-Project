@@ -167,55 +167,55 @@ const editAd=asyncHandler(async (req, res) => {
 //   }
 // });
 //xử lý trên trang báo cáo của người dân
-const showReport=asyncHandler(async(req,res)=>{
-    const reports=await Report.find({});
-    const reportDetail = await Promise.all(
-        reports.map(async (report) => {
-        const location = await Location.findById(report.locationID);
-        const ward =await Ward.findById(location.ward);
-        const dictrict=await District.findById(location.district);
-        return {
-            report,
-            location,
-            ward,
-            dictrict,
-        };
-      })
-    );
-    res.render('reportManager',{
-        layout:'layoutReportManager',
-        reportDetail:reportDetail,
-})
-});
-const showReportId=asyncHandler(async(req,res)=>{
-    const reports=await Report.find({});
-    const reportDetail = await Promise.all(
-        reports.map(async (report) => {
-        const location = await Location.findById(report.locationID);
-        const ward =await Ward.findById(location.ward);
-        const dictrict=await District.findById(location.district);
-        return {
-            report,
-            location,
-            ward,
-            dictrict,
-        };
-      })
-    );
-    const reportId = req.params.reportId
-    const report = await Report.findById(reportId);
-    if (!report) {
-        // Handle the case where the report with the given ID is not found
-        res.status(404).send('Report not found');
-        return;
-      }
-    //res.json(report);
-    res.render('reportManager2',{
-        layout:'layoutReportManager',
-        reportDetail:reportDetail,
-        report:report,
-})
-});
+// const showReport=asyncHandler(async(req,res)=>{
+//     const reports=await Report.find({});
+//     const reportDetail = await Promise.all(
+//         reports.map(async (report) => {
+//         const location = await Location.findById(report.locationID);
+//         const ward =await Ward.findById(location.ward);
+//         const dictrict=await District.findById(location.district);
+//         return {
+//             report,
+//             location,
+//             ward,
+//             dictrict,
+//         };
+//       })
+//     );
+//     res.render('reportManager',{
+//         layout:'layoutReportManager',
+//         reportDetail:reportDetail,
+// })
+// });
+// const showReportId=asyncHandler(async(req,res)=>{
+//     const reports=await Report.find({});
+//     const reportDetail = await Promise.all(
+//         reports.map(async (report) => {
+//         const location = await Location.findById(report.locationID);
+//         const ward =await Ward.findById(location.ward);
+//         const dictrict=await District.findById(location.district);
+//         return {
+//             report,
+//             location,
+//             ward,
+//             dictrict,
+//         };
+//       })
+//     );
+//     const reportId = req.params.reportId
+//     const report = await Report.findById(reportId);
+//     if (!report) {
+//         // Handle the case where the report with the given ID is not found
+//         res.status(404).send('Report not found');
+//         return;
+//       }
+//     //res.json(report);
+//     res.render('reportManager2',{
+//         layout:'layoutReportManager',
+//         reportDetail:reportDetail,
+//         report:report,
+// })
+// });
 const sendReport=asyncHandler(async(req,res)=>{
     res.send("this is post report");
 });
@@ -223,6 +223,6 @@ const sendReport=asyncHandler(async(req,res)=>{
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export {showReportId,index,editAd,
-  showReport,sendReport,
+export {index,editAd,
+  sendReport,
     createAdboard,deleteAd };

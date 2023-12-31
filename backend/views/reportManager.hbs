@@ -34,9 +34,11 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
+
               <a class="dropdown-item" href="/api/phuong/ad_phuong">Quản lý điểm đặt/biển
                 quảng cáo</a>
               <a class="dropdown-item" href="/api/phuong/license_phuong">Yêu cầu cấp phép quảng
+
                 cáo</a>
             </div>
           </li>
@@ -118,7 +120,9 @@
                 name="edit"
                 id="edit"
                 class="btn btn-success"
-                href="#"
+
+                href="/api/report/{{report._id}}"
+
                 role="button"
                 data-bs-toggle="modal"
                 data-bs-target="#reportDetails"

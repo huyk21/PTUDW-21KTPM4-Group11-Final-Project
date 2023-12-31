@@ -118,7 +118,7 @@
                 name="edit"
                 id="editButton"
                 class="btn btn-success"
-                href="/api/quan/report/{{this._id}}"
+                href="/api/report/{{this._id}}"
                 role="button"
                 data-bs-toggle="modal"
                 data-bs-target="#reportDetails"
@@ -156,7 +156,7 @@
           <button
             type="button"
             class="btn-close"
-            onclick="window.location.href='/api/quan/report'"
+            onclick="window.location.href='/api/report'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -182,12 +182,23 @@
 
                 <div class="card-footer">
                   <p class="fw-bold">Cập nhật tình trạng xử lý</p>
-                  <form action="" id="updateState" method="get">
+                  <form method="POST" action="/api/report/{{report._id}}?_method=PUT" id="updateState">
+                    <div class="mb-3">
+                      <label for="method" class="form-label fw-bold">Phương thức xử lý:</label>
+                      <input
+                        type="text"
+                        name="method"
+                        id="method"
+                        class="form-control"
+                        placeholder=""
+                        aria-describedby="helpId"
+                      />
+                    </div>
                     <div class="form-check">
                       <input
                         class="form-check-input"
                         type="checkbox"
-                        value="processing"
+                        value="Đang xử lý"
                         id="processing"
                         name="processing"
                         checked
@@ -200,7 +211,7 @@
                       <input
                         class="form-check-input"
                         type="checkbox"
-                        value="processed"
+                        value="Đã xử lý"
                         name="processed"
                         id="processed"
                       />
@@ -227,7 +238,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            onclick="window.location.href='/api/quan/report'"
+            onclick="window.location.href='/api/report'"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy

@@ -105,20 +105,20 @@ const editAd=asyncHandler(async (req, res) => {
 //       result:result
 // })
 // });
-const store=asyncHandler(async(req,res)=>{
-  const adjustBoard=new AdjustBoard({
-    for:"Biển quảng cáo",
-    forID:req.body.id,
-    newQuantity:req.body.quantity,
-    newBoardType:req.body.boardType,
-    newSize:req.body.size,
-    newExpirationDate:"2024-01-02",
-    adjustDate:req.body.time,
-    reason:req.body.reason,
-});
-const createAdjustBoard=await adjustBoard.save();
-res.status(201).redirect('/api/adManager');
-});
+// const store=asyncHandler(async(req,res)=>{
+//   const adjustBoard=new AdjustBoard({
+//     for:"Biển quảng cáo",
+//     forID:req.body.id,
+//     newQuantity:req.body.quantity,
+//     newBoardType:req.body.boardType,
+//     newSize:req.body.size,
+//     newExpirationDate:"2024-01-02",
+//     adjustDate:req.body.time,
+//     reason:req.body.reason,
+// });
+// const createAdjustBoard=await adjustBoard.save();
+// res.status(201).redirect('/api/adManager');
+// });
 //xử lý trên trang yeu cầu cấp phép
 // const showLicense=asyncHandler(async(req,res)=>{
 //     const licenses=await LicenseRequest.find({});
@@ -141,81 +141,81 @@ res.status(201).redirect('/api/adManager');
 // })
 // });
 
-const createLicense=asyncHandler(async(req,res)=>{
-  const licenseRequest=new LicenseRequest({
-    for:"6581b80e58c250685e4e8086",
-    adContent:req.body.adContent,
-    companyInfo:req.body.companyInfo,
-    companyEmail:req.body.companyEmail,
-    companyPhone:req.body.companyPhone,
-    companyAddress:req.body.companyAddress,
-    startDate:req.body.startDate,
-    expirationDate:req.body.endDate,
-    processStatus:"Đang xử lý",
-});
-const createLicenseRequest=await licenseRequest.save();
-res.status(201).redirect('/api/license');
-});
-const deleteLicense=asyncHandler(async(req,res)=>{
-  const license = await LicenseRequest.findById(req.params.liId);
-  if (license) {
-    await LicenseRequest.deleteOne({ _id: license._id });
-    res.redirect('/api/license');
-  } else {
-    res.status(404);
-    throw new Error('Product not found');
-  }
-});
+// const createLicense=asyncHandler(async(req,res)=>{
+//   const licenseRequest=new LicenseRequest({
+//     for:"6581b80e58c250685e4e8086",
+//     adContent:req.body.adContent,
+//     companyInfo:req.body.companyInfo,
+//     companyEmail:req.body.companyEmail,
+//     companyPhone:req.body.companyPhone,
+//     companyAddress:req.body.companyAddress,
+//     startDate:req.body.startDate,
+//     expirationDate:req.body.endDate,
+//     processStatus:"Đang xử lý",
+// });
+// const createLicenseRequest=await licenseRequest.save();
+// res.status(201).redirect('/api/license');
+// });
+// const deleteLicense=asyncHandler(async(req,res)=>{
+//   const license = await LicenseRequest.findById(req.params.liId);
+//   if (license) {
+//     await LicenseRequest.deleteOne({ _id: license._id });
+//     res.redirect('/api/license');
+//   } else {
+//     res.status(404);
+//     throw new Error('Product not found');
+//   }
+// });
 //xử lý trên trang báo cáo của người dân
-const showReport=asyncHandler(async(req,res)=>{
-    const reports=await Report.find({});
-    const reportDetail = await Promise.all(
-        reports.map(async (report) => {
-        const location = await Location.findById(report.locationID);
-        const ward =await Ward.findById(location.ward);
-        const dictrict=await District.findById(location.district);
-        return {
-            report,
-            location,
-            ward,
-            dictrict,
-        };
-      })
-    );
-    res.render('reportManager',{
-        layout:'layoutReportManager',
-        reportDetail:reportDetail,
-})
-});
-const showReportId=asyncHandler(async(req,res)=>{
-    const reports=await Report.find({});
-    const reportDetail = await Promise.all(
-        reports.map(async (report) => {
-        const location = await Location.findById(report.locationID);
-        const ward =await Ward.findById(location.ward);
-        const dictrict=await District.findById(location.district);
-        return {
-            report,
-            location,
-            ward,
-            dictrict,
-        };
-      })
-    );
-    const reportId = req.params.reportId
-    const report = await Report.findById(reportId);
-    if (!report) {
-        // Handle the case where the report with the given ID is not found
-        res.status(404).send('Report not found');
-        return;
-      }
-    //res.json(report);
-    res.render('reportManager2',{
-        layout:'layoutReportManager',
-        reportDetail:reportDetail,
-        report:report,
-})
-});
+// const showReport=asyncHandler(async(req,res)=>{
+//     const reports=await Report.find({});
+//     const reportDetail = await Promise.all(
+//         reports.map(async (report) => {
+//         const location = await Location.findById(report.locationID);
+//         const ward =await Ward.findById(location.ward);
+//         const dictrict=await District.findById(location.district);
+//         return {
+//             report,
+//             location,
+//             ward,
+//             dictrict,
+//         };
+//       })
+//     );
+//     res.render('reportManager',{
+//         layout:'layoutReportManager',
+//         reportDetail:reportDetail,
+// })
+// });
+// const showReportId=asyncHandler(async(req,res)=>{
+//     const reports=await Report.find({});
+//     const reportDetail = await Promise.all(
+//         reports.map(async (report) => {
+//         const location = await Location.findById(report.locationID);
+//         const ward =await Ward.findById(location.ward);
+//         const dictrict=await District.findById(location.district);
+//         return {
+//             report,
+//             location,
+//             ward,
+//             dictrict,
+//         };
+//       })
+//     );
+//     const reportId = req.params.reportId
+//     const report = await Report.findById(reportId);
+//     if (!report) {
+//         // Handle the case where the report with the given ID is not found
+//         res.status(404).send('Report not found');
+//         return;
+//       }
+//     //res.json(report);
+//     res.render('reportManager2',{
+//         layout:'layoutReportManager',
+//         reportDetail:reportDetail,
+//         report:report,
+// })
+// });
 const sendReport=asyncHandler(async(req,res)=>{
     res.send("this is post report");
 });
@@ -223,6 +223,6 @@ const sendReport=asyncHandler(async(req,res)=>{
 const logout= asyncHandler(async(req,res)=>{
     res.send("this is logout");
 })
-export {showReportId,index,editAd,store,
-  createLicense,deleteLicense,showReport,sendReport,
+export {index,editAd,
+  sendReport,
     createAdboard,deleteAd };

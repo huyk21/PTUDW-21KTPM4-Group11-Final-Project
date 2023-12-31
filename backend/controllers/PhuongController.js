@@ -13,18 +13,92 @@ import Ward from "../models/WardModel.js";
 
 //xử lý trên trang chủ phường
 const index = asyncHandler(async (req, res) => {
-  res.render("Phuong", {layout: "layoutPhuong"})
+  res.render("Phuong", { layout: "layoutPhuong" });
 });
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {
-  res.send("this is adMananger Phuong");
+  try {
+    const adboards = await AdBoard.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      {
+        $unwind: "$location",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "location.district",
+          foreignField: "_id",
+          as: "district",
+        },
+      },
+      {
+        $unwind: "$district",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "location.ward",
+          foreignField: "_id",
+          as: "ward",
+        },
+      },
+      {
+        $unwind: "$ward",
+      },
+      {
+        $project: {
+          type: 1,
+          adboard: "$properties", // Rename 'properties' to 'adboard'
+          location: 1,
+          district: 1,
+          ward: 1,
+          _id: 0,
+        },
+      },
+    ]);
+    res.render("adManager", {layout: "layoutAdManager", adboard: adboards})
+  } catch (error) {
+    console.error(error);
+  }
 });
 const editAdMananger = asyncHandler(async (req, res) => {
   res.send("this is edited adMananger Phuong");
 });
 //xử lý trên trang yeu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
-  res.send("this is adLicense Phuong");
+  try {
+    const license = await LicenseRequest.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "for",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      {
+        $unwind: "$location",
+      },
+      {
+        $project: {
+          "location._id": 0,
+          "location.district": 0,
+          "location.ward": 0
+        }
+      }
+    ])
+    res.render("adLicense", {layout: "layoutAdLicense", license: license})
+  }
+  catch(error) {
+    console.error(error)
+  }
 });
 const editLicense = asyncHandler(async (req, res) => {
   res.send("this is edited License Phuong");
@@ -34,7 +108,50 @@ const deleteLicense = asyncHandler(async (req, res) => {
 });
 //xử lý trên trang báo cáo của người dân
 const showReport = asyncHandler(async (req, res) => {
-  res.send("this is report Phuong");
+  try {
+    res.locals.report = await Report.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "locationID",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      {
+        $unwind: "$location",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "location.ward",
+          foreignField: "_id",
+          as: "ward",
+        },
+      },
+      {
+        $unwind: "$ward",
+      },
+      {
+        $project: {
+          _id: 0,
+          "location._id": 0,
+          "location.ward": 0,
+          "ward.districtID": 0,
+        },
+      },
+      {
+        $match: {
+          "ward.name": "Phường Đa Kao - Q1",
+        },
+      },
+    ]);
+    res.render("reportManager", {
+      layout: "layoutReportManager",
+    });
+  } catch (error) {
+    console.error(error);
+  }
 });
 const sendReport = asyncHandler(async (req, res) => {
   res.send("this is post report Phuong");

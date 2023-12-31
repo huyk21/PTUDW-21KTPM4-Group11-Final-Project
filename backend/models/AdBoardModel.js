@@ -11,6 +11,7 @@ const adboardSchema = new mongoose.Schema({
     quantity: { type: String, required: true },
     boardType: { type: String, required: true },
     size: { type: String, required: true },
+    imageUrl: {type: String, default: "../assets/img/billboard.jpg"},
     expirationDate: { type: Date, required: true },
   },
   geometry: {

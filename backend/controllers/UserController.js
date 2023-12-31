@@ -51,11 +51,25 @@ const showAdId=asyncHandler(async(req,res)=>{
   );
   const id = req.params.adId;
   const result = adboardDetails.find(details => details.adboard._id.toString() === id.toString());
-  res.render('adManagerQuan',{
+  res.render('adManagerUser',{
       layout:'layoutAdManager',
       adboardDetails:adboardDetails,
       result:result
 })
+});
+const store=asyncHandler(async(req,res)=>{
+  const adjustBoard=new AdjustBoard({
+    for:"Biển quảng cáo",
+    forID:req.body.id,
+    newQuantity:req.body.quantity,
+    newBoardType:req.body.boardType,
+    newSize:req.body.size,
+    newExpirationDate:"2024-01-02",
+    adjustDate:req.body.time,
+    reason:req.body.reason,
+});
+const createAdjustBoard=await adjustBoard.save();
+res.status(201).redirect('/api/adManager');
 });
 //xử lý trên trang yêu cầu cấp phép
 const showLicense=asyncHandler(async(req,res)=>{
@@ -96,13 +110,37 @@ const showLicenseId=asyncHandler(async(req,res)=>{
   );
   const id = req.params.liId;
   const result = licenseDetail.find(details => details.license._id.toString() === id.toString());
-  res.render('adLicenseQuan',{
+  res.render('adLicenseUser',{
       layout:'layoutAdLicense',
       licenseDetail:licenseDetail,
       result:result
 })
 });
-
+const createLicense=asyncHandler(async(req,res)=>{
+  const licenseRequest=new LicenseRequest({
+    for:"6581b80e58c250685e4e8086",
+    adContent:req.body.adContent,
+    companyInfo:req.body.companyInfo,
+    companyEmail:req.body.companyEmail,
+    companyPhone:req.body.companyPhone,
+    companyAddress:req.body.companyAddress,
+    startDate:req.body.startDate,
+    expirationDate:req.body.endDate,
+    processStatus:"Đang xử lý",
+});
+const createLicenseRequest=await licenseRequest.save();
+res.status(201).redirect('/api/license');
+});
+const deleteLicense=asyncHandler(async(req,res)=>{
+  const license = await LicenseRequest.findById(req.params.liId);
+  if (license) {
+    await LicenseRequest.deleteOne({ _id: license._id });
+    res.redirect('/api/license');
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+});
 const login = asyncHandler(async (req, res) => {
   const secretKey = '6Ld51jspAAAAAHTGCUIEF1xOkEFflM0AB08xFJSt';
   if(!req.body.captcha){
@@ -162,4 +200,4 @@ const logoutUser = (req, res) => {
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
-export { login,authUser, logoutUser,showAd,showAdId,showLicense,showLicenseId };
+export { login,authUser, logoutUser,showAd,showAdId,showLicense,showLicenseId,store,createLicense,deleteLicense };

@@ -33,8 +33,8 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/api/report">Xử lý báo cáo</a>
-              <a class="dropdown-item" href="/api/license">Yêu cầu cấp phép quảng
+              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/adLicense">Yêu cầu cấp phép quảng
                 cáo</a>
             </div>
           </li>
@@ -132,11 +132,11 @@
             <td>
               <a
                 name="edit"
-                id="edit"
+                id="editButton"
                 class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
-                href="/api/adManager/{{adboard._id}}"
+                href="/api/quan/ad/{{adboard._id}}"
                 role="button"
-                {{!-- data-bs-toggle="modal" --}}
+                data-bs-toggle="modal"
                 data-bs-target="#adConfig"
               >Chỉnh sửa</a>
             </td>
@@ -171,6 +171,7 @@
           <button
             type="button"
             class="btn-close"
+            onclick="window.location.href='/api/adManager'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -178,11 +179,25 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form
-            method="get"
-            action=""
+            method="POST"
+            action="/api/adManager/store"
             class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0"
             id="boardAdjust"
           >
+            <div class="mb-3">
+              <label for="id" class="form-label fw-bold">ID</label>
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="form-control"
+                {{!-- placeholder="Vd: Trụ bảng hiflex, Cổng chào..." --}}
+                value="{{result.adboard._id}}"
+                readonly
+                aria-describedby="helpId"
+                
+              />
+            </div>
             <div class="mb-3">
               <label for="boardType" class="form-label fw-bold">Loại bảng</label>
               <input
@@ -190,8 +205,11 @@
                 name="boardType"
                 id="boardType"
                 class="form-control"
-                placeholder="Vd: Trụ bảng hiflex, Cổng chào..."
+                {{!-- placeholder="Vd: Trụ bảng hiflex, Cổng chào..." --}}
+                value="{{result.adboard.properties.boardType}}"
+                readonly
                 aria-describedby="helpId"
+                
               />
             </div>
             <div class="mb-3">
@@ -201,7 +219,8 @@
                 name="address"
                 id="address"
                 class="form-control"
-                placeholder="Vd: 123 Đinh Tiên Hoàng"
+                value="{{result.locationDetails.address}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -212,7 +231,8 @@
                 name="area"
                 id="area"
                 class="form-control"
-                placeholder="Vd: Phường Đa Kao - Quận 1"
+                value="{{result.wardDetail.name}} - {{result.districtDetails.name}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -223,7 +243,8 @@
                 name="size"
                 id="size"
                 class="form-control"
-                placeholder="Vd: 2.5m x 10m"
+                value="{{result.adboard.properties.size}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -234,7 +255,8 @@
                 name="quantity"
                 id="quantity"
                 class="form-control"
-                placeholder="Vd: 1 trụ/bảng"
+                value="{{result.adboard.properties.quantity}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -245,7 +267,8 @@
                 name="adFormat"
                 id="adFormat"
                 class="form-control"
-                placeholder="Vd: Quảng cáo thương mại, xã hội hóa..."
+                value="{{result.locationDetails.adFormat}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -256,7 +279,8 @@
                 name="locationType"
                 id="locationType"
                 class="form-control"
-                placeholder="Vd: Chợ, cây xăng, nhà chờ xe buýt..."
+                value="{{result.locationDetails.locationType}}"
+                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -270,6 +294,7 @@
                 class="form-control"
                 placeholder=""
                 aria-describedby="helpId"
+                required
               />
             </div>
             <div class="mb-3">
@@ -281,6 +306,7 @@
                 class="form-control"
                 placeholder="Vd: Sai nội dung..."
                 aria-describedby="helpId"
+                re
               />
             </div>
           </form>
@@ -290,6 +316,7 @@
           <button
             type="button"
             class="btn btn-secondary"
+            onclick="window.location.href='/api/adManager'"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy

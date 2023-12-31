@@ -34,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/api/adManager">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/api/report">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
             </div>
           </li>
         </ul>
@@ -153,14 +153,14 @@
             <td>
               <a
                 name="cancel"
-                id="cancel"
+                id="buttonCancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
                 class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
-                href="/api/license/{{license._id}}"
+                href="#"
                 role="button"
-                {{!-- data-bs-toggle="modal"
-                data-bs-target="#cancelRequest" --}}
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequest"
               >Hủy</a>
             </td>
           </tr>
@@ -195,6 +195,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            onclick="window.location.href='/api/license'"
           ></button>
         </div>
         <div
@@ -204,10 +205,11 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            onclick="window.location.href='/api/license'"
           >
             <i class="bi bi-arrow-90deg-left"></i>&nbsp; Quay lại
           </button>
-          <button type="button" class="btn btn-primary" onclick="window.location.href='/api'">
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/license/delete/{{result.license._id}}'">
             <i class="bi bi-x"></i>
             &nbsp;Hủy
           </button>
@@ -245,7 +247,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="/api/license/store" class="m-0" id="createLicense">
+          <form method="POST" action="/" class="m-0" id="createLicense">
             <div class="row">
               <div
                 class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"

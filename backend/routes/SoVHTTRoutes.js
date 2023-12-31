@@ -25,13 +25,25 @@ router.route("/them-diem-dat").post(protect, sovhtt, addLocation);
 router.route("/sua-diem-dat/:id").post(updateLocation);
 router.route("/xoa-diem-dat/:id").delete(deleteLocation);
 // router.route("/database").post(dbGenerator).get(dbGenerator);
+
+//Danh sách các Quận
 router.route("/danh-sach-quan").post(danhSachQuan).get(danhSachQuan);
-router.route("/danh-sach-phuong").post(danhSachPhuong).get(danhSachPhuong);
+
+//Danh sách các Phường của quận theo id quận
+router.route("/danh-sach-phuong/:id").post(danhSachPhuong).get(danhSachPhuong);
+
+//Danh sách bảng quảng cáo theo id điểm đặt
 router
-  .route("/danh-sach-quang-cao")
+  .route("/danh-sach-quang-cao/")
   .post(danhSachQuangCao)
   .get(danhSachQuangCao);
-router.route("/danh-sach-diem-dat").post(danhSachDiemDat).get(danhSachDiemDat);
+
+//Danh sách điểm đặt
+router
+  .route("/danh-sach-phuong/danh-sach-diem-dat/:id")
+  .post(danhSachDiemDat)
+  .get(danhSachDiemDat);
+
 router
   .route("/danh-sach-yeu-cau-cap-phep-quang-cao")
   .post(danhSachYeuCauCapPhepQuangCao)

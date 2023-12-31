@@ -131,15 +131,15 @@
         </tr>
       </thead>
       <tbody>
-        {{#each district}}
+        {{#each districts}}
           <tr>
-            <td scope="row">{{district._id}}</td>
-            <td>{{district.name}}</td>
-            <td>{{district.wards}}</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.wards}}</td>
             <td>25</td>
             <!--Calculate the number of locations to put here-->
             <td>
-              <a href="/">Chi tiết
+              <a href="/api/sovhtt/danh-sach-phuong/{{this._id}}">Chi tiết
                 <i class="bi bi-info-circle"></i></a>
             </td>
             <td>

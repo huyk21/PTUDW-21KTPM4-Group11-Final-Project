@@ -1,4 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
+import mongoose from "mongoose";
 //@desc Register user
 //@route POST /api/users
 //@access Public
@@ -92,6 +93,7 @@ const deleteLocation = asyncHandler(async (req, res) => {
 });
 
 // const dbGenerator = asyncHandler(async (req, res) => {
+
 //   const Users = await User.find({});
 
 //   const Locations = await Location.find({});
@@ -124,20 +126,202 @@ const deleteLocation = asyncHandler(async (req, res) => {
 //   });
 // });
 
+//@desc Danh sach các quận
+//@route GET /api/svhtt/danh-sach-quan
+//@access ...
+
 const danhSachQuan = asyncHandler(async (req, res) => {
-  res.send("danh sach quan ne!!!");
+  const districts = await District.find({});
+  if (districts) {
+    // districts = districts.map((district) => district.toObject());
+    // res.json({ districts });
+    res.render("SoVHTT_DSQuan", {
+      layout: "layoutSoVHTT_function",
+      // districts: multipleMongooseToObject(districts),
+      districts,
+    });
+  }
 });
 
 const danhSachPhuong = asyncHandler(async (req, res) => {
-  res.send("danh sach phuong ne!!!");
+  const district = await District.findById(req.params.id);
+  try {
+    const districtId = new mongoose.Types.ObjectId(req.params.id);
+    const wards = await District.aggregate([
+      {
+        $match: {
+          _id: districtId,
+        },
+      },
+      {
+        $lookup: {
+          from: "wards", // Replace with the actual name of your Ward collection
+          localField: "_id",
+          foreignField: "districtID",
+          as: "wards",
+        },
+      },
+      {
+        $unwind: "$wards",
+      },
+      {
+        $project: {
+          _id: "$wards._id",
+          name: "$wards.name", // Replace with the actual field names in your "Ward" collection
+          // Add other fields as needed
+        },
+      },
+    ]);
+    if (wards && district) {
+      res.render("SoVHTT_DSPhuong", {
+        layout: "layoutSoVHTT_function",
+        wards,
+        district,
+      });
+      // res.send({ wards, district });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachQuangCao = asyncHandler(async (req, res) => {
-  res.send("danh sach quang cao ne!!!");
+  // res.render("SoVHTT_DSQCao", {
+  //   layout: "layoutSoVHTT_function",
+  //   adboards,
+  // });
+
+  try {
+    //const locationId = new mongoose.Types.ObjectId(req.params.id);
+    const adboards = await AdBoard.aggregate([
+      // {
+      //   $match: { location: locationId },
+      // },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          type: 1,
+          properties: 1,
+          geometry: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          location: "$locationDetails",
+        },
+      },
+    ]);
+
+    if (adboards) {
+      res.render("SoVHTT_DSQCao", {
+        layout: "layoutSoVHTT_function",
+        adboards,
+      });
+      // res.send(adboards);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachDiemDat = asyncHandler(async (req, res) => {
-  res.send("danh sach diem dat ne!!!");
+  try {
+    const wardId = new mongoose.Types.ObjectId(req.params.id);
+    const locations = await Location.aggregate([
+      {
+        $match: { ward: wardId },
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "adboards", // Replace with the actual name of your "Pictures" collection
+          localField: "_id", // Assuming _id is the location id
+          foreignField: "location",
+          as: "adboardDetails",
+        },
+      },
+      {
+        $unwind: "$adboardDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          address: 1,
+          adFormat: 1,
+          locationType: 1,
+          status: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          adboard: "$adboardDetails",
+        },
+      },
+    ]);
+
+    if (locations && wardId) {
+      res.render("SoVHTT_DSDiemDat", {
+        layout: "layoutSoVHTT_function",
+        locations,
+      });
+      // res.send(locations);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachYeuCauCapPhepQuangCao = asyncHandler(async (req, res) => {

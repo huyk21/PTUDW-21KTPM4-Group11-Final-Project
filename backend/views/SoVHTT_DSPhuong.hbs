@@ -131,14 +131,16 @@
         </tr>
       </thead>
       <tbody>
-        {{#each ward}}
+        {{#each wards}}
           <tr>
-            <td scope="row">{{ward._id}}</td>
-            <td>{{ward.name}}</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.name}}</td>
             <td>25</td>
             <!--Calculate the number of ad locations to put here-->
             <td>
-              <a href="/">Chi tiết
+              <a
+                href="/api/sovhtt/danh-sach-phuong/danh-sach-diem-dat/{{this._id}}"
+              >Chi tiết
                 <i class="bi bi-info-circle"></i></a>
             </td>
             <td>

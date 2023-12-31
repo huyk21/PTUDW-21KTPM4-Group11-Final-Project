@@ -51,7 +51,7 @@ const showAdId=asyncHandler(async(req,res)=>{
   );
   const id = req.params.adId;
   const result = adboardDetails.find(details => details.adboard._id.toString() === id.toString());
-  res.render('adManager2',{
+  res.render('adManagerQuan',{
       layout:'layoutAdManager',
       adboardDetails:adboardDetails,
       result:result
@@ -96,7 +96,7 @@ const showLicenseId=asyncHandler(async(req,res)=>{
   );
   const id = req.params.liId;
   const result = licenseDetail.find(details => details.license._id.toString() === id.toString());
-  res.render('adLicense2',{
+  res.render('adLicenseQuan',{
       layout:'layoutAdLicense',
       licenseDetail:licenseDetail,
       result:result

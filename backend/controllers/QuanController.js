@@ -106,19 +106,18 @@ const editAd=asyncHandler(async (req, res) => {
 // })
 // });
 const store=asyncHandler(async(req,res)=>{
-    const licenseRequest=new LicenseRequest({
-      for:"6581b80e58c250685e4e8086",
-      adContent:req.body.adContent,
-      companyInfo:req.body.companyInfo,
-      companyEmail:req.body.companyEmail,
-      companyPhone:req.body.companyPhone,
-      companyAddress:req.body.companyAddress,
-      startDate:req.body.startDate,
-      expirationDate:req.body.endDate,
-      processStatus:"Đang xử lý",
-  });
-  const createLicenseRequest=await licenseRequest.save();
-  res.status(201).redirect('/api/license');
+  const adjustBoard=new AdjustBoard({
+    for:"Biển quảng cáo",
+    forID:req.body.id,
+    newQuantity:req.body.quantity,
+    newBoardType:req.body.boardType,
+    newSize:req.body.size,
+    newExpirationDate:"2024-01-02",
+    adjustDate:req.body.time,
+    reason:req.body.reason,
+});
+const createAdjustBoard=await adjustBoard.save();
+res.status(201).redirect('/api/adManager');
 });
 //xử lý trên trang yeu cầu cấp phép
 // const showLicense=asyncHandler(async(req,res)=>{
@@ -141,20 +140,21 @@ const store=asyncHandler(async(req,res)=>{
 //         licenseDetail:licenseDetail
 // })
 // });
+
 const createLicense=asyncHandler(async(req,res)=>{
-    res.json(req.body);
-    const adjustBoard=new AdjustBoard({
-      for:"Biển quảng cáo",
-      forID:req.body.id,
-      newQuantity:req.body.quantity,
-      newBoardType:req.body.boardType,
-      newSize:req.body.size,
-      newExpirationDate:"2024-01-02",
-      adjustDate:req.body.time,
-      reason:req.body.reason,
-  });
-  const createAdjustBoard=await adjustBoard.save();
-  res.status(201).redirect('/api/adManager');
+  const licenseRequest=new LicenseRequest({
+    for:"6581b80e58c250685e4e8086",
+    adContent:req.body.adContent,
+    companyInfo:req.body.companyInfo,
+    companyEmail:req.body.companyEmail,
+    companyPhone:req.body.companyPhone,
+    companyAddress:req.body.companyAddress,
+    startDate:req.body.startDate,
+    expirationDate:req.body.endDate,
+    processStatus:"Đang xử lý",
+});
+const createLicenseRequest=await licenseRequest.save();
+res.status(201).redirect('/api/license');
 });
 const deleteLicense=asyncHandler(async(req,res)=>{
   const license = await LicenseRequest.findById(req.params.liId);

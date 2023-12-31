@@ -23,7 +23,7 @@ router.route('/ad/store').post(store);//tạo yêu cầu chỉnh sửa mới
 //xử lý trên trang quản lý cấp phép
 //router.route('/license').get(showLicense);
 
-router.route('/license/store').post(store);//tạo yêu cầu cấp phép mới
+router.route('/license/store').post(createLicense);//tạo yêu cầu cấp phép mới
 router.route('/license/delete/:liId').get(deleteLicense);
 //xử lý trên trang báo cáo
 router.route('/report').get(showReport);

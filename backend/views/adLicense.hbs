@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/"><i
+      <a class="navbar-brand" href="/api/phuong/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Cấp phép quảng cáo cho công ty</a>
       <button
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/api/phuong/" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -34,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/api/phuong/ad_phuong">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/api/phuong/report_phuong">Xử lý báo cáo</a>
             </div>
           </li>
         </ul>
@@ -52,8 +52,8 @@
     <div class="card-header">
       <h4 class="card-title text-left">
         Danh sách cấp phép quảng cáo cho các công ty/doanh nghiệp trong khu vực
-        {{ward.name}},
-        {{district.name}}
+        {{user.ward.name}},
+        {{user.district.name}}
       </h4>
     </div>
 
@@ -133,29 +133,29 @@
       </thead>
       <tbody class="table-group-divider">
         {{title}}
-        {{#each licenseDetail}}
+        {{#each license}}
           <tr class="table-light opacity-100">
             <td scope="row">
               {{location.adFormat}}
               /
               {{location.address}}
             </td>
-            <td>{{license.adContent}}</td>
-            <td>{{license.companyInfo}}
+            <td>{{adContent}}</td>
+            <td>{{companyInfo}}
               /
-              {{license.companyAddress}}
+              {{companyAddress}}
               <!--Remove the company address if there is no more space--></td>
-            <td>{{license.companyEmail}}</td>
-            <td>{{license.companyPhone}}</td>
-            <td>{{license.startDate}}</td>
-            <td>{{license.expirationDate}}</td>
-            <td>{{license.processStatus}}</td>
+            <td>{{companyEmail}}</td>
+            <td>{{companyPhone}}</td>
+            <td>{{formatDate startDate}}</td>
+            <td>{{formatDate expirationDate}}</td>
+            <td>{{processStatus}}</td>
             <td>
               <a
                 name="cancel"
                 id="cancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
-                class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+                class="btn {{#eq processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
                 href="/api/license/{{license._id}}"
                 role="button"
@@ -258,7 +258,7 @@
                     name="ad"
                     id="ad"
                     class="form-control"
-                    placeholder=""
+                    placeholder="Vui lòng nhập địa chỉ"
                     aria-describedby="helpId"
                   />
                 </div>

@@ -134,7 +134,7 @@
                 name="edit"
                 id="editButton"
                 class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
-                href="/api/quan/ad/{{adboard._id}}"
+                href="/api/quan/adManager/{{adboard._id}}"
                 role="button"
                 data-bs-toggle="modal"
                 data-bs-target="#adConfig"
@@ -171,7 +171,7 @@
           <button
             type="button"
             class="btn-close"
-            onclick="window.location.href='/api/adManager'"
+            onclick="window.location.href='/api/quan/adManager'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -180,7 +180,7 @@
         <div class="modal-body">
           <form
             method="POST"
-            action="/api/adManager/store"
+            action="/api/quan/adManager/store"
             class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0"
             id="boardAdjust"
           >
@@ -316,7 +316,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            onclick="window.location.href='/api/adManager'"
+            onclick="window.location.href='/api/quan/adManager'"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy

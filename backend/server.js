@@ -17,10 +17,10 @@ import AdBoard from "./models/AdBoardModel.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
-import handlebars from 'handlebars';
+import handlebars from "handlebars";
 
-handlebars.registerHelper('eq', function (a, b, c,options) {
-  return a === b||a === c? options.fn(this) : options.inverse(this);
+handlebars.registerHelper("eq", function (a, b, c, options) {
+  return a === b || a === c ? options.fn(this) : options.inverse(this);
 });
 const port = process.env.PORT || 4000;
 connectDB();
@@ -28,7 +28,7 @@ const app = express();
 app.use(methodOverride('_method'));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser("wyontlwiblomtswists"));
 app.use(express.static(__dirname + "/html"));
 app.set("views", path.join(__dirname, "/views"));
 app.use("/data", express.static(path.join(__dirname, "/data")));
@@ -44,11 +44,24 @@ app.engine(
     },
     helpers: {
       formatDate: (date) => {
-        return date.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        if (typeof date !== Date) {
+          const dateString = String(date)
+          const parts = dateString.split("-");
+          if (parts.length === 3) {
+            const [year, month, day] = parts;
+            // Rearrange the parts to the mm-dd-yyyy format
+            const formattedDate = `${month}-${day}-${year}`;
+            return formattedDate;
+          } else {
+            return date
+              .toLocaleString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\//g, "-");
+          }
+        }
       },
       showIndex: (index) => index + 1,
     },
@@ -64,6 +77,10 @@ app.use("/api/", UserRoutes);
 app.get("/", (req, res) => {
   res.render("index", { layout: "layoutDan" });
 });
+
+app.get("/login", (req, res) => {
+  res.render("login", {layout: "layoutLogin"})
+})
 app.get("/api/loaddata", async (req, res) => {
   try {
     const adboards = await AdBoard.aggregate([
@@ -108,10 +125,11 @@ app.get("/api/loaddata", async (req, res) => {
           location: 1,
           district: 1,
           ward: 1,
-          _id: 0
+          _id: 0,
         },
       },
     ]);
+    res.locals.adboards = adboards;
     res.json(adboards);
   } catch (error) {
     console.error(error);

@@ -16,8 +16,8 @@ import {
 //xử lý trên trang chủ phường
 router.route("/").get(index);
 //Xử lý trên trang bảng quảng cáo
-router.route("/adMananger_phuong").get(showAd);
-router.route("/adMananger_phuong").put(editAdMananger);
+router.route("/ad_phuong").get(showAd);
+router.route("/ad_phuong").put(editAdMananger);
 //xử lý trên trang quản lý cấp phép
 router.route("/license_phuong").get(showLicense);
 router.route("/license_phuong").put(editLicense);

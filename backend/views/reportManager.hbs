@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/"><i
+      <a class="navbar-brand" href="/api/phuong/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Xử lý báo cáo của người dân</a>
       <button
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/api/phuong/" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -34,9 +34,11 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/api/adManager">Quản lý điểm đặt/biển
+
+              <a class="dropdown-item" href="/api/phuong/ad_phuong">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/api/license">Yêu cầu cấp phép quảng
+              <a class="dropdown-item" href="/api/phuong/license_phuong">Yêu cầu cấp phép quảng
+
                 cáo</a>
             </div>
           </li>
@@ -53,8 +55,8 @@
     <div class="card-header">
       <h4 class="card-title text-left">
         Thông tin báo cáo của người dân trong khu vực
-        {{ward.name}},
-        {{district.name}}
+        {{user.ward.name}},
+        {{user.district.name}}
       </h4>
     </div>
   </div>
@@ -105,22 +107,24 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each reportDetail}}
+        {{#each report}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{report.reportDate}}</td>
-            <td>{{report.reporter}}</td>
-            <td>{{report.email}}</td>
-            <td>{{report.phoneNo}}</td>
-            <td>{{report.location}}</td>
-            <td>{{report.reportFormat}}</td>
+            <td scope="row">{{reportDate}}</td>
+            <td>{{reporter}}</td>
+            <td>{{email}}</td>
+            <td>{{phoneNo}}</td>
+            <td>{{location.address}} / {{ward.name}}</td>
+            <td>{{reportFormat}}</td>
             <td>
               <a
                 name="edit"
                 id="edit"
                 class="btn btn-success"
+
                 href="/api/report/{{report._id}}"
+
                 role="button"
-                {{!-- data-bs-toggle="modal" --}}
+                data-bs-toggle="modal"
                 data-bs-target="#reportDetails"
               >Chi tiết</a>
             </td>
@@ -167,13 +171,13 @@
               <div class="card">
 
                 <div class="card-header fw-bold">Nội dung báo cáo</div>
-                {{#each report}}       
+                {{#each report}}     
                 <div class="card-body">
                   <h5 class="card-title">
-                    Về việc {{this.reportFormat}}
+                    Về việc {{reportFormat}}
                   </h5>
                   <p class="card-text">
-                    {{this.reportDetails}}
+                    {{reportDetails}}
                   </p>
                 </div>
                 {{/each}}

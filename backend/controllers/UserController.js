@@ -238,20 +238,40 @@ const login = asyncHandler(async (req, res) => {
   })
 });
 const authUser = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, rememberme } = req.body;
 
   const user = await User.findOne({ username });
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
+    //req.session.user = user;
+    if (rememberme) {
+      res.cookie("username", username, {
+        maxAge: 60 * 60 * 1000,
+        httpOnly: false,
+        signed: true,
+      });
+      res.cookie("password", password, {
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+        signed: true,
+      });
+    }
 
-    res.json({
-      _id: user._id,
-      username: user.username,
-    });
+    if (user.isPhuong) {
+      return res.redirect("/api/phuong")
+    }
+    else if (user.isQuan) {
+      return res.redirect("/api/quan/")
+    }
+    else if (user.isSo) {
+      return res.redirect("/api/sovhtt/")
+    }
+    else {
+      return res.redirect("/api/")
+    }
   } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
+    res.render("login", {layout: layoutLogin, message: "Invalid Username or Password"})
   }
 });
 const logoutUser = (req, res) => {

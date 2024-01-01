@@ -12,28 +12,28 @@
           <button
             id="toadManager"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='./adManager.html'"
+            onclick="window.location.href='/api/phuong/ad_phuong'"
             onmouseover="buttonHover('toadManager')"
             onmouseleave="buttonLeave('toadManager')"
           ><i class="bi bi-badge-ad"></i></button>
           <button
             id="toadReport"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='./reportManager.html'"
+            onclick="window.location.href='/api/phuong/report_phuong'"
             onmouseover="buttonHover('toadReport')"
             onmouseleave="buttonLeave('toadReport')"
           ><i class="bi bi-flag"></i></button>
           <button
             id="toadLicense"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='./adLicense.html'"
+            onclick="window.location.href='/api/phuong/license_phuong'"
             onmouseover="buttonHover('toadLicense')"
             onmouseleave="buttonLeave('toadLicense')"
           ><i class="bi bi-clipboard-check"></i></button>
           <button
             id="toLogIn"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='/login.html'"
+            onclick="window.location.href='/login'"
             onmouseover="buttonHover('toLogIn')"
             onmouseleave="buttonLeave('toLogIn')"
           ><i class="bi bi-person-circle"></i></button>
@@ -68,7 +68,7 @@
             <div class="card d-flex flex-column justify-content-between">
               <div class="card-header container bg-info">
                 <p class="h2 text-center">
-                  Xin chào, Cán bộ Phường
+                  Xin chào, Cán bộ {{user.username}}
                 </p>
               </div>
               <div
@@ -86,15 +86,15 @@
               <div
                 class="card-body sidebar-elements py-0 border-bottom border-dark"
               >
-                <a href="adManager.html" class="container-fluid">
+                <a href="/api/phuong/ad_phuong" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-badge-ad"></i>
                     &nbsp;Quản lý điểm đặt quảng cáo & bảng quảng cáo</p>
                 </a>
-                <a href="reportManager.html" class="container-fluid">
+                <a href="/api/phuong/report_phuong" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-flag"></i>
                     &nbsp;Xử lý báo cáo</p>
                 </a>
-                <a href="adLicense.html" class="container-fluid">
+                <a href="/api/phuong/license_phuong" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-clipboard-check"></i>
                     &nbsp;Yêu cầu cấp phép quảng cáo</p>
                 </a>
@@ -102,7 +102,7 @@
               <div
                 class="card-body sidebar-elements py-0 border-bottom border-dark"
               >
-                <a href="/login.html" class="container-fluid">
+                <a href="/login" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-person-circle"></i>
                     &nbsp;Đăng xuất</p>
                 </a>
@@ -127,7 +127,7 @@
           <div class="card">
             <div class="container-fluid" id="billboard-img">
               <img
-                src="/billboard.jpg" <!--Here goes the image of the ad board-->
+                src="/billboard.jpg"
                 class="img-fluid rounded-lg"
                 alt="image of the billboard"
               />

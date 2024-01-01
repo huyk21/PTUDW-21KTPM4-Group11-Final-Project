@@ -34,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/api/quan/adManager">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/api/quan/adManager/{{idPhuong}}">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/api/quan/license">Yêu cầu cấp phép quảng
+              <a class="dropdown-item" href="/api/quan/license/{{idPhuong}}">Yêu cầu cấp phép quảng
                 cáo</a>
             </div>
           </li>
@@ -118,7 +118,7 @@
                 name="edit"
                 id="edit"
                 class="btn btn-success"
-                href="/api/quan/report/{{report._id}}"
+                href="/api/quan/report/show/{{report._id}}"
                 role="button"
                 {{!-- data-bs-toggle="modal" --}}
                 data-bs-target="#reportDetails"

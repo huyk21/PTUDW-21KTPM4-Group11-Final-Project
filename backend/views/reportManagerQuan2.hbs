@@ -156,7 +156,7 @@
           <button
             type="button"
             class="btn-close"
-            onclick="window.location.href='/api/quan/report'"
+            onclick="window.location.href='/api/quan/report/{{idPhuong}}'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -182,7 +182,7 @@
 
                 <div class="card-footer">
                   <p class="fw-bold">Cập nhật tình trạng xử lý</p>
-                  <form method="POST" action="/api/quan/report/{{report._id}}?_method=PUT" id="updateState">
+                  <form method="POST" action="/api/quan/report/show/{{report._id}}?_method=PUT" id="updateState">
                     <div class="mb-3">
                       <label for="method" class="form-label fw-bold">Phương thức xử lý:</label>
                       <input
@@ -238,7 +238,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            onclick="window.location.href='/api/quan/report'"
+            onclick="window.location.href='/api/quan/report/{{idPhuong}}'"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy

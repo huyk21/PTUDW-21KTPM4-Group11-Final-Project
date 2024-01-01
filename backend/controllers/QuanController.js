@@ -94,6 +94,7 @@ const showAd = asyncHandler(async (req, res) => {
     adboardDetails: adboardDetails,
     district: district,
     ward: ward,
+    idPhuong:idPhuong
   });
 });
 const showAdId = asyncHandler(async (req, res) => {
@@ -331,11 +332,12 @@ const showReport = asyncHandler(async (req, res) => {
     reportDetail: reportDetail,
     dictrict:dictrict,
     ward:ward,
+    idPhuong:idPhuong
   });
 });
 const showReportId = asyncHandler(async (req, res) => {
   const reports = await Report.find({});
-  const reportDetail = await Promise.all(
+  const reportDetails = await Promise.all(
     reports.map(async (report) => {
       const location = await Location.findById(report.locationID);
       const ward = await Ward.findById(location.ward);
@@ -349,15 +351,49 @@ const showReportId = asyncHandler(async (req, res) => {
     })
   );
   const reportId = req.params.reportId;
+  const result = reportDetails.find(
+    (details) => details.report._id.toString() === reportId.toString()
+  );
+  const idQuan = result.dictrict._id;
+  const idPhuong = result.ward._id;
+  const dictrict = await District.findById(idQuan);
+  const ward = await Ward.findById(idPhuong);
+  const reportDetail = reportDetails.filter(
+    (details) =>
+      details.dictrict._id.toString() === idQuan.toString() &&
+      details.ward._id.toString() === idPhuong.toString()
+  );
   const report = await Report.findById(reportId);
-  //res.json(report);
   res.render("reportManagerQuan2", {
     layout: "layoutReportManager",
     reportDetail: reportDetail,
     report: report,
+    dictrict:dictrict,
+    ward:ward,
+    idPhuong:idPhuong,
   });
 });
 const editReport = asyncHandler(async (req, res) => {
+  const reports = await Report.find({});
+  const reportDetails = await Promise.all(
+    reports.map(async (report) => {
+      const location = await Location.findById(report.locationID);
+      const ward = await Ward.findById(location.ward);
+      const dictrict = await District.findById(location.district);
+      return {
+        report,
+        location,
+        ward,
+        dictrict,
+      };
+    })
+  );
+  const reportId = req.params.reportId;
+  const result = reportDetails.find(
+    (details) => details.report._id.toString() === reportId.toString()
+  );
+  const idQuan = result.dictrict._id;
+  const idPhuong = result.ward._id;
   const reportSolution = await ReportSolution.updateOne(
     { for: req.params.reportId },
     {
@@ -365,7 +401,7 @@ const editReport = asyncHandler(async (req, res) => {
       status: req.body.processed,
     }
   );
-  res.redirect("/api/quan/report");
+  res.redirect(`/api/quan/report/${idPhuong}`);
 });
 
 export {

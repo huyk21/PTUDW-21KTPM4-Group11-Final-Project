@@ -595,6 +595,9 @@ function showSidebar(properties) {
 function hideSidebar(map) {
   $("#sidebar").removeClass("visible");
 }
+document
+  .getElementById("reportButton")
+  .addEventListener("click", openReportModal);
 
 // Function to open the report modal
 function openReportModal() {

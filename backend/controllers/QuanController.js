@@ -161,8 +161,7 @@ const store = asyncHandler(async (req, res) => {
   const idQuan = result.districtDetails._id;
   const idPhuong = result.wardDetail._id;
   const createAdjustBoard = await adjustBoard.save();
-  res.send(idPhuong);
-  res.status(201).redirect(`/api/quan/adManager/${id}"`)
+  res.status(201).redirect(`/api/quan/adManager/${idPhuong}`)
 });
 //xử lý trên trang yêu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {

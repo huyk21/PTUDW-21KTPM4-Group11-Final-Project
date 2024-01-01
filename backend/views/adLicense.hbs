@@ -250,10 +250,21 @@
           <form method="POST" action="/api/license/store" class="m-0" id="createLicense">
             <div class="row">
               <div
-                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"
+                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"        
               >
                 <div class="mb-3">
-                  <label for="ad" class="form-label fw-bold">Bảng quảng cáo &
+                  <label for="id" class="form-label fw-bold">ID</label>
+                  <input
+                    type="text"
+                    name="id"
+                    id="id"
+                    class="form-control"
+                    value="{{idPhuong}}"
+                    aria-describedby="helpId"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="ad" class="form-label fw-bold">Bản quảng cáo &
                     điểm đặt</label>
                   <input
                     type="text"

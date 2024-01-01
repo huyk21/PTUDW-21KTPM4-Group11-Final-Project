@@ -370,21 +370,21 @@ function main() {
     }
   });
 
-  document.getElementById("phuong1q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b6c").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.702778, 10.782222], //10.782222, 106.702778
       essential: true, // this animation is considered essential with respect to prefers-reduced-motion
     });
   });
-  document.getElementById("phuong2q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b6b").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.691389, 10.763333], //10.763333, 106.691389
       essential: true, // this animation is considered essential with respect to prefers-reduced-motion
     });
   });
-  document.getElementById("phuong3q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b6f").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.692222, 10.775], //10.775, 106.692222
@@ -392,7 +392,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong4");
-  document.getElementById("phuong4q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b73").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.686667, 10.758333], //10.758333, 106.686667
@@ -400,7 +400,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong5");
-  document.getElementById("phuong5q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b70").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.696944, 10.789167], //10.789167, 106.696944
@@ -408,7 +408,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong6");
-  document.getElementById("phuong6q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b6d").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.695556, 10.766389], //10.766389, 106.695556
@@ -416,7 +416,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong7");
-  document.getElementById("phuong7q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b72").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.700556, 10.768889], //10.768889, 106.700556
@@ -424,7 +424,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong8");
-  document.getElementById("phuong8q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b6e").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.685278, 10.763333], //10.763333, 106.685278
@@ -432,7 +432,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong9");
-  document.getElementById("phuong9q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b71").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.688889, 10.768611], //10.768611, 106.688889
@@ -440,7 +440,7 @@ function main() {
     });
   });
   var buttonElement = document.getElementById("phuong10");
-  document.getElementById("phuong10q1").addEventListener("click", () => {
+  document.getElementById("6581882f45551b56b68d8b74").addEventListener("click", () => {
     // Fly to a random location
     map.flyTo({
       center: [106.688611, 10.793333], //10.793333, 106.688611

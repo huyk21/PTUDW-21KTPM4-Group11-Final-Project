@@ -17,17 +17,17 @@ router.route('/:id').put(editAd);
 router.route('/').post(createAdboard)
 router.route('/:id').delete(deleteAd);
 //xử lý trên trang quản lý bảng quảng cáo
-router.route("/adManager").get(showAd);
-router.route("/adManager/:adId").get(showAdId);
+router.route("/adManager/:idPhuong").get(showAd);
+router.route("/adManager/showAdId/:adId").get(showAdId);
 router.route('/adManager/store').post(store)
 //xử lý trên trang quản lý cấp phép
-router.route("/license").get(showLicense);
-router.route("/license/:liId").get(showLicenseId);
+router.route("/license/:idPhuong").get(showLicense);
+router.route("/license/showLiId/:liId").get(showLicenseId);
 router.route('/license/store').post(createLicense);
 router.route('/license/delete/:liId').get(deleteLicense);
 //xử lý trên trang báo cáo
-router.route('/report').get(showReport);
-router.route('/report/:reportId').get(showReportId);
-router.route('/report/:reportId').put(editReport);
+router.route('/report/:idPhuong').get(showReport);
+router.route('/report/show/:reportId').get(showReportId);
+router.route('/report/show/:reportId').put(editReport);
 
 export default router;

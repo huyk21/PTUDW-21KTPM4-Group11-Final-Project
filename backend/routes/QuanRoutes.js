@@ -1,7 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {index,editAd,
-    createAdboard,deleteAd,showAd,showAdId,store,showLicense,createLicense,
+import {index,showAd,showAdId,store,showLicense,createLicense,
     showLicenseId,deleteLicense,showReport,showReportId,editReport } from "../controllers/QuanController.js";
 import { login,authUser, logoutUser } from "../controllers/UserController.js";
 import { protect, quan } from "../middleware/authMiddleware.js";
@@ -9,13 +8,11 @@ import { protect, quan } from "../middleware/authMiddleware.js";
 
 //xử lý trên trang chủ quận
 router.route('/').get(index);
-router.route('/login').post(login)
-router.post('/auth',authUser);
-router.post('/logout',logoutUser)
+// router.route('/login').post(login)
+// router.post('/auth',authUser);
+// router.post('/logout',logoutUser)
 //router.route('/').get(protect,quan,index);
-router.route('/:id').put(editAd);
-router.route('/').post(createAdboard)
-router.route('/:id').delete(deleteAd);
+
 //xử lý trên trang quản lý bảng quảng cáo
 router.route("/adManager/:idPhuong").get(showAd);
 router.route("/adManager/showAdId/:adId").get(showAdId);

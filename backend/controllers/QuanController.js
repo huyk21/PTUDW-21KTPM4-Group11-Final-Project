@@ -9,35 +9,8 @@ import Ward from "../models/WardModel.js";
 import District from "../models/DistrictModel.js";
 
 //xử lý trên trang chủ quận
-const createAdboard = asyncHandler(async (req, res) => {
-  const adboard = new AdBoard({
-    type: "this is type",
-    location: "6581b80e58c250685e4e8072",
-    properties: {
-      quantity: "this is quantity",
-      boardType: "this is boardType",
-      size: "this is size",
-      expirationDate: "2023-12-21",
-    },
-    geometry: {
-      type: "this is type of geometry",
-      coordinates: [107, 10],
-    },
-  });
-  const createAdboard = await adboard.save();
-  res.status(201).json(createAdboard);
-});
-const deleteAd = asyncHandler(async (req, res) => {
-  const adboard = await AdBoard.findById(req.params.id);
 
-  if (adboard) {
-    await AdBoard.deleteOne({ _id: adboard._id });
-    res.json({ message: "Product removed" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-});
+
 const index = asyncHandler(async (req, res) => {
   const idQuan = "65817cd245551b56b68d8a57";
   const district = await District.findById(idQuan);
@@ -49,19 +22,19 @@ const index = asyncHandler(async (req, res) => {
   });
 });
 
-const editAd = asyncHandler(async (req, res) => {
-  const { type, location, properties, geometry } = req.body;
-  const adboard = await AdBoard.findById(req.params.id);
-  if (adboard) {
-    adboard.type = type;
-    const updateAdboard = await adboard.save();
-    res.json(updateAdboard);
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-  res.send("Ad edited");
-});
+// const editAd = asyncHandler(async (req, res) => {
+//   const { type, location, properties, geometry } = req.body;
+//   const adboard = await AdBoard.findById(req.params.id);
+//   if (adboard) {
+//     adboard.type = type;
+//     const updateAdboard = await adboard.save();
+//     res.json(updateAdboard);
+//   } else {
+//     res.status(404);
+//     throw new Error("Product not found");
+//   }
+//   res.send("Ad edited");
+// });
 
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {
@@ -405,9 +378,6 @@ const editReport = asyncHandler(async (req, res) => {
 
 export {
   index,
-  editAd,
-  createAdboard,
-  deleteAd,
   showAd,
   showAdId,
   store,

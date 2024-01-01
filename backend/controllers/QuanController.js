@@ -40,10 +40,9 @@ const deleteAd = asyncHandler(async (req, res) => {
     }
   });
 const index = asyncHandler(async (req, res) => {
-    //res.send("this is index");
-    //const user=await AdBoard.find({});
-    res.render('login',{layout:'layoutLogin'})
-    //res.json(user)
+
+    res.render('Quan',{layout:'layoutQuan'})
+
   });
   
 const editAd=asyncHandler(async (req, res) => {

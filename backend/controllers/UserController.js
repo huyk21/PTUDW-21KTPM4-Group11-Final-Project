@@ -117,6 +117,7 @@ const showLicenseId=asyncHandler(async(req,res)=>{
       result:result
 })
 });
+//tạo cấp phép mới
 const createLicense=asyncHandler(async(req,res)=>{
   const licenseRequest=new LicenseRequest({
     for:"6581b80e58c250685e4e8086",
@@ -142,6 +143,7 @@ const deleteLicense=asyncHandler(async(req,res)=>{
     throw new Error('Product not found');
   }
 });
+
 //xử lý trên trang report
 const showReport=asyncHandler(async(req,res)=>{
   const reports=await Report.find({});

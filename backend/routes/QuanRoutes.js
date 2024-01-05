@@ -7,7 +7,7 @@ import { protect, quan } from "../middleware/authMiddleware.js";
 
 
 //xử lý trên trang chủ quận
-router.route('/').get(index);
+router.route('/').get(protect,quan,index);
 // router.route('/login').post(login)
 // router.post('/auth',authUser);
 // router.post('/logout',logoutUser)

@@ -7,8 +7,8 @@ import request from "request";
 // @route   POST /api/users/auth
 // @access  Public
 //===============================================================
-const login = asyncHandler(async (req, res) => {
-  const secretKey = '6Ld51jspAAAAAHTGCUIEF1xOkEFflM0AB08xFJSt';
+const login = (req, res) => {
+  const secretKey = '6LeRskYpAAAAAA2ZKC4CsakLG8cn7u47Lje7OucN';
   if(!req.body.captcha){
       return res.json({
           'success': false,
@@ -28,20 +28,20 @@ const login = asyncHandler(async (req, res) => {
       body = JSON.parse(body);
 
       if(!body.success || body.score < 0.4){
-          return res.status(401).json({
+          return res.json({
               'success': false,
               'msg': 'You might be a robot, sorry!!!', 
               'score': body.score          
           });
       }
 
-      return res.status(200).json({
+      return res.json({
           'success': true,
           'msg': 'Login successfully!!!', 
           'score': body.score
       });
   })
-});
+};
 const authUser = asyncHandler(async (req, res) => {
   const { username, password, rememberme } = req.body;
 
@@ -76,7 +76,7 @@ const authUser = asyncHandler(async (req, res) => {
       return res.redirect("/api/")
     }
   } else {
-    res.render("login", {layout: layoutLogin, message: "Invalid Username or Password"})
+    res.render("login", {layout: "layoutLogin", message: "Invalid Username or Password"})
   }
 });
 const logoutUser = (req, res) => {

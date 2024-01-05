@@ -1,41 +1,68 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="/assets/css/login-styles.css" />
-    {{! recaptcha }}
-    <script
-      src="https://www.google.com/recaptcha/api.js?render=6LfLbz4pAAAAAEyL_4ny7HhVX3ALpBrgAmE60mXg"
-    ></script>
 
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="/assets/css/login-styles.css" />
+  {{! recaptcha }}
+  <script src="https://www.google.com/recaptcha/api.js?render=6LeRskYpAAAAADHXmURgfhBeOBeH76B51U0NmJmj"></script>
 
-  <body>
-    {{{body}}}
+</head>
 
-    <!-- Bootstrap JavaScript Libraries -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
+<body>
+  {{{body}}}
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-      crossorigin="anonymous"
-    ></scr>
-  </body>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+    crossorigin="anonymous"></script>
+  {{!-- <script>
+    document.querySelector('.my-login-validation').addEventListener('submit', runVerify);
+
+    function runVerify(e) {
+      e.preventDefault();
+      runCaptcha();
+    }
+
+    function runCaptcha() {
+      grecaptcha.execute('6LeRskYpAAAAADHXmURgfhBeOBeH76B51U0NmJmj', { action: 'login' }).then(function (token) {
+        const captcha = token;
+        sendData(captcha);
+      });
+    }
+
+    function sendData(captcha) {
+      const info = JSON.stringify({
+        captcha: captcha
+      });
+
+      fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-type': 'application/json'
+        },
+        body: info
+      }).then((res) => res.json()).then((data) => {
+        if (data.success) {
+          alert('Đăng nhập thành công! Score: ' + data.score);
+          next();
+        }
+        else {
+          alert('Đăng nhập thất bại! ' + data.msg);
+        }
+      });
+    }
+  </script> --}}
+</body>
+
 </html>

@@ -19,7 +19,7 @@ const login = (req, res,next) => {
   request(verifyUrl, (err, response, body) =>{
       if(err){
           console.log(err);
-          return res.status(500).json({ 
+          res.status(500).json({ 
               success: false, 
               msg: 'Internal Server Error' 
           });

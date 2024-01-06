@@ -38,24 +38,7 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
-    <script>
-      document.querySelector('.my-login-validation').addEventListener('submit',
-      runVerify); function runVerify(e) { e.preventDefault(); runCaptcha(); }
-      function runCaptcha() {
-      grecaptcha.execute('6LeRskYpAAAAADHXmURgfhBeOBeH76B51U0NmJmj', { action:
-      'login' }).then(function (token) { const captcha = token;
-      sendData(captcha); }); } function sendData(captcha) { const info =
-      JSON.stringify({ captcha: captcha }); fetch('/api/auth', { method: 'POST',
-      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-type':
-      'application/json' }, body: info }) .then((res) => { if (!res.ok) { throw
-      new Error('Network response was not ok'); } return res.json(); })
-      .then((data) => { if (data.success) { alert('Đăng nhập thành công! Score:
-      ' + data.score); } else { alert('Đăng nhập thất bại! ' + (data.msg ||
-      'Unknown error')); } }) .catch((error) => { console.error('There was a
-      problem with your fetch operation:', error); alert('Đăng nhập thất bại! '
-      + error.message); }); }
-
-    </script>
+    <script type="text/javascript" src="/assets/js/captcha.js"></script>
   </body>
 
 </html>

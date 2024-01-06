@@ -41,6 +41,9 @@
             Mời quý cán bộ trực thuộc Phường/Quận/Sở Văn hóa - Thể thao TP.HCM
             đăng nhập bằng tài khoản đã được cung cấp
           </p>
+ <p class="mb-4 {{#if message}}my-custom-alert p-3{{/if}}">
+  {{#if message}}{{message}}{{else}}Please sign-in to your account and start the adventure{{/if}}
+</p>
 
           <div class="form-elements">
             {{! <form method="get" id="login" onsubmit="directUser(event)"> }}

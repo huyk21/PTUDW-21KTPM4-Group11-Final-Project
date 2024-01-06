@@ -4,7 +4,7 @@ import { login, authUser, logoutUser
 const router = express.Router();
 
 
-router.route("/auth").post(authUser).get(authUser);
+router.route("/auth").post(login,authUser).get(authUser);
 router.route("/login").post(login).get(login);
 router.route("/logout").post(logoutUser).get(authUser);
 export default router;

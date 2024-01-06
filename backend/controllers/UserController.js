@@ -7,10 +7,10 @@ import request from "request";
 // @route   POST /api/users/auth
 // @access  Public
 //===============================================================
-const login = (req, res) => {
+const login = (req, res,next) => {
   const secretKey = '6LeRskYpAAAAAA2ZKC4CsakLG8cn7u47Lje7OucN';
   if(!req.body.captcha){
-      return res.json({
+      res.json({
           'success': false,
           'msg': 'Captcha token is undefined'
       });
@@ -19,7 +19,7 @@ const login = (req, res) => {
   request(verifyUrl, (err, response, body) =>{
       if(err){
           console.log(err);
-          return res.status(500).json({ 
+          res.status(500).json({ 
               success: false, 
               msg: 'Internal Server Error' 
           });
@@ -28,18 +28,19 @@ const login = (req, res) => {
       body = JSON.parse(body);
 
       if(!body.success || body.score < 0.4){
-          return res.json({
+          res.json({
               'success': false,
               'msg': 'You might be a robot, sorry!!!', 
               'score': body.score          
           });
       }
 
-      return res.json({
+      res.json({
           'success': true,
           'msg': 'Login successfully!!!', 
           'score': body.score
       });
+      
   })
 };
 const authUser = asyncHandler(async (req, res) => {

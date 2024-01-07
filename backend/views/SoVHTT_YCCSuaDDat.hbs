@@ -32,7 +32,10 @@
                   <div class="container">
                     <p><strong>Địa chỉ:</strong>
                       {{location.address}}</p>
-                    <p><strong>Khu vực:</strong> {{ward.name}} - {{district.name}}</p>
+                    <p><strong>Khu vực:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
                     <p><strong>Hình thức:</strong> {{location.adFormat}}</p>
                     <p><strong>Phân loại:</strong>
                       {{location.locationType}}</p>
@@ -43,11 +46,15 @@
                   <!-- Right side of the split body with vertical line -->
                   <div class="container">
                     <p><strong>Địa chỉ mới:</strong>
-                      {{adjustlocation.newAddress}}</p>
-                    <p><strong>Khu vực mới:</strong> {{ward.name}} - {{district.name}}</p>
-                    <p><strong>Hình thức mới:</strong> {{adjustlocation.newAdFormat}}</p>
+                      {{this.newAddress}}</p>
+                    <p><strong>Khu vực mới:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
+                    <p><strong>Hình thức mới:</strong>
+                      {{this.newAdFormat}}</p>
                     <p><strong>Phân loại mới:</strong>
-                      {{adjustlocation.newLocationType}}</p>
+                      {{this.newLocationType}}</p>
                   </div>
                   <h5 class="text-center bg-secondary text-white">Sau</h5>
                 </div>
@@ -59,7 +66,7 @@
               <div class="container">
                 <h6 class="float-left"><span
                     class="bg-success float-left text-success"
-                  >aaaa</span>
+                  >____</span>
                   : nội dung được chỉnh sửa</h6>
               </div>
 
@@ -105,21 +112,21 @@
         </tr>
       </thead>
       <tbody>
-        {{#each adjustlocation}}
-        <tr>
-          <td scope="row">{{adjustlocation._id}}</td>
-          <td>{{adjustlocation.newAddress}}</td>
-          <td>{{district.name}}</td>
-          <td>{{ward.name}}</td>
-          <td>{{adjustlocation.adjustDate}}</td>
-          <td>{{adjustlocation.reason}}</td>
-          <td>
-            <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
-              <i class="bi bi-info-circle text-secondary"></i>
-              Xử lí
-            </button>
-          </td>
-        </tr>
+        {{#each adjustlocations}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.location.address}}</td>
+            <td>{{this.district.name}}</td>
+            <td>{{this.ward.name}}</td>
+            <td>{{this.adjustDate}}</td>
+            <td>{{this.reason}}</td>
+            <td>
+              <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
+                <i class="bi bi-info-circle text-secondary"></i>
+                Xử lí
+              </button>
+            </td>
+          </tr>
         {{/each}}
       </tbody>
     </table>

@@ -16,11 +16,9 @@ import ReportSolution from "../models/ReportSolutionModel.js";
 import Ward from "../models/WardModel.js";
 
 const index = asyncHandler(async (req, res) => {
-  // const user = await User.find({});
-  // res.json(user);
-
-  const locations = await Location.find({});
-  res.json(locations);
+  res.render("SoVHTT", {
+    layout: "layoutSoVHTT",
+  });
 });
 
 const addLocation = asyncHandler(async (req, res) => {
@@ -187,17 +185,74 @@ const danhSachPhuong = asyncHandler(async (req, res) => {
 });
 
 const danhSachQuangCao = asyncHandler(async (req, res) => {
-  // res.render("SoVHTT_DSQCao", {
-  //   layout: "layoutSoVHTT_function",
-  //   adboards,
-  // });
-
   try {
-    //const locationId = new mongoose.Types.ObjectId(req.params.id);
     const adboards = await AdBoard.aggregate([
-      // {
-      //   $match: { location: locationId },
-      // },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          type: 1,
+          properties: 1,
+          geometry: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          location: "$locationDetails",
+        },
+      },
+    ]);
+
+    if (adboards) {
+      res.render("SoVHTT_DSQCao", {
+        layout: "layoutSoVHTT_function",
+        adboards,
+      });
+      // res.send(adboards);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const danhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
+  try {
+    const locationId = new mongoose.Types.ObjectId(req.params.id);
+    const adboards = await AdBoard.aggregate([
+      {
+        $match: { location: locationId },
+      },
       {
         $lookup: {
           from: "locations",
@@ -258,6 +313,69 @@ const danhSachQuangCao = asyncHandler(async (req, res) => {
 });
 
 const danhSachDiemDat = asyncHandler(async (req, res) => {
+  try {
+    const locations = await Location.aggregate([
+      {
+        $lookup: {
+          from: "districts",
+          localField: "district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "adboards", // Replace with the actual name of your "Pictures" collection
+          localField: "_id", // Assuming _id is the location id
+          foreignField: "location",
+          as: "adboardDetails",
+        },
+      },
+      {
+        $unwind: "$adboardDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          address: 1,
+          adFormat: 1,
+          locationType: 1,
+          status: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          adboard: "$adboardDetails",
+        },
+      },
+    ]);
+
+    if (locations) {
+      res.render("SoVHTT_DSDiemDat", {
+        layout: "layoutSoVHTT_function",
+        locations,
+      });
+      // res.send(locations);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const danhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
   try {
     const wardId = new mongoose.Types.ObjectId(req.params.id);
     const locations = await Location.aggregate([
@@ -325,15 +443,197 @@ const danhSachDiemDat = asyncHandler(async (req, res) => {
 });
 
 const danhSachYeuCauCapPhepQuangCao = asyncHandler(async (req, res) => {
-  res.send("danh sach yeu cau cap phep quang cao ne!!!");
+  try {
+    const licenserequests = await LicenseRequest.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "for",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $project: {
+          adContent: 1,
+          companyInfo: 1,
+          companyEmail: 1,
+          companyPhone: 1,
+          companyAddress: 1,
+          startDate: 1,
+          expirationDate: 1,
+          processStatus: 1,
+          location: "$locationDetails",
+        },
+      },
+    ]);
+
+    if (licenserequests) {
+      res.render("SoVHTT_DSYCCPhepQCao", {
+        layout: "layoutSoVHTT_function",
+        licenserequests,
+      });
+      // res.send(adboards);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachYeuCauChinhSuaDiemDat = asyncHandler(async (req, res) => {
-  res.send("danh sach yeu cau chinh sua diem dat ne!!!");
+  // const adjustlocations = await AdjustLocation.find({});
+  // res.render("SoVHTT_YCCSuaDDat", {
+  //   layout: "layoutSoVHTT_function",
+  //   adjustlocations,
+  // });
+
+  try {
+    const adjustlocations = await AdjustLocation.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "forID",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardOfLocation",
+        },
+      },
+      {
+        $unwind: "$wardOfLocation",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtOfLocation",
+        },
+      },
+      {
+        $unwind: "$districtOfLocation",
+      },
+      {
+        $project: {
+          for: 1,
+          newAddress: 1,
+          newLocationType: 1,
+          newAdFormat: 1,
+          newStatus: 1,
+          adjustDate: 1,
+          reason: 1,
+          location: "$locationDetails",
+          ward: "$wardOfLocation",
+          district: "$districtOfLocation",
+        },
+      },
+    ]);
+
+    if (adjustlocations) {
+      res.render("SoVHTT_YCCSuaDDat", {
+        layout: "layoutSoVHTT_function",
+        adjustlocations,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachYeuCauChinhSuaQuangCao = asyncHandler(async (req, res) => {
-  res.send("danh sach yeu cau chinh sua quang cao ne!!!");
+  // const adjustboards = await AdjustBoard.find({});
+  // res.render("SoVHTT_DSYCCSuaQCao", {
+  //   layout: "layoutSoVHTT_function",
+  //   adjustboards,
+  // });
+
+  try {
+    const adjustboards = await AdjustBoard.aggregate([
+      {
+        $lookup: {
+          from: "adboards",
+          localField: "forID",
+          foreignField: "_id",
+          as: "adboardDetails",
+        },
+      },
+      {
+        $unwind: "$adboardDetails",
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "adboardDetails.location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardOfLocation",
+        },
+      },
+      {
+        $unwind: "$wardOfLocation",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtOfLocation",
+        },
+      },
+      {
+        $unwind: "$districtOfLocation",
+      },
+      {
+        $project: {
+          for: 1,
+          newQuantity: 1,
+          newBoardType: 1,
+          newSize: 1,
+          newExpirationDate: 1,
+          adjustDate: 1,
+          reason: 1,
+          forAdboard: "$adboardDetails",
+          location: "$locationDetails",
+          ward: "$wardOfLocation",
+          district: "$districtOfLocation",
+        },
+      },
+    ]);
+
+    if (adjustboards) {
+      res.render("SoVHTT_DSYCCSuaQCao", {
+        layout: "layoutSoVHTT_function",
+        adjustboards,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const danhSachLoaiDiemDat = asyncHandler(async (req, res) => {
@@ -348,6 +648,142 @@ const danhSachHinhThucQuangCao = asyncHandler(async (req, res) => {
   res.send("danh sach hinh thuc quang cao ne!!!");
 });
 
+//Thống kê báo cáo các quận
+const thongKeBaoCao = asyncHandler(async (req, res) => {
+  // res.render("SoVHTT_TKBaoCao", {
+  //   layout: "layoutSoVHTT_function",
+  // });
+  const status = "Đã xử lý";
+
+  try {
+    const districts = await District.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "district",
+          as: "locations",
+        },
+      },
+      {
+        $lookup: {
+          from: "reports",
+          localField: "locations._id",
+          foreignField: "locationID",
+          as: "reports",
+        },
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          localField: "reports._id",
+          foreignField: "for",
+          as: "allreportsolutions",
+        },
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          let: { reportIds: "$reports._id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $in: ["$for", "$$reportIds"] },
+                    { $eq: ["$status", "Đã xử lý xong"] },
+                  ],
+                },
+              },
+            },
+            {
+              $count: "processedReportsolutionsCount",
+            },
+          ],
+          as: "processedReportsolutionsCount",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          numberOfReports: { $size: "$reports" },
+          numberOfProcessedReportsolutions: {
+            $ifNull: [
+              {
+                $arrayElemAt: [
+                  "$processedReportsolutionsCount.processedReportsolutionsCount",
+                  0,
+                ],
+              },
+              0,
+            ],
+          },
+        },
+      },
+    ]);
+
+    if (districts) {
+      res.render("SoVHTT_TKBaoCao", {
+        layout: "layoutSoVHTT_function",
+        districts,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // const wardName = "Phường Đa Kao - Q1";
+  // // console.log(wardName);
+
+  // try {
+  //   const districts = await District.aggregate([
+  //     {
+  //       $lookup: {
+  //         from: "wards",
+  //         let: { districtId: "$_id" },
+  //         pipeline: [
+  //           {
+  //             $match: {
+  //               $expr: {
+  //                 $and: [
+  //                   { $eq: ["$districtID", "$$districtId"] },
+  //                   { $eq: ["$name", wardName] },
+  //                 ],
+  //               },
+  //             },
+  //           },
+  //         ],
+  //         as: "wards",
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         name: 1,
+  //         numberOfReports: { $size: "$wards" },
+  //       },
+  //     },
+  //   ]);
+
+  //   if (districts) {
+  //     res.render("SoVHTT_TKBaoCao", {
+  //       layout: "layoutSoVHTT_function",
+  //       districts,
+  //     });
+  //   }
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+});
+
+const thongKeBaoCaoQuan = asyncHandler(async (req, res) => {
+  res.send("danh sach hinh thuc quang cao ne!!!");
+});
+
+const thongKeBaoCaoPhuong = asyncHandler(async (req, res) => {
+  res.send("danh sach hinh thuc quang cao ne!!!");
+});
+
 export {
   index,
   addLocation,
@@ -357,10 +793,15 @@ export {
   danhSachPhuong,
   danhSachQuangCao,
   danhSachDiemDat,
+  danhSachQuangCaoCuaDiemDat,
+  danhSachDiemDatCuaPhuong,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
   danhSachLoaiDiemDat,
   danhSachHinhThucBaoCao,
   danhSachHinhThucQuangCao,
+  thongKeBaoCao,
+  thongKeBaoCaoQuan,
+  thongKeBaoCaoPhuong,
 };

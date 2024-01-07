@@ -9,12 +9,17 @@ import {
   danhSachPhuong,
   danhSachQuangCao,
   danhSachDiemDat,
+  danhSachQuangCaoCuaDiemDat,
+  danhSachDiemDatCuaPhuong,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
   danhSachLoaiDiemDat,
   danhSachHinhThucBaoCao,
   danhSachHinhThucQuangCao,
+  thongKeBaoCao,
+  thongKeBaoCaoQuan,
+  thongKeBaoCaoPhuong,
 } from "../controllers/SoVHTTController.js";
 
 import { authUser, logoutUser } from "../controllers/UserController.js";
@@ -32,30 +37,61 @@ router.route("/danh-sach-quan").post(danhSachQuan).get(danhSachQuan);
 //Danh sách các Phường của quận theo id quận
 router.route("/danh-sach-phuong/:id").post(danhSachPhuong).get(danhSachPhuong);
 
+//Danh sách điểm đặt
+router.route("/danh-sach-diem-dat").post(danhSachDiemDat).get(danhSachDiemDat);
+
+//Danh sách điểm đặt theo id phường
+router
+  .route("/danh-sach-diem-dat/:id")
+  .post(danhSachDiemDatCuaPhuong)
+  .get(danhSachDiemDatCuaPhuong);
+
 //Danh sách bảng quảng cáo theo id điểm đặt
 router
-  .route("/danh-sach-quang-cao/")
+  .route("/danh-sach-quang-cao")
   .post(danhSachQuangCao)
   .get(danhSachQuangCao);
 
-//Danh sách điểm đặt
+//Danh sách bảng quảng cáo theo id điểm đặt
 router
-  .route("/danh-sach-phuong/danh-sach-diem-dat/:id")
-  .post(danhSachDiemDat)
-  .get(danhSachDiemDat);
+  .route("/danh-sach-quang-cao/:id")
+  .post(danhSachQuangCaoCuaDiemDat)
+  .get(danhSachQuangCaoCuaDiemDat);
 
+//Danh sách yêu cầu cấp phép quảng cáo
 router
   .route("/danh-sach-yeu-cau-cap-phep-quang-cao")
   .post(danhSachYeuCauCapPhepQuangCao)
   .get(danhSachYeuCauCapPhepQuangCao);
+
+//Danh sách yêu cầu chỉnh sửa điểm đặt
 router
   .route("/danh-sach-yeu-cau-chinh-sua-diem-dat")
   .post(danhSachYeuCauChinhSuaDiemDat)
   .get(danhSachYeuCauChinhSuaDiemDat);
+
+//Danh sách yêu cầu chỉnh sửa quảng cáo
 router
   .route("/danh-sach-yeu-cau-chinh-sua-quang-cao")
   .post(danhSachYeuCauChinhSuaQuangCao)
   .get(danhSachYeuCauChinhSuaQuangCao);
+
+//Thống kê báo cáo
+router.route("/thong-ke-bao-cao").post(thongKeBaoCao).get(thongKeBaoCao);
+
+//Thống kê báo cáo của 1 Quận
+router
+  .route("/thong-ke-bao-cao-quan/:id")
+  .post(thongKeBaoCaoQuan)
+  .get(thongKeBaoCaoQuan);
+
+//Thống kê báo cáo
+router
+  .route("/thong-ke-bao-cao-phuong/:id")
+  .post(thongKeBaoCaoPhuong)
+  .get(thongKeBaoCaoPhuong);
+
+//////
 router
   .route("/danh-sach-loai-diem-dat")
   .post(danhSachLoaiDiemDat)

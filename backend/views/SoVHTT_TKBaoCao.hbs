@@ -19,12 +19,13 @@
         </tr>
       </thead>
       <tbody id="">
-        {{#each district}}
+        {{#each districts}}
           <tr>
-            <td scope="row">{{district._id}}</td>
-            <td>{{district.name}}</td>
-            <td>100</td>
-            <td>50/100</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.numberOfReports}}</td>
+            <td
+            >{{this.numberOfProcessedReportsolutions}}/{{this.numberOfReports}}</td>
             <!--Adjust flexibly here-->
             <td>
               <a href="/thongkequan">Chi tiết

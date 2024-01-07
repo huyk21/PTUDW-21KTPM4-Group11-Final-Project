@@ -41,10 +41,13 @@
             Mời quý cán bộ trực thuộc Phường/Quận/Sở Văn hóa - Thể thao TP.HCM
             đăng nhập bằng tài khoản đã được cung cấp
           </p>
+ <p class="mb-4 {{#if message}}my-custom-alert p-3{{/if}}">
+  {{#if message}}{{message}}{{else}}Please sign-in to your account and start the adventure{{/if}}
+</p>
 
           <div class="form-elements">
             {{! <form method="get" id="login" onsubmit="directUser(event)"> }}
-            <form id="login" onsubmit="laugh(event)">
+            <form id="login" action="/api/auth" method="POST">
               <!-- Account input -->
               <div class="form-outline mb-4">
                 <label class="form-label" for="username">Tài khoản</label>
@@ -53,7 +56,8 @@
                   type="text"
                   id="text"
                   class="form-control form-control-lg"
-                  placeholder="nhập (.phuong, .quan, .soVHTT) để vào tài khoản cán bộ tương ứng"
+                  placeholder="Tài khoản của cán bộ sẽ có các đuôi tương ứng (.phuong, .quan, .soVHTT)"
+                  value="{{username}}"
                 />
               </div>
 
@@ -61,11 +65,12 @@
               <div class="form-outline mb-4">
                 <label class="form-label" for="Password">Mật khẩu</label>
                 <input
-                  name="Password"
+                  name="password"
                   type="password"
-                  id="Password"
+                  id="password"
                   class="form-control form-control-lg"
-                  placeholder="để trống"
+                  placeholder="Nhập mật khẩu"
+                  value="{{password}}"
                 />
               </div>
 
@@ -78,7 +83,6 @@
                     name="rememberme"
                     class="form-check-input"
                     type="checkbox"
-                    value="remembered"
                     id="rememberme"
                     checked
                   />
@@ -88,12 +92,20 @@
                 </div>
                 <a href="#!">Quên mật khẩu?</a>
               </div>
-
+              <button
+                type="button"
+                class="btn btn-primary btn-lg btn-block"
+                id="captchaButton"
+              >
+                Xác nhận Captcha
+              </button>
               <!-- Submit button -->
               <button
                 type="submit"
                 class="btn btn-primary btn-lg btn-block"
                 form="login"
+                id="submitButton"
+                disabled
               >
                 Đăng nhập
               </button>

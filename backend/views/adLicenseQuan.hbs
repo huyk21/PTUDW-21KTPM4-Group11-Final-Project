@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/"><i
+      <a class="navbar-brand" href="/api/quan"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Cấp phép quảng cáo cho công ty</a>
       <button
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/api/quan" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -34,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/api/quan/adManager/{{idPhuong}}">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/api/quan/report/{{idPhuong}}">Xử lý báo cáo</a>
             </div>
           </li>
         </ul>
@@ -147,19 +147,19 @@
               <!--Remove the company address if there is no more space--></td>
             <td>{{license.companyEmail}}</td>
             <td>{{license.companyPhone}}</td>
-            <td>{{license.startDate}}</td>
-            <td>{{license.expirationDate}}</td>
+            <td>{{formatDate license.startDate}}</td>
+            <td>{{formatDate license.expirationDate}}</td>
             <td>{{license.processStatus}}</td>
             <td>
               <a
                 name="cancel"
-                id="buttonCancel"
+                id="cancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
                 class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
-                href="#"
+                href="/api/quan/license/showLiId/{{license._id}}"
                 role="button"
-                data-bs-toggle="modal"
+                {{!-- data-bs-toggle="modal" --}}
                 data-bs-target="#cancelRequest"
               >Hủy</a>
             </td>
@@ -195,7 +195,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-            onclick="window.location.href='/api/license'"
+            onclick="window.location.href='/api/quan/license'"
           ></button>
         </div>
         <div
@@ -205,11 +205,11 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
-            onclick="window.location.href='/api/license'"
+            onclick="window.location.href='/api/quan/license'"
           >
             <i class="bi bi-arrow-90deg-left"></i>&nbsp; Quay lại
           </button>
-          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/license/delete/{{result.license._id}}'">
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/quan/license/delete/{{result.license._id}}'">
             <i class="bi bi-x"></i>
             &nbsp;Hủy
           </button>
@@ -247,11 +247,22 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="/" class="m-0" id="createLicense">
+          <form method="POST" action="/api/quan/license/store" class="m-0" id="createLicense">
             <div class="row">
               <div
                 class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"
               >
+                 <div class="mb-3">
+                  <label for="id" class="form-label fw-bold">ID</label>
+                  <input
+                    type="text"
+                    name="id"
+                    id="id"
+                    class="form-control"
+                    value="{{idPhuong}}"
+                    aria-describedby="helpId"
+                  />
+                </div>
                 <div class="mb-3">
                   <label for="ad" class="form-label fw-bold">Bảng quảng cáo &
                     điểm đặt</label>

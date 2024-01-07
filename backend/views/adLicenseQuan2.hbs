@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/api/phuong/"><i
+      <a class="navbar-brand" href="/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Cấp phép quảng cáo cho công ty</a>
       <button
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/api/phuong/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -34,11 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-
-              <a class="dropdown-item" href="/api/phuong/ad_phuong">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/api/phuong/report_phuong">Xử lý báo cáo</a>
-
+              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
             </div>
           </li>
         </ul>
@@ -54,8 +52,8 @@
     <div class="card-header">
       <h4 class="card-title text-left">
         Danh sách cấp phép quảng cáo cho các công ty/doanh nghiệp trong khu vực
-        {{user.ward.name}},
-        {{user.district.name}}
+        {{ward.name}},
+        {{district.name}}
       </h4>
     </div>
 
@@ -135,34 +133,34 @@
       </thead>
       <tbody class="table-group-divider">
         {{title}}
-        {{#each license}}
+        {{#each licenseDetail}}
           <tr class="table-light opacity-100">
             <td scope="row">
               {{location.adFormat}}
               /
               {{location.address}}
             </td>
-            <td>{{adContent}}</td>
-            <td>{{companyInfo}}
+            <td>{{license.adContent}}</td>
+            <td>{{license.companyInfo}}
               /
-              {{companyAddress}}
+              {{license.companyAddress}}
               <!--Remove the company address if there is no more space--></td>
-            <td>{{companyEmail}}</td>
-            <td>{{companyPhone}}</td>
-            <td>{{formatDate startDate}}</td>
-            <td>{{formatDate expirationDate}}</td>
-            <td>{{processStatus}}</td>
+            <td>{{license.companyEmail}}</td>
+            <td>{{license.companyPhone}}</td>
+            <td>{{formatDate license.startDate}}</td>
+            <td>{{formatDate license.expirationDate}}</td>
+            <td>{{license.processStatus}}</td>
             <td>
               <a
                 name="cancel"
-                id="cancel"
+                id="buttonCancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
-                class="btn {{#eq processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+                class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
-                href="/api/license/{{license._id}}"
+                href="#"
                 role="button"
-                {{!-- data-bs-toggle="modal"
-                data-bs-target="#cancelRequest" --}}
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequest"
               >Hủy</a>
             </td>
           </tr>
@@ -197,6 +195,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            onclick="window.location.href='/api/quan/license/{{idPhuong}}'"
           ></button>
         </div>
         <div
@@ -206,10 +205,11 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            onclick="window.location.href='/api/quan/license/{{idPhuong}}'"
           >
             <i class="bi bi-arrow-90deg-left"></i>&nbsp; Quay lại
           </button>
-          <button type="button" class="btn btn-primary" onclick="window.location.href='/api'">
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/quan/license/delete/{{result.license._id}}'">
             <i class="bi bi-x"></i>
             &nbsp;Hủy
           </button>
@@ -247,31 +247,20 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="/api/license/store" class="m-0" id="createLicense">
+          <form method="POST" action="/" class="m-0" id="createLicense">
             <div class="row">
               <div
-                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"        
+                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"
               >
                 <div class="mb-3">
-                  <label for="id" class="form-label fw-bold">ID</label>
-                  <input
-                    type="text"
-                    name="id"
-                    id="id"
-                    class="form-control"
-                    value="{{idPhuong}}"
-                    aria-describedby="helpId"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="ad" class="form-label fw-bold">Bản quảng cáo &
+                  <label for="ad" class="form-label fw-bold">Bảng quảng cáo &
                     điểm đặt</label>
                   <input
                     type="text"
                     name="ad"
                     id="ad"
                     class="form-control"
-                    placeholder="Vui lòng nhập địa chỉ"
+                    placeholder=""
                     aria-describedby="helpId"
                   />
                 </div>

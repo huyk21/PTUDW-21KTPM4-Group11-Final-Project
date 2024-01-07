@@ -105,12 +105,12 @@
             >
               {{#each ward}}
                 <li>
-                  <a class="dropdown-item" href="/adManager"><button
-                      id="adManager{{ward._id}}"
+                  <a class="dropdown-item" href="/api/quan/adManager/{{this._id}}"><button
+                      id="adManager{{this._id}}"
                       class="btn btn-secondary"
-                      style="width: 150px"
+                      style="width: 250px"
                     >
-                      {{ward.name}}
+                      {{this.name}}
                     </button></a>
                 </li>
               {{/each}}
@@ -133,12 +133,12 @@
             >
               {{#each ward}}
                 <li>
-                  <a class="dropdown-item" href="/reportManager"><button
-                      id="reportManager{{ward._id}}"
+                  <a class="dropdown-item" href="/api/quan/report/{{this._id}}"><button
+                      id="reportManager{{this._id}}"
                       class="btn btn-secondary"
-                      style="width: 150px"
+                      style="width: 250px"
                     >
-                      {{ward.name}}
+                      {{this.name}}
                     </button></a>
                 </li>
               {{/each}}
@@ -161,12 +161,12 @@
             >
               {{#each ward}}
                 <li>
-                  <a class="dropdown-item" href="/adLicense"><button
-                      id="adLicense{{ward._id}}"
+                  <a class="dropdown-item" href="/api/quan/license/{{this._id}}"><button
+                      id="adLicense{{this._id}}"
                       class="btn btn-secondary"
-                      style="width: 150px"
+                      style="width: 250px"
                     >
-                      {{ward.name}}
+                      {{this.name}}
                     </button></a>
                 </li>
               {{/each}}
@@ -175,7 +175,7 @@
           <button
             id="LogIn"
             class="btn btn-lg m-3"
-            onclick="window.location.href='/login.html'"
+            onclick="handleLogout()"
           >
             <i class="bi bi-person-circle"></i>
           </button>
@@ -211,11 +211,12 @@
                 {{#each ward}}
                   <li>
                     <a class="dropdown-item" href="#"><button
-                        id="{{ward._id}}"
+                        id="{{this._id}}"
                         class="btn btn-secondary"
-                        style="width: 150px"
+                        style="width: 250px"
                       >
-                        {{ward.name}}
+                      
+                        {{this.name}}
                       </button></a>
                   </li>
                 {{/each}}
@@ -238,12 +239,12 @@
               <ul class="dropdown-menu" aria-labelledby="AdInfo">
                 {{#each ward}}
                   <li>
-                    <a class="dropdown-item" href="/adManager"><button
-                        id="adManager{{ward._id}}/main"
+                    <a class="dropdown-item" href="/api/quan/adManager/{{this._id}}"><button
+                        id="adManager{{this._id}}/main"
                         class="btn btn-secondary"
-                        style="width: 150px"
+                        style="width: 250px"
                       >
-                        {{ward.name}}
+                        {{this.name}}
                       </button></a>
                   </li>
                 {{/each}}
@@ -264,12 +265,12 @@
               <ul class="dropdown-menu" aria-labelledby="ReportInfo">
                 {{#each ward}}
                   <li>
-                    <a class="dropdown-item" href="/reportManager"><button
-                        id="reportManager{{ward._id}}/main"
+                    <a class="dropdown-item" href="/api/quan/report/{{this._id}}"><button
+                        id="reportManager{{this._id}}/main"
                         class="btn btn-secondary"
-                        style="width: 150px"
+                        style="width: 250px"
                       >
-                        {{ward.name}}
+                        {{this.name}}
                       </button></a>
                   </li>
                 {{/each}}
@@ -292,12 +293,12 @@
               <ul class="dropdown-menu" aria-labelledby="LicenseInfo">
                 {{#each ward}}
                   <li>
-                    <a class="dropdown-item" href="/adLicense"><button
-                        id="adLicense{{ward._id}}/main"
+                    <a class="dropdown-item" href="/api/quan/license/{{this._id}}"><button
+                        id="adLicense{{this._id}}/main"
                         class="btn btn-secondary"
-                        style="width: 150px"
+                        style="width: 250px"
                       >
-                        {{ward.name}}
+                        {{this.name}}
                       </button></a>
                   </li>
                 {{/each}}
@@ -308,7 +309,7 @@
             <button
               id="LogOut"
               class="btn btn-lg m-3"
-              onclick="window.location.href='/login.html'"
+              onclick="handleLogout()"
             >
               <i class="bi bi-person-circle" style="font-style: normal">Đăng
                 xuất</i>
@@ -324,7 +325,7 @@
           <div class="card">
             <div class="container-fluid" id="billboard-img">
               <img
-                src="/billboard.jpg"
+                src="/assets/img/billboard.jpg"
                 class="img-fluid rounded-lg"
                 alt="image of the billboard"
               />
@@ -346,7 +347,7 @@
               class="btn btn-warning btn-sm m-3"
               id="reportButton"
             >
-              Chỉnh sửa
+              {{!-- Chỉnh sửa --}}
             </button>
           </div>
         </div>

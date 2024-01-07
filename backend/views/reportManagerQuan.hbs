@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/"><i
+      <a class="navbar-brand" href="/api/quan"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Xử lý báo cáo của người dân</a>
       <button
@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/api/quan" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -34,9 +34,9 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/adManager">Quản lý điểm đặt/biển
+              <a class="dropdown-item" href="/api/quan/adManager/{{idPhuong}}">Quản lý điểm đặt/biển
                 quảng cáo</a>
-              <a class="dropdown-item" href="/adLicense">Yêu cầu cấp phép quảng
+              <a class="dropdown-item" href="/api/quan/license/{{idPhuong}}">Yêu cầu cấp phép quảng
                 cáo</a>
             </div>
           </li>
@@ -107,7 +107,7 @@
       <tbody class="table-group-divider">
         {{#each reportDetail}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{report.reportDate}}</td>
+            <td scope="row">{{formatDate report.reportDate}}</td>
             <td>{{report.reporter}}</td>
             <td>{{report.email}}</td>
             <td>{{report.phoneNo}}</td>
@@ -116,11 +116,11 @@
             <td>
               <a
                 name="edit"
-                id="editButton"
+                id="edit"
                 class="btn btn-success"
-                href="/api/report/{{this._id}}"
+                href="/api/quan/report/show/{{report._id}}"
                 role="button"
-                data-bs-toggle="modal"
+                {{!-- data-bs-toggle="modal" --}}
                 data-bs-target="#reportDetails"
                 
               >Chi tiết</a>

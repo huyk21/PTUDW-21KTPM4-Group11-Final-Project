@@ -52,7 +52,31 @@
       type="text/javascript"
       src="/assets/js/Quan.js"
     ></script>
-
+    <script>
+    function handleLogout() {
+        // Perform a POST request to "/api/logout"
+        fetch('/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // Add any other headers you may need
+            },
+            // You can include a request body if needed
+            // body: JSON.stringify({ key: 'value' })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data if needed
+            console.log(data);
+            // After the POST request is successful, redirect to "/logout"
+            window.location.href = '/api/auth';
+        })
+        .catch(error => {
+            // Handle errors if any
+            console.error('Error:', error);
+        });
+    }
+</script>
   </body>
 
 </html>

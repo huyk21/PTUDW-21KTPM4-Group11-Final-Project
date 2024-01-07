@@ -25,7 +25,7 @@ import {
 import { authUser, logoutUser } from "../controllers/UserController.js";
 import { protect, sovhtt } from "../middleware/authMiddleware.js";
 
-router.route("/").post(index).get(index);
+router.route("/").get(index);
 router.route("/them-diem-dat").post(protect, sovhtt, addLocation);
 router.route("/sua-diem-dat/:id").post(updateLocation);
 router.route("/xoa-diem-dat/:id").delete(deleteLocation);

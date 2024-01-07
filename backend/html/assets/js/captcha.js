@@ -38,10 +38,10 @@ async function sendData(captcha) {
     const data = await response.json();
 
     if (data.success) {
-      alert("Đăng nhập thành công! Score: " + data.score);
+      alert("Xac thuc thanh cong! Score: " + data.score);
       toggleSubmitButton(true);
     } else {
-      alert("Đăng nhập thất bại! " + (data.msg || "Unknown error"));
+      alert("Xac thuc that bai! " + (data.msg || "Unknown error"));
     }
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);

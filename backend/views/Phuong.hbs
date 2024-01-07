@@ -33,7 +33,7 @@
           <button
             id="toLogIn"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='/login'"
+            onclick="window.location.href='/api/auth'"
             onmouseover="buttonHover('toLogIn')"
             onmouseleave="buttonLeave('toLogIn')"
           ><i class="bi bi-person-circle"></i></button>
@@ -68,7 +68,8 @@
             <div class="card d-flex flex-column justify-content-between">
               <div class="card-header container bg-info">
                 <p class="h2 text-center">
-                  Xin chào, Cán bộ {{user.username}}
+                  Xin chào, Cán bộ
+                  {{user.username}}
                 </p>
               </div>
               <div
@@ -102,7 +103,7 @@
               <div
                 class="card-body sidebar-elements py-0 border-bottom border-dark"
               >
-                <a href="/login" class="container-fluid">
+                <a href="/api/login" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-person-circle"></i>
                     &nbsp;Đăng xuất</p>
                 </a>

@@ -1,13 +1,14 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/UserModel.js";
-import request from "request";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
 // @access  Public
 //===============================================================
-
+const showLogin = (req, res) => {
+  res.render("login", { layout: "layoutLogin" });
+};
 const authUser = asyncHandler(async (req, res) => {
   const { username, password, rememberme } = req.body;
 
@@ -52,4 +53,4 @@ const logoutUser = (req, res) => {
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
-export { authUser, logoutUser };
+export { authUser, logoutUser, showLogin };

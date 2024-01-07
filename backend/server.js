@@ -1,5 +1,5 @@
 import express from "express";
-import methodOverride from 'method-override';
+import methodOverride from "method-override";
 
 import expressHbs from "express-handlebars";
 
@@ -25,7 +25,7 @@ handlebars.registerHelper("eq", function (a, b, c, options) {
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("wyontlwiblomtswists"));
@@ -45,7 +45,7 @@ app.engine(
     helpers: {
       formatDate: (date) => {
         if (typeof date !== Date) {
-          const dateString = String(date)
+          const dateString = String(date);
           const parts = dateString.split("-");
           if (parts.length === 3) {
             const [year, month, day] = parts;
@@ -78,9 +78,6 @@ app.get("/", (req, res) => {
   res.render("index", { layout: "layoutDan" });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login", {layout: "layoutLogin"})
-})
 app.get("/api/loaddata", async (req, res) => {
   try {
     const adboards = await AdBoard.aggregate([

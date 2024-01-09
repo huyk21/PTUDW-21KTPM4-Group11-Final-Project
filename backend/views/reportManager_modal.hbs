@@ -1,0 +1,256 @@
+<!-- Navigation bar goes here-->
+<header class="container-fluid bg-primary py-3">
+  <nav class="navbar navbar-expand-sm navbar-dark container">
+    <div class="container">
+      <a class="navbar-brand" href="/api/phuong/"><i
+          class="bi bi-house fs-3 align-self-center"
+        ></i>&nbsp; Xử lý báo cáo của người dân</a>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Redirecting navigations go here -->
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="/api/phuong/" aria-current="page">Trang chủ
+              <span class="visually-hidden">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="dropdownId"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Các chức năng khác</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownId">
+
+              <a class="dropdown-item" href="/api/phuong/ad_phuong">Quản lý điểm đặt/biển
+                quảng cáo</a>
+              <a class="dropdown-item" href="/api/phuong/license_phuong">Yêu cầu cấp phép quảng
+
+                cáo</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Body goes here -->
+<main>
+  <!--Card header goes here -->
+  <div class="card text-center">
+    <div class="card-header">
+      <h4 class="card-title text-left">
+        Thông tin báo cáo của người dân trong khu vực
+        {{user.ward.name}},
+        {{user.district.name}}
+      </h4>
+    </div>
+  </div>
+
+  <!-- Search bar goes here -->
+  <div
+    class="container-fluid d-flex flex-row justify-content-between align-items-center bg-dark bg-opacity-10"
+  >
+    <div class="mb-3">
+      <label for="billboard-search" class="form-label fw-bold">Tìm báo cáo của
+        người dân</label>
+      <input
+        type="text"
+        class="form-control"
+        name="billboard-search"
+        id="billboard-search"
+        aria-describedby="helpId"
+        placeholder="Tìm thông tin về báo cáo"
+      />
+      <small
+        id="helpId"
+        class="form-text text-muted fw-semibold fst-italic"
+      >Nhập thông tin bất kỳ của báo cáo để tìm kiếm</small>
+    </div>
+    <a
+      name="filter"
+      id="filter"
+      class="btn btn-primary bg-light bg-opacity-100"
+      href="#"
+      role="button"
+    ><i class="bi bi-funnel"></i></a>
+  </div>
+
+  <!-- Table containing report information goes here -->
+  <div class="container-fluid table-responsive" id="info-table">
+    <table
+      class="table table-striped table-hover table-borderless table-light align-middle"
+    >
+      <thead class="table-light opacity-100">
+        <tr>
+          <th>Thời điểm gửi</th>
+          <th>Họ tên người gửi</th>
+          <th>Email người gửi</th>
+          <th>SĐT người gửi</th>
+          <th>Điểm/Bảng hoặc địa chỉ liên quan</th>
+          <th>Loại hình báo cáo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {{#each report}}
+          <tr class="table-light opacity-100">
+            <td scope="row">{{reportDate}}</td>
+            <td>{{reporter}}</td>
+            <td>{{email}}</td>
+            <td>{{phoneNo}}</td>
+            <td>{{location.address}} / {{ward.name}}</td>
+            <td>{{reportFormat}}</td>
+            <td>
+              <a
+                name="edit"
+                id="editButton"
+                class="btn btn-success"
+                href="/api/phuong/report_phuong/details/{{_id}}"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#reportDetails"
+              >Chi tiết</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal for report details -->
+  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+  <div
+    class="modal fade"
+    id="reportDetails"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+      role="document"
+    >
+      <div class="modal-content">
+        <!-- Modal header goes here -->
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="modalTitleId">
+            Chi tiết báo cáo
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            onclick="window.location.href='/api/phuong/report_phuong/'"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <!-- Modal body goes here -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="card">
+
+                <div class="card-header fw-bold">Nội dung báo cáo</div>     
+                <div class="card-body">
+                  <h5 class="card-title">
+                    Về việc: {{details.reportFormat}}
+                  </h5>
+                  <p class="card-text">
+                    {{details.reportDetails}}
+                  </p>
+                </div>
+
+                <div class="card-footer">
+                  <p class="fw-bold">Cập nhật tình trạng xử lý</p>
+                  <form action="/api/phuong/report_phuong/details/{{details._id}}" id="updateState" method="post">
+                    <div class="mb-3">
+                      <label for="method" class="form-label fw-bold">Phương thức xử lý:</label>
+                      <input
+                        type="text"
+                        name="method"
+                        id="method"
+                        class="form-control"
+                        aria-describedby="helpId"
+                      />
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Đang xử lý"
+                        id="processing"
+                        name="processing"
+                        checked
+                      />
+                      <label class="form-check-label" for="processing">
+                        Đang xử lý
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Đã xử lý"
+                        name="processed"
+                        id="processed"
+                      />
+                      <label class="form-check-label" for="processed">
+                        Đã xử lý
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <img
+                src="{{details.adboard.properties.imageUrl}}"
+                class="img-fluid rounded-top"
+                alt="ảnh chi tiết biển quảng cáo"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer goes here -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="window.location.href='/api/phuong/report_phuong/'"
+            data-bs-dismiss="modal"
+          >
+            <i class="bi bi-x"></i>&nbsp; Hủy
+          </button>
+          <button type="submit" class="btn btn-primary" form="updateState">
+            <i class="bi bi-send"></i>
+            &nbsp;Gửi
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <!-- place footer here -->
+</footer>

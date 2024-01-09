@@ -18,7 +18,7 @@ const index = asyncHandler(async (req, res) => {
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {
   try {
-    const adboards = await AdBoard.aggregate([
+    res.locals.adboard = await AdBoard.aggregate([
       {
         $lookup: {
           from: "locations",
@@ -63,7 +63,7 @@ const showAd = asyncHandler(async (req, res) => {
         },
       },
     ]);
-    res.render("adManager", {layout: "layoutAdManager", adboard: adboards})
+    res.render("adManager", {layout: "layoutAdManager"})
   } catch (error) {
     console.error(error);
   }
@@ -141,7 +141,7 @@ const sendRequest = asyncHandler(async (req, res) => {
 //xử lý trên trang yeu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
   try {
-    const license = await LicenseRequest.aggregate([
+    res.locals.license = await LicenseRequest.aggregate([
       {
         $lookup: {
           from: "locations",
@@ -161,7 +161,7 @@ const showLicense = asyncHandler(async (req, res) => {
         }
       }
     ])
-    res.render("adLicense", {layout: "layoutAdLicense", license: license})
+    res.render("adLicense", {layout: "layoutAdLicense"})
   }
   catch(error) {
     console.error(error)
@@ -201,7 +201,7 @@ const showReport = asyncHandler(async (req, res) => {
       },
       {
         $project: {
-          _id: 0,
+          _id: 1,
           "location._id": 0,
           "location.ward": 0,
           "ward.districtID": 0,
@@ -220,9 +220,75 @@ const showReport = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-const sendReport = asyncHandler(async (req, res) => {
-  res.send("this is post report Phuong");
-});
+
+const showReportDetails = asyncHandler(async (req, res) => {
+  const reportID = req.params.id
+  const report = await Report.aggregate([
+    {
+      $lookup: {
+        from: "locations",
+        localField: "locationID",
+        foreignField: "_id",
+        as: "location",
+      },
+    },
+    {
+      $unwind: "$location",
+    },
+    {
+      $lookup: {
+        from: "wards",
+        localField: "location.ward",
+        foreignField: "_id",
+        as: "ward",
+      },
+    },
+    {
+      $unwind: "$ward",
+    },
+    {
+      $lookup: {
+        from: "adboards",
+        localField: "locationID",
+        foreignField: "location",
+        as: "adboard",
+      },
+    },
+    {
+      $unwind: "$adboard",
+    },
+    {
+      $project: {
+        _id: 1,
+        "location._id": 0,
+        "location.ward": 0,
+        "ward.districtID": 0,
+        "adboard.location": 0
+      },
+    },
+    {
+      $match: {
+        "ward.name": "Phường Đa Kao - Q1",
+      },
+    },
+  ]);
+  const details = report.filter((rp) => rp._id.toString() === reportID.toString())
+  res.render("reportManager_modal", {layout: "layoutReportManager", report: report, details: details[0]})
+})
+
+const updateReportStatus = asyncHandler(async (req, res) => {
+
+  await ReportSolution.updateOne(
+    { for: req.params.id },
+    {
+      method: req.body.method,
+      status: req.body.processed,
+    },
+    {upsert: true}
+  );
+
+  res.redirect("/api/phuong/report_phuong")
+})
 
 const login = asyncHandler(async (req, res) => {
   res.send("this is login");
@@ -242,5 +308,6 @@ export {
   editLicense,
   deleteLicense,
   showReport,
-  sendReport,
+  showReportDetails,
+  updateReportStatus,
 };

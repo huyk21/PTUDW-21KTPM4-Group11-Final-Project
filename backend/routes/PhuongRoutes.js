@@ -11,7 +11,8 @@ import {
   editLicense,
   deleteLicense,
   showReport,
-  sendReport,
+  showReportDetails,
+  updateReportStatus
 } from "../controllers/PhuongController.js";
 
 //xử lý trên trang chủ phường
@@ -25,7 +26,7 @@ router.route("/license_phuong").get(showLicense);
 router.route("/license_phuong/showLicense/:id")
 //xử lý trên trang báo cáo
 router.route("/report_phuong").get(showReport);
-router.route("/report_phuong").post(sendReport);
+router.route("/report_phuong/details/:id").get(showReportDetails).post(updateReportStatus)
 
 router.route("/login").get(login);
 router.route("/logout").get(logout);

@@ -19,7 +19,9 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 import handlebars from "handlebars";
 
 handlebars.registerHelper("eq", function (a, b, c, d, options) {
-  return a === b || a === c || a === d ? options.fn(this) : options.inverse(this);
+  return a === b || a === c || a === d
+    ? options.fn(this)
+    : options.inverse(this);
 });
 const port = process.env.PORT || 4000;
 connectDB();
@@ -36,8 +38,8 @@ app.use("/data", express.static(path.join(__dirname, "/data")));
 app.use(
   session({
     secret: "wyontlwiblontswistsokylhwylhg",
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
       secure: false, // if true only transmit cookie over https
       httpOnly: true, // prevent client side js from reading the cookie

@@ -116,6 +116,7 @@
           <th>Số lượng</th>
           <th>Hình thức</th>
           <th>Phân loại</th>
+          <th>Ngày hết hạn hợp đồng</th>
           <th>Tình trạng</th>
           <th>Thao tác</th>
         </tr>
@@ -130,16 +131,15 @@
             <td>{{adboard.size}}</td>
             <td>{{location.adFormat}}</td>
             <td>{{location.locationType}}</td>
+            <td>{{adboard.expirationDate}}</td>
             <td>{{location.status}}</td>
             <td>
               <a
                 name="edit"
                 id="edit"
                 class="btn {{#eq location.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO' 'ĐÃ QUY HOẠCH'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
-                href="/api/adManager/{{adboard._id}}"
+                href="/api/phuong/ad_phuong/edit/{{location._id}}"
                 role="button"
-                {{!-- data-bs-toggle="modal" --}}
-                data-bs-target="#adConfig"
               >Chỉnh sửa</a>
             </td>
           </tr>
@@ -147,165 +147,4 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Modal for adjusting ad information -->
-  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div
-    class="modal fade"
-    id="adConfig"
-    tabindex="-1"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    role="dialog"
-    aria-labelledby="modalTitleId"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
-      role="document"
-    >
-      <div class="modal-content">
-        <!-- Modal header -->
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold" id="modalTitleId">
-            Chỉnh sửa điểm đặt/bảng quảng cáo
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form
-            method="get"
-            action=""
-            class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0"
-            id="boardAdjust"
-          >
-            <div class="mb-3">
-              <label for="boardType" class="form-label fw-bold">Loại bảng</label>
-              <input
-                type="text"
-                name="boardType"
-                id="boardType"
-                class="form-control"
-                placeholder="Vd: Trụ bảng hiflex, Cổng chào..."
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="address" class="form-label fw-bold">Địa chỉ</label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                class="form-control"
-                placeholder="Vd: 123 Đinh Tiên Hoàng"
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="area" class="form-label fw-bold">Khu vực</label>
-              <input
-                type="text"
-                name="area"
-                id="area"
-                class="form-control"
-                placeholder="Vd: Phường Đa Kao - Quận 1"
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="size" class="form-label fw-bold">Kích thước</label>
-              <input
-                type="text"
-                name="size"
-                id="size"
-                class="form-control"
-                placeholder="Vd: 2.5m x 10m"
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="quantity" class="form-label fw-bold">Số lượng</label>
-              <input
-                type="text"
-                name="quantity"
-                id="quantity"
-                class="form-control"
-                placeholder="Vd: 1 trụ/bảng"
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="adFormat" class="form-label fw-bold">Hình thức</label>
-              <input
-                type="text"
-                name="adFormat"
-                id="adFormat"
-                class="form-control"
-                placeholder="Vd: Quảng cáo thương mại, xã hội hóa..."
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="locationType" class="form-label fw-bold">Loại vị trí</label>
-              <input
-                type="text"
-                name="locationType"
-                id="locationType"
-                class="form-control"
-                placeholder="Vd: Chợ, cây xăng, nhà chờ xe buýt..."
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="time" class="form-label fw-bold">Thời điểm xin chỉnh
-                sửa</label>
-              <input
-                type="date"
-                name="time"
-                id="time"
-                class="form-control"
-                placeholder=""
-                aria-describedby="helpId"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="reason" class="form-label fw-bold">Lý do chỉnh sửa</label>
-              <input
-                type="text"
-                name="reason"
-                id="reason"
-                class="form-control"
-                placeholder="Vd: Sai nội dung..."
-                aria-describedby="helpId"
-              />
-            </div>
-          </form>
-        </div>
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            <i class="bi bi-x"></i>&nbsp; Hủy
-          </button>
-          <button type="submit" class="btn btn-primary" form="boardAdjust">
-            <i class="bi bi-send"></i>
-            &nbsp;Gửi
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 </main>
-
-<footer>
-  <!-- place footer here -->
-</footer>

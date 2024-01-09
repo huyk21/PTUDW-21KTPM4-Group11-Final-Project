@@ -16,7 +16,9 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
-    //req.session.user = user;
+    req.session.name = user.name;
+    req.session.wward = user.workWard
+    req.session.wdistrict = user.workDistrict
     if (rememberme) {
       res.cookie("username", username, {
         maxAge: 60 * 60 * 1000,

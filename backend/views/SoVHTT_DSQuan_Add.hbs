@@ -4,16 +4,16 @@
     <table class="table table-bordered">
       <h2 class="text-center">Danh sách Quận</h2>
       <!-- Button trigger modal -->
-      <a
+      <button
+        type="button"
         class="btn btn-success float-right mb-2"
-        id="add"
-        name="add"
-        href="/api/sovhtt/danh-sach-quan/addDistrict"
-        role="button"
+        id="openThemQuanModalBtn"
+        data-bs-toggle="modal"
+        data-bs-target="#themQuan"
       >
         <i class="bi bi-person-plus"></i>
         Thêm
-      </a>
+      </button>
 
       <thead class="custom-header">
         <tr>
@@ -48,7 +48,6 @@
                 class="text-secondary float-end pe-auto"
                 {{! data-toggle="modal"
                 data-target="#chinhSuaQuan" }}
-                id="edit"
                 role="button"
               >
                 <i class="bi bi-pencil-square"></i>
@@ -60,9 +59,8 @@
     </table>
 
   </div>
-
   <!-- Modal them Quan-->
-  {{!-- <div
+  <div
     class="modal fade"
     id="themQuan"
     tabindex="-1"
@@ -95,6 +93,7 @@
             method="POST"
             action="/api/sovhtt/danh-sach-quan/"
           >
+            {{! Tên quận }}
             <div class="mb-3">
               <label for="districtName">
                 <h6>Tên quận</h6>
@@ -107,26 +106,39 @@
                 placeholder="Nhập tên quận (vd: Quận 5)"
               />
             </div>
+            {{! Mã quận }}
+            <div class="mb-3">
+              <label for="districtCode">
+                <h6>Mã quận</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="districtCode"
+                name="districtCode"
+                placeholder="Nhập mã quận (vd: 42)"
+              />
+            </div>
           </form>
         </div>
         <div class="modal-footer">
           <button
             type="button"
             class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-quan/'"
             id="closeBtnThemQuan"
-            data-bs-dismiss="modal"
           >Hủy</button>
           <button
             type="submit"
             id="submitBtnThemQuan"
             class="btn btn-primary float-right mt-3 mr-1"
             form="addDistrictForm"
+            {{! onclick="window.location.href='/api/sovhtt/danh-sach-quan/'" }}
           >Thêm</button>
         </div>
       </div>
     </div>
-  </div> --}}
-
+  </div>
   <script>
 
   </script>

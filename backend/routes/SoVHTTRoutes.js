@@ -6,6 +6,10 @@ import {
   updateLocation,
   deleteLocation,
   danhSachQuan,
+  editDanhSachQuan,
+  addDanhSachQuan,
+  themQuan,
+  chinhSuaQuan,
   danhSachPhuong,
   danhSachQuangCao,
   danhSachDiemDat,
@@ -32,7 +36,11 @@ router.route("/xoa-diem-dat/:id").delete(deleteLocation);
 // router.route("/database").post(dbGenerator).get(dbGenerator);
 
 //Danh sách các Quận
-router.route("/danh-sach-quan").post(danhSachQuan).get(danhSachQuan);
+router.route("/danh-sach-quan/editDistrict/:id").get(editDanhSachQuan);
+router.route("/danh-sach-quan/addDistrict").get(addDanhSachQuan);
+// router.route("/danh-sach-quan/store").post(themQuan);
+router.route("/danh-sach-quan/:id").put(chinhSuaQuan);
+router.route("/danh-sach-quan").get(danhSachQuan).post(themQuan);
 
 //Danh sách các Phường của quận theo id quận
 router.route("/danh-sach-phuong/:id").post(danhSachPhuong).get(danhSachPhuong);

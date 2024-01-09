@@ -22,6 +22,9 @@ function main() {
     // Load your data
     const geojsonData = await loadData();
     console.log(geojsonData);
+    // const wardData = geojsonData.filter(obj => {
+
+    // })
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
       type: "geojson",
@@ -90,7 +93,7 @@ function main() {
         // Use a 'case' expression to assign a color based on the 'status' property
         "circle-color": [
           "match",
-          ["get", "status"],
+          ["get", "status", ["get", "location"]],
           "ĐÃ QUY HOẠCH",
           "#51bbd6", // Blue
           "CHƯA QUY HOẠCH",
@@ -110,38 +113,36 @@ function main() {
 
   // Assuming your 'unclustered-point' layer is for individual points
   map.on("mouseenter", "unclustered-point", function (e) {
-    const status = e.features[0].properties.location.status;
-    if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
-      hideSidebar();
-      return;
-    }
-    // Change the cursor style as a UI indicator.
-    map.getCanvas().style.cursor = "pointer";
+    map.getCanvas().style.cursor = "pointer"; // Change the cursor style as a UI indicator
+    // Ensure you extract 'location' as an object
+    const location = JSON.parse(e.features[0].properties.location);
+    const ward = JSON.parse(e.features[0].properties.ward);
+    const wardName = ward.name;
 
-    // Create a popup and set its content based on the feature properties
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var location = e.features[0].properties.location;
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
+    // Extract other properties from 'location'
+    const adFormat = location.adFormat;
+    const address = location.address;
+    const locationType = location.locationType;
+    const status = location.status;
+
     // Close the previous popup if it exists
     if (currentPopup) {
       currentPopup.remove();
     }
+
+    // Construct the HTML content for the popup using the properties
+    const popupContent = `
+        <h6>${adFormat}</h6>
+        <p>${address}</p>
+        <p>${wardName}</p>
+        <p>${locationType}</p>
+        <p style="font-weight: 900; font-style: italic">${status}</p>
+    `;
+
+    // Create and add the new popup to the map
     currentPopup = new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML(
-        `
-        <h6>${location.adFormat}</h6>
-        <p>${location.address}</p>
-        <p>${e.features[0].properties.ward.name}</p>
-        <p>${location.locationType}</p>
-        <p style="font-weight: 900; font-style: italic">${location.status}</p>
-        `
-      )
+      .setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(popupContent)
       .addTo(map);
   });
 
@@ -385,24 +386,29 @@ function addControls(map) {
 
 // Function to show sidebar with property information
 function showSidebar(properties) {
+  let location = JSON.parse(properties.location);
+  let ward = JSON.parse(properties.ward);
+  let adboard = JSON.parse(properties.adboard);
+  let imageUrl = adboard.imageUrl;
+
   hideSidebar();
   // Start with the image of the ad
-  var sidebarContent = `
-        <div class="sidebar-section">
-            <img src="${properties.imageUrl}" alt="Ad Image" style="width:100%; height:auto;">
-        </div>
-    `;
+  $("#billboard-img").html(
+    `<img src="${imageUrl}" alt="billboard image" class="img-fluid">
+      
+    `
+  );
   setTimeout(() => {
     // Update the content of the sidebar
     $("#infoContent").html(`
-            <h5 class="fw-bold">Địa chỉ: ${properties.location.address}</h5>
-            <p class="fw-bold fs-6">Số lượng: ${properties.adboard.quantity}</p>
-            <p class="fw-bold fs-6">Khu vực: ${properties.ward.name}</p>
-            <p class="fw-bold fs-6">Loại vị trí: ${properties.location.locationType}</p>
-            <p class="fw-bold fs-6">Hình thức quảng cáo: ${properties.location.adFormat}</p>
-            <p class="fw-bold fs-6">Trạng thái: ${properties.location.status}</p>
-            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${properties.adboard.boardType}</p>
-            <p class="fw-bold fs-6">Kích thước: ${properties.adboard.size}</p>
+            <h5 class="fw-bold">Địa chỉ: ${location.address}</h5>
+            <p class="fw-bold fs-6">Số lượng: ${adboard.quantity}</p>
+            <p class="fw-bold fs-6">Khu vực: ${ward.name}</p>
+            <p class="fw-bold fs-6">Loại vị trí: ${location.locationType}</p>
+            <p class="fw-bold fs-6">Hình thức quảng cáo: ${location.adFormat}</p>
+            <p class="fw-bold fs-6">Trạng thái: ${location.status}</p>
+            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${adboard.boardType}</p>
+            <p class="fw-bold fs-6">Kích thước: ${adboard.size}</p>
             <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
         `);
 

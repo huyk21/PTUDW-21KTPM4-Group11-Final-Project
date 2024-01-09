@@ -2,7 +2,7 @@
 <header class="container-fluid bg-primary py-3">
   <nav class="navbar navbar-expand-sm navbar-dark container">
     <div class="container">
-      <a class="navbar-brand" href="/"><i
+      <a class="navbar-brand" href="/api/phuong/"><i
           class="bi bi-house fs-3 align-self-center"
         ></i>&nbsp; Quản lý điểm đặt quảng cáo & bảng quảng cáo</a>
       <button
@@ -20,7 +20,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/" aria-current="page">Trang chủ
+            <a class="nav-link active" href="/api/phuong/" aria-current="page">Trang chủ
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
@@ -33,8 +33,10 @@
               aria-expanded="false"
             >Các chức năng khác</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item" href="/reportManager">Xử lý báo cáo</a>
-              <a class="dropdown-item" href="/adLicense">Yêu cầu cấp phép quảng
+
+              <a class="dropdown-item" href="/api/phuong/report_phuong">Xử lý báo cáo</a>
+              <a class="dropdown-item" href="/api/phuong/license_phuong">Yêu cầu cấp phép quảng
+
                 cáo</a>
             </div>
           </li>
@@ -51,8 +53,8 @@
     <div class="card-header">
       <h4 class="card-title text-left">
         Thông tin điểm đặt quảng cáo, biển quảng cáo của khu vực
-        {{ward.name}},
-        {{district.name}}
+        {{user.ward.name}},
+        {{user.district.name}}
       </h4>
     </div>
     <!-- Card Body -->
@@ -119,22 +121,22 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {{#each adboardDetails}}
+        {{#each adboard}}
           <tr class="table-light opacity-100">
-            <td scope="row">{{adboard.properties.boardType}}</td>
-            <td>{{locationDetails.address}}</td>
-            <td>{{wardDetail.name}} - {{districtDetails.name}}</td>
-            <td>{{adboard.properties.size}}</td>
-            <td>{{adboard.properties.quantity}}</td>
-            <td>{{locationDetails.adFormat}}</td>
-            <td>{{locationDetails.locationType}}</td>
-            <td>{{locationDetails.status}}</td>
+            <td scope="row">{{adboard.boardType}}</td>
+            <td>{{location.address}}</td>
+            <td>{{ward.name}}</td>
+            <td>{{adboard.quantity}}</td>
+            <td>{{adboard.size}}</td>
+            <td>{{location.adFormat}}</td>
+            <td>{{location.locationType}}</td>
+            <td>{{location.status}}</td>
             <td>
               <a
                 name="edit"
                 id="editButton"
-                class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
-                href="/api/quan/adManager/{{adboard._id}}"
+                class="btn {{#eq location.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO' 'ĐÃ QUY HOẠCH'}}btn-success  {{else}} btn-light active disabled {{/eq}}"
+                href="/api/phuong/ad_phuong/edit/{{location._id}}"
                 role="button"
                 data-bs-toggle="modal"
                 data-bs-target="#adConfig"
@@ -171,7 +173,7 @@
           <button
             type="button"
             class="btn-close"
-            onclick="window.location.href='/api/quan/adManager/{{result.wardDetail._id}}'"
+            onclick="window.location.href='/api/phuong/ad_phuong'"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -179,23 +181,20 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form
-            method="POST"
-            action="/api/quan/adManager/store"
+            method="post"
+            action="/api/phuong/ad_phuong/sendRequest"
             class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0"
             id="boardAdjust"
           >
             <div class="mb-3 visually-hidden">
-              <label for="id" class="form-label fw-bold"></label>
               <input
                 type="text"
                 name="id"
                 id="id"
                 class="form-control"
-                {{!-- placeholder="Vd: Trụ bảng hiflex, Cổng chào..." --}}
-                value="{{result.adboard._id}}"
+                value="{{details._id}}"
                 readonly
                 aria-describedby="helpId"
-                
               />
             </div>
             <div class="mb-3">
@@ -205,10 +204,9 @@
                 name="boardType"
                 id="boardType"
                 class="form-control"
-                {{!-- placeholder="Vd: Trụ bảng hiflex, Cổng chào..." --}}
-                value="{{result.adboard.properties.boardType}}"
+                value="{{details.adboard.boardType}}"
+                required
                 aria-describedby="helpId"
-                
               />
             </div>
             <div class="mb-3">
@@ -218,7 +216,8 @@
                 name="address"
                 id="address"
                 class="form-control"
-                value="{{result.locationDetails.address}}"
+                value="{{details.location.address}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -229,7 +228,8 @@
                 name="area"
                 id="area"
                 class="form-control"
-                value="{{result.wardDetail.name}} - {{result.districtDetails.name}}"
+                value="{{details.ward.name}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -240,7 +240,8 @@
                 name="size"
                 id="size"
                 class="form-control"
-                value="{{result.adboard.properties.size}}"
+                value="{{details.adboard.size}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -251,7 +252,8 @@
                 name="quantity"
                 id="quantity"
                 class="form-control"
-                value="{{result.adboard.properties.quantity}}"
+                value="{{details.adboard.quantity}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -262,7 +264,8 @@
                 name="adFormat"
                 id="adFormat"
                 class="form-control"
-                value="{{result.locationDetails.adFormat}}"
+                value="{{details.location.adFormat}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -273,7 +276,20 @@
                 name="locationType"
                 id="locationType"
                 class="form-control"
-                value="{{result.locationDetails.locationType}}"
+                value="{{details.location.locationType}}"
+                required
+                aria-describedby="helpId"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="expDate" class="form-label fw-bold">Thời điểm hết hạn hợp đồng</label>
+              <input
+                type="date"
+                name="expDate"
+                id="expDate"
+                class="form-control"
+                value="{{details.adboard.expirationDate}}"
+                required
                 aria-describedby="helpId"
               />
             </div>
@@ -285,9 +301,8 @@
                 name="time"
                 id="time"
                 class="form-control"
-                placeholder=""
-                aria-describedby="helpId"
                 required
+                aria-describedby="helpId"
               />
             </div>
             <div class="mb-3">
@@ -296,10 +311,10 @@
                 type="text"
                 name="reason"
                 id="reason"
-                class="form-control"
+                class="form-control w-100"
                 placeholder="Vd: Sai nội dung..."
+                required
                 aria-describedby="helpId"
-                re
               />
             </div>
           </form>
@@ -309,8 +324,8 @@
           <button
             type="button"
             class="btn btn-secondary"
-            onclick="window.location.href='/api/quan/adManager/{{result.wardDetail._id}}'"
             data-bs-dismiss="modal"
+            onclick="window.location.href='/api/phuong/ad_phuong'"
           >
             <i class="bi bi-x"></i>&nbsp; Hủy
           </button>
@@ -323,7 +338,3 @@
     </div>
   </div>
 </main>
-
-<footer>
-  <!-- place footer here -->
-</footer>

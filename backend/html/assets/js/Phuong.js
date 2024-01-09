@@ -22,6 +22,9 @@ function main() {
     // Load your data
     const geojsonData = await loadData();
     console.log(geojsonData);
+    // const wardData = geojsonData.filter(obj => {
+
+    // })
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
       type: "geojson",

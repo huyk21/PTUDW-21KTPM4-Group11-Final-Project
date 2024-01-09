@@ -1,7 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/UserModel.js";
-
+import session from "express-session";
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
 // @access  Public
@@ -16,7 +16,9 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
-    //req.session.user = user;
+    req.session.name = user.name;
+    req.session.workWard = user.workWard;
+    req.session.workDistrict = user.workDistrict;
     if (rememberme) {
       res.cookie("username", username, {
         maxAge: 60 * 60 * 1000,
@@ -48,6 +50,15 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error occurred in session destruction");
+    } else {
+      res.clearCookie("connect.sid"); // Clear the session cookie
+      res.status(200).json({ message: "Logged out successfully" });
+    }
+  });
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),

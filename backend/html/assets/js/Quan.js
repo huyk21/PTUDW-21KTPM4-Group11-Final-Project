@@ -1,3 +1,4 @@
+
 const HCMlong = 106.702003;
 const HCMlat = 10.772417;
 const clusterBreakpointZoomLevel = 13; // Adjust this value as needed
@@ -496,7 +497,52 @@ function showSidebar(properties) {
     $("#sidebar").addClass("visible");
   }, 150);
 }
+function showReports(properties) {
+  // Mock-up report data
+  var reportsData = [
+    {
+      date: "2023-11-15",
+      user: "User1",
+      content: "This is the first report content.",
+    },
+    {
+      date: "2023-11-14",
+      user: "User2",
+      content: "This is the second report content.",
+    },
+    // Add more reports as needed
+  ];
 
+  // Start with an empty HTML string
+  var reportsHtml = "";
+
+  // Loop over each report and append HTML string
+  reportsData.forEach(function (report) {
+    reportsHtml += `
+          <div class="card mt-2">
+              <div class="card-body">
+                  <h6 class="card-title">Report by ${report.user}</h6>
+                  <p class="card-text">${report.content}</p>
+                  <footer class="blockquote-footer">${report.date}</footer>
+                  
+              </div>
+          </div>
+          
+      `;
+  });
+  reportsHtml += `<button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>`;
+  // Set the reports HTML to the sidebar
+  $("#infoContent").html(reportsHtml);
+
+  // Change the text of the button to toggle back to ad details
+  $("#viewReportsBtn")
+    .text("Ẩn Báo Cáo")
+    .off("click")
+    .click(function () {
+      // Assuming showSidebar is your function that shows the ad details
+      showSidebar(properties); // currentProperties should be the current ad details
+    });
+}
 // Function to hide the sidebar
 function hideSidebar(map) {
   $("#sidebar").removeClass("visible");

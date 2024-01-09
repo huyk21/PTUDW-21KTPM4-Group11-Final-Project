@@ -90,6 +90,8 @@ const showAdId = asyncHandler(async (req, res) => {
   );
   const idQuan = result.districtDetails._id;
   const idPhuong = result.wardDetail._id;
+  const district = await District.findById(idQuan);
+  const ward = await Ward.findById(idPhuong);
   const adboardDetails = adboardDetail.filter(
     (details) =>
       details.districtDetails._id.toString() === idQuan.toString() &&
@@ -99,6 +101,8 @@ const showAdId = asyncHandler(async (req, res) => {
     layout: "layoutAdManager",
     adboardDetails: adboardDetails,
     result: result,
+    district:district,
+    ward:ward
   });
 });
 const store = asyncHandler(async (req, res) => {

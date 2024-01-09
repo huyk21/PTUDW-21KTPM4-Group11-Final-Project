@@ -59,7 +59,7 @@ const showAd = asyncHandler(async (req, res) => {
           location: 1,
           district: 1,
           ward: 1,
-          _id: 0,
+          _id: 1,
         },
       },
     ]);
@@ -68,9 +68,76 @@ const showAd = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-const editAdMananger = asyncHandler(async (req, res) => {
-  res.send("this is edited adMananger Phuong");
+
+const editAd = asyncHandler(async (req, res) => {
+  const adID = req.params.id
+  const adboard = await AdBoard.aggregate([
+    {
+      $lookup: {
+        from: "locations",
+        localField: "location",
+        foreignField: "_id",
+        as: "location",
+      },
+    },
+    {
+      $unwind: "$location",
+    },
+    {
+      $lookup: {
+        from: "districts",
+        localField: "location.district",
+        foreignField: "_id",
+        as: "district",
+      },
+    },
+    {
+      $unwind: "$district",
+    },
+    {
+      $lookup: {
+        from: "wards",
+        localField: "location.ward",
+        foreignField: "_id",
+        as: "ward",
+      },
+    },
+    {
+      $unwind: "$ward",
+    },
+    {
+      $project: {
+        type: 1,
+        adboard: "$properties", // Rename 'properties' to 'adboard'
+        location: 1,
+        district: 1,
+        ward: 1,
+        _id: 1,
+      },
+    },
+  ]);
+  const details = adboard.filter((ad) => ad.location._id.toString() === adID.toString())
+  //res.json(details[0])
+  res.render("adManager_modal", {layout: "layoutAdManager", adboard: adboard, details: details[0]})
 });
+
+const sendRequest = asyncHandler(async (req, res) => {
+  const request = new AdjustBoard({
+    for: "Biển quảng cáo",
+    forID: req.body.id,
+    newQuantity: req.body.quantity,
+    newBoardType: req.body.boardType,
+    newSize: req.body.size,
+    newExpirationDate: req.body.expDate,
+    adjustDate: req.body.time,
+    reason: req.body.reason
+  })
+
+  await AdjustBoard.collection.insertOne(request)
+  
+  res.redirect("/api/phuong/ad_phuong")
+})
+
 //xử lý trên trang yeu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
   try {
@@ -169,7 +236,8 @@ export {
   logout,
   index,
   showAd,
-  editAdMananger,
+  editAd,
+  sendRequest,
   showLicense,
   editLicense,
   deleteLicense,

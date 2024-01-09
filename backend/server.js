@@ -1,8 +1,7 @@
 import express from "express";
 import methodOverride from "method-override";
-
 import expressHbs from "express-handlebars";
-
+import session from "express-session";
 import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./config/db.js";
@@ -19,8 +18,10 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
 import handlebars from "handlebars";
 
-handlebars.registerHelper("eq", function (a, b, c, options) {
-  return a === b || a === c ? options.fn(this) : options.inverse(this);
+handlebars.registerHelper("eq", function (a, b, c, d, options) {
+  return a === b || a === c || a === d
+    ? options.fn(this)
+    : options.inverse(this);
 });
 const port = process.env.PORT || 4000;
 connectDB();
@@ -32,6 +33,20 @@ app.use(cookieParser("wyontlwiblomtswists"));
 app.use(express.static(__dirname + "/html"));
 app.set("views", path.join(__dirname, "/views"));
 app.use("/data", express.static(path.join(__dirname, "/data")));
+
+// Session
+app.use(
+  session({
+    secret: "wyontlwiblontswistsokylhwylhg",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: false, // if true only transmit cookie over https
+      httpOnly: true, // prevent client side js from reading the cookie
+      maxAge: 1000 * 60 * 60, // maximum age 1 hour
+    },
+  })
+);
 
 app.engine(
   "hbs",

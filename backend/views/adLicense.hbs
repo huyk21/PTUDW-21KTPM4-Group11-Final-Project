@@ -157,12 +157,12 @@
                 name="cancel"
                 id="cancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
-                class="btn {{#eq processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+                class="btn {{#eq processStatus 'Đã xử lý' 'null' ''}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
-                href="/api/license/{{license._id}}"
+                href="/api/phuong/license_phuong/showLicense/{{_id}}"
                 role="button"
-                {{!-- data-bs-toggle="modal"
-                data-bs-target="#cancelRequest" --}}
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequest"
               >Hủy</a>
             </td>
           </tr>
@@ -404,7 +404,3 @@
     </div>
   </div>
 </main>
-
-<footer>
-  <!-- place footer here -->
-</footer>

@@ -248,21 +248,22 @@
           <th scope="col">Hình thức</th>
           <th scope="col">Phân loại</th>
           <th scope="col">Tình trạng</th>
-          <th scope="col">Vị trí</th>
+          <th scope="col">Chi tiết</th>
           <th scope="col">Thao tác</th>
         </tr>
       </thead>
       <tbody>
-        {{#each location}}
+        {{#each locations}}
           <tr>
-            <td scope="row">{{location._id}}</td>
-            <td>{{location.address}}</td>
-            <td>{{ward.name}} - {{district.name}}</td>
-            <td>{{adboard.properties.quantity}}</td>
-            <td>{{location.adFormat}}</td>
-            <td>{{location.locationType}}</td>
-            <td>{{location.status}}</td>
-            <td> <a href="">Chi tiết</a></td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.ward.name}} - {{this.district.name}}</td>
+            <td>{{this.adboard.properties.quantity}}</td>
+            <td>{{this.adFormat}}</td>
+            <td>{{this.locationType}}</td>
+            <td>{{this.status}}</td>
+            <td>
+              <a href="/api/sovhtt/danh-sach-quang-cao/{{this._id}}">Chi tiết</a></td>
             <td>
               <button class="btn">
                 <i class="bi bi-trash-fill text-danger"></i>

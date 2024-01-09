@@ -112,16 +112,17 @@
         </tr>
       </thead>
       <tbody>
-        {{#each licenserequest}}
+        {{#each licenserequests}}
           <tr>
-            <td scope="row">{{licenserequest._id}}</td>
-            <td>{{location.adFormat}} / {{location.address}}</td>
-            <td>{{licenserequest.adContent}}</td>
-            <td>{{licenserequest.companyInfo}}</td>
-            <td>{{licenserequest.companyEmail}}</td>
-            <td>{{licenserequest.companyPhone}}</td>
-            <td>{{licenserequest.startDate}}</td>
-            <td>{{licenserequest.expirationDate}}</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.location.adFormat}}
+              {{this.location.address}}</td>
+            <td>{{this.adContent}}</td>
+            <td>{{this.companyInfo}}</td>
+            <td>{{this.companyEmail}}</td>
+            <td>{{this.companyPhone}}</td>
+            <td>{{this.startDate}}</td>
+            <td>{{this.expirationDate}}</td>
             <td>
               <button class="btn" data-toggle="modal" data-target="#hienAnh">
                 <i class="bi bi-info-circle text-secondary"></i>

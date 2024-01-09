@@ -1,0 +1,82 @@
+<main>
+
+  <button id="openModalBtn">Add Item</button>
+
+  <!-- Modal -->
+  <div
+    id="themQuan"
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+    aria-labelledby="themQuanLabel"
+  >
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="themQuanLabel">Thêm quận</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span id="closeModalBtn" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="addDistrictForm" method="POST">
+            {{! <label for="itemName">Item Name:</label> }}
+            <label for="formThemQuan">
+              <h6>Tên quận</h6>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="formThemQuan"
+              name="name"
+              placeholder="Nhập tên quận (vd: Quận 5)"
+            />
+            {{! <input type="text" id="itemName" name="name" required /> }}
+            <button
+              type="button"
+              class="btn btn-secondary float-right mt-3"
+              data-dismiss="modal"
+            >Hủy</button>
+            <button
+              type="submit"
+              class="btn btn-primary float-right mt-3 mr-1"
+            >Thêm</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- List of items -->
+  <h2>Items</h2>
+  <ul>
+    {{#each items}}
+      <li>{{this.name}}</li>
+    {{/each}}
+  </ul>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () { var openModalBtn
+    = document.getElementById("openModalBtn"); var modal =
+    document.getElementById("themQuan"); var closeModalBtn =
+    document.getElementById("closeModalBtn"); var addDistrictForm =
+    document.getElementById("addDistrictForm"); var itemNameInput =
+    document.getElementById("formThemQuan"); if (openModalBtn && modal &&
+    closeModalBtn && addDistrictForm && itemNameInput) {
+    openModalBtn.addEventListener("click", function () { modal.style.display =
+    "block"; }); closeModalBtn.addEventListener("click", function () {
+    modal.style.display = "none"; }); window.addEventListener("click", function
+    (event) { if (event.target == modal) { modal.style.display = "none"; } });
+    addDistrictForm.addEventListener("submit", function (event) {
+    event.preventDefault(); modal.style.display = "none"; console.log("Form
+    submitted"); }); } });
+  </script>
+</main>

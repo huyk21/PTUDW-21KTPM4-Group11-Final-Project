@@ -191,16 +191,16 @@
         </tr>
       </thead>
       <tbody>
-        {{#each adboard}}
+        {{#each adboards}}
           <tr>
-            <td scope="row">{{adboard._id}}</td>
-            <td>{{adboard.properties.boardType}}</td>
-            <td>{{location.address}}</td>
-            <td>{{ward.name}} - {{district.name}}</td>
-            <td>{{adboard.properties.size}}</td>
-            <td>{{location.adFormat}}</td>
-            <td>{{location.locationType}}</td>
-            <td>{{location.status}}</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.properties.boardType}}</td>
+            <td>{{this.location.address}}</td>
+            <td>{{this.ward.name}} - {{this.district.name}}</td>
+            <td>{{this.properties.size}}</td>
+            <td>{{this.location.adFormat}}</td>
+            <td>{{this.location.locationType}}</td>
+            <td>{{this.location.status}}</td>
             <td> <a href="">Chi tiết</a></td>
             <td> <a href="">Xem</a></td>
             <td>

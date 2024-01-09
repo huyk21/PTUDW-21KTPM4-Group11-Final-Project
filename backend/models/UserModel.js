@@ -6,8 +6,16 @@ const userSchema = new mongoose.Schema({
   isPhuong: { type: Boolean, required: true, default: true },
   isQuan: { type: Boolean, required: true, default: false },
   isSo: { type: Boolean, required: true, default: false },
-  workDistrict: { type: mongoose.Schema.Types.ObjectId, ref: "District", default: null},
-  workWard: {type: mongoose.Schema.Types.ObjectId, ref: "Ward", default: null},
+  workDistrict: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+    default: null,
+  },
+  workWard: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ward",
+    default: null,
+  },
   dateOfBirth: { type: Date, required: true },
   email: { type: String, required: true, unique: true },
   phoneNo: { type: String, required: true, unique: true },

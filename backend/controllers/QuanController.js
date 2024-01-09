@@ -10,7 +10,6 @@ import District from "../models/DistrictModel.js";
 
 //xử lý trên trang chủ quận
 
-
 const index = asyncHandler(async (req, res) => {
   const idQuan = "65817cd245551b56b68d8a57";
   const district = await District.findById(idQuan);
@@ -67,7 +66,7 @@ const showAd = asyncHandler(async (req, res) => {
     adboardDetails: adboardDetails,
     district: district,
     ward: ward,
-    idPhuong:idPhuong
+    idPhuong: idPhuong,
   });
 });
 const showAdId = asyncHandler(async (req, res) => {
@@ -138,7 +137,7 @@ const store = asyncHandler(async (req, res) => {
   const idQuan = result.districtDetails._id;
   const idPhuong = result.wardDetail._id;
   const createAdjustBoard = await adjustBoard.save();
-  res.status(201).redirect(`/api/quan/adManager/${idPhuong}`)
+  res.status(201).redirect(`/api/quan/adManager/${idPhuong}`);
 });
 //xử lý trên trang yêu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
@@ -168,9 +167,9 @@ const showLicense = asyncHandler(async (req, res) => {
   res.render("adLicenseQuan", {
     layout: "layoutAdLicense",
     licenseDetail: licenseDetail,
-    dictrict:dictrict,
-    ward:ward,
-    idPhuong:idPhuong,
+    dictrict: dictrict,
+    ward: ward,
+    idPhuong: idPhuong,
   });
 });
 const showLicenseId = asyncHandler(async (req, res) => {
@@ -207,13 +206,13 @@ const showLicenseId = asyncHandler(async (req, res) => {
     layout: "layoutAdLicense",
     licenseDetail: licenseDetail,
     result: result,
-    dictrict:dictrict,
-    ward:ward,
-    idPhuong:idPhuong,
+    dictrict: dictrict,
+    ward: ward,
+    idPhuong: idPhuong,
   });
 });
 const createLicense = asyncHandler(async (req, res) => {
-  const idPhuong=req.body.id;
+  const idPhuong = req.body.id;
   const idQuan = "65817cd245551b56b68d8a57";
   const location = await Location.find({});
   const locations = await Promise.all(
@@ -227,12 +226,12 @@ const createLicense = asyncHandler(async (req, res) => {
       };
     })
   );
-  const findLocation= locations.find(
+  const findLocation = locations.find(
     (details) =>
       details.dictrict._id.toString() === idQuan.toString() &&
       details.ward._id.toString() === idPhuong.toString()
   );
-  
+
   const licenseRequest = new LicenseRequest({
     for: findLocation.location._id,
     adContent: req.body.adContent,
@@ -306,9 +305,9 @@ const showReport = asyncHandler(async (req, res) => {
   res.render("reportManagerQuan", {
     layout: "layoutReportManager",
     reportDetail: reportDetail,
-    dictrict:dictrict,
-    ward:ward,
-    idPhuong:idPhuong
+    dictrict: dictrict,
+    ward: ward,
+    idPhuong: idPhuong,
   });
 });
 const showReportId = asyncHandler(async (req, res) => {
@@ -344,9 +343,9 @@ const showReportId = asyncHandler(async (req, res) => {
     layout: "layoutReportManager",
     reportDetail: reportDetail,
     report: report,
-    dictrict:dictrict,
-    ward:ward,
-    idPhuong:idPhuong,
+    dictrict: dictrict,
+    ward: ward,
+    idPhuong: idPhuong,
   });
 });
 const editReport = asyncHandler(async (req, res) => {

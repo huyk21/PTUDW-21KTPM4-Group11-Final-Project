@@ -184,8 +184,8 @@
             class="d-flex flex-row flex-wrap justify-content-between align-content-center m-0"
             id="boardAdjust"
           >
-            <div class="mb-3">
-              <label for="id" class="form-label fw-bold">ID</label>
+            <div class="mb-3 visually-hidden">
+              <label for="id" class="form-label fw-bold"></label>
               <input
                 type="text"
                 name="id"
@@ -207,7 +207,6 @@
                 class="form-control"
                 {{!-- placeholder="Vd: Trụ bảng hiflex, Cổng chào..." --}}
                 value="{{result.adboard.properties.boardType}}"
-                readonly
                 aria-describedby="helpId"
                 
               />
@@ -220,7 +219,6 @@
                 id="address"
                 class="form-control"
                 value="{{result.locationDetails.address}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -232,7 +230,6 @@
                 id="area"
                 class="form-control"
                 value="{{result.wardDetail.name}} - {{result.districtDetails.name}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -244,7 +241,6 @@
                 id="size"
                 class="form-control"
                 value="{{result.adboard.properties.size}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -256,7 +252,6 @@
                 id="quantity"
                 class="form-control"
                 value="{{result.adboard.properties.quantity}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -268,7 +263,6 @@
                 id="adFormat"
                 class="form-control"
                 value="{{result.locationDetails.adFormat}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>
@@ -280,7 +274,6 @@
                 id="locationType"
                 class="form-control"
                 value="{{result.locationDetails.locationType}}"
-                readonly
                 aria-describedby="helpId"
               />
             </div>

@@ -177,7 +177,8 @@ function main() {
     }
   });
   // Assuming you've already added your 'clusters' layer and your 'ads' source.
-
+  // Flag to track if geolocation is active
+  let geolocationActive = true;
   // When a click event occurs on a feature in the clusters layer, zoom in
   map.on("click", "clusters", function (e) {
     // Get the cluster id from the features properties
@@ -211,10 +212,19 @@ function main() {
 
   // Add a click event to the map to perform reverse geocoding
   map.on("click", function (e) {
+    //if there exist geolocate, then stop geolocate when click
+
     // Remove the previous marker if it exists
     if (currentMarker) {
       currentMarker.remove();
     }
+
+    if (geolocationActive) {
+      // Stop geolocation by triggering it again
+      geolocate.trigger();
+      geolocationActive = false;
+    }
+
     var features = map.queryRenderedFeatures(e.point, {
       layers: ["unclustered-point"],
     });

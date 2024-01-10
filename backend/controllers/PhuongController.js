@@ -117,7 +117,6 @@ const editAd = asyncHandler(async (req, res) => {
     },
   ]);
   const details = adboard.filter((ad) => ad.location._id.toString() === adID.toString())
-  //res.json(details[0])
   res.render("adManager_modal", {layout: "layoutAdManager", adboard: adboard, details: details[0]})
 });
 
@@ -167,12 +166,63 @@ const showLicense = asyncHandler(async (req, res) => {
     console.error(error)
   }
 });
-const editLicense = asyncHandler(async (req, res) => {
-  res.send("this is edited License Phuong");
+
+const createLicense = asyncHandler(async (req, res) => {
+  const address = req.body.ad
+  const location = await Location.findOne({address: address})
+  
+  const license = new LicenseRequest({
+    for: location._id,
+    adContent: req.body.adContent,
+    companyInfo: req.body.companyInfo,
+    companyEmail: req.body.companyEmail,
+    companyPhone: req.body.companyPhone,
+    companyAddress: req.body.companyAddress,
+    startDate: req.body.startDate,
+    expirationDate: req.body.endDate,
+    processStatus: "Đang xử lý"
+  })
+  
+  await LicenseRequest.collection.insertOne(license)
+  res.redirect("/api/phuong/license_phuong")
 });
+
+const showConfirm = asyncHandler(async (req, res) => {
+  const id = req.params.id
+
+  const licenses = await LicenseRequest.aggregate([
+    {
+      $lookup: {
+        from: "locations",
+        localField: "for",
+        foreignField: "_id",
+        as: "location",
+      },
+    },
+    {
+      $unwind: "$location",
+    },
+    {
+      $project: {
+        "location._id": 0,
+        "location.district": 0,
+        "location.ward": 0
+      }
+    }
+  ])
+
+  const results = licenses.filter((li) => li._id.toString() === id)
+  res.render("adLicense_modal", {layout: "layoutAdLicense", license: licenses, selected: results[0]})
+})
+
 const deleteLicense = asyncHandler(async (req, res) => {
-  res.send("this is delete adLicense Phuong");
+  const id = req.params.id
+
+  await LicenseRequest.deleteOne({_id: id})
+
+  res.redirect("/api/phuong/license_phuong")
 });
+
 //xử lý trên trang báo cáo của người dân
 const showReport = asyncHandler(async (req, res) => {
   try {
@@ -290,22 +340,14 @@ const updateReportStatus = asyncHandler(async (req, res) => {
   res.redirect("/api/phuong/report_phuong")
 })
 
-const login = asyncHandler(async (req, res) => {
-  res.send("this is login");
-});
-const logout = asyncHandler(async (req, res) => {
-  res.send("this is logout");
-});
-
 export {
-  login,
-  logout,
   index,
   showAd,
   editAd,
   sendRequest,
   showLicense,
-  editLicense,
+  createLicense,
+  showConfirm,
   deleteLicense,
   showReport,
   showReportDetails,

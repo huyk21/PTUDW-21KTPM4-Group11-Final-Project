@@ -580,7 +580,7 @@ function toggleReportedMarkers() {
   // Change the opacity for markers with status "BỊ BÁO CÁO"
   const opacityExpression = [
     "case",
-    ["==", ["get", "status"], "BỊ BÁO CÁO"],
+    ["==", ["get", "status", ["get", "location"]], "BỊ BÁO CÁO"],
     showReportedMarkers ? 0 : 1, // toggle opacity for these markers
     1,
   ]; // keep other markers unaffected

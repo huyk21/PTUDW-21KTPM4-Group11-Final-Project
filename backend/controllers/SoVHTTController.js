@@ -124,29 +124,152 @@ const deleteLocation = asyncHandler(async (req, res) => {
 //   });
 // });
 
-//@desc Danh sach các quận
-//@route GET /api/svhtt/danh-sach-quan
-//@access ...
-
+//@desc Danh sách các quận
+//@route GET /api/sovhtt/danh-sach-quan/
+//@access SoVHTT
 const danhSachQuan = asyncHandler(async (req, res) => {
-  const districts = await District.find({});
-  if (districts) {
-    // districts = districts.map((district) => district.toObject());
-    // res.json({ districts });
-    res.render("SoVHTT_DSQuan", {
-      layout: "layoutSoVHTT_function",
-      // districts: multipleMongooseToObject(districts),
-      districts,
-    });
+  try {
+    const districts = await District.aggregate([
+      {
+        $lookup: {
+          from: "wards",
+          localField: "_id",
+          foreignField: "districtID",
+          as: "wardDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "district",
+          as: "locationDetails",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          area: 1,
+          code: 1,
+          numberOfWards: { $size: "$wardDetails" },
+          numberOfLocations: { $size: "$locationDetails" },
+        },
+      },
+    ]);
+    if (districts) {
+      // districts = districts.map((district) => district.toObject());
+      // res.json({ districts });
+      res.render("SoVHTT_DSQuan", {
+        layout: "layoutSoVHTT_function",
+        // districts: multipleMongooseToObject(districts),
+        districts,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// const danhSachQuan = asyncHandler(async (req, res) => {
-//   res.render("SoVHTT_DSQuan", {
-//     layout: "layoutSoVHTT_function",
-//   });
-// });
+//@desc Danh sách các quận dùng để chỉnh sửa
+//@route GET /api/sovhtt/danh-sach-quan/editDistrict/:id
+//@access SoVHTT
+const editDanhSachQuan = asyncHandler(async (req, res) => {
+  const currentDistrict = await District.findById(req.params.id);
+  try {
+    const districts = await District.aggregate([
+      {
+        $lookup: {
+          from: "wards",
+          localField: "_id",
+          foreignField: "districtID",
+          as: "wardDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "district",
+          as: "locationDetails",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          area: 1,
+          code: 1,
+          numberOfWards: { $size: "$wardDetails" },
+          numberOfLocations: { $size: "$locationDetails" },
+        },
+      },
+    ]);
+    if (districts) {
+      // districts = districts.map((district) => district.toObject());
+      // res.json({ districts });
+      res.render("SoVHTT_DSQuan_Edit", {
+        layout: "layoutSoVHTT_function",
+        // districts: multipleMongooseToObject(districts),
+        districts,
+        currentDistrict,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
+//@desc Danh sách các quận dùng để thêm 1 quận
+//@route GET /api/sovhtt/danh-sach-quan/addDistrict/
+//@access SoVHTT
+const addDanhSachQuan = asyncHandler(async (req, res) => {
+  try {
+    const districts = await District.aggregate([
+      {
+        $lookup: {
+          from: "wards",
+          localField: "_id",
+          foreignField: "districtID",
+          as: "wardDetails",
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "district",
+          as: "locationDetails",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          area: 1,
+          code: 1,
+          numberOfWards: { $size: "$wardDetails" },
+          numberOfLocations: { $size: "$locationDetails" },
+        },
+      },
+    ]);
+    if (districts) {
+      // districts = districts.map((district) => district.toObject());
+      // res.json({ districts });
+      res.render("SoVHTT_DSQuan_Add", {
+        layout: "layoutSoVHTT_function",
+        // districts: multipleMongooseToObject(districts),
+        districts,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//@desc Thêm 1 quận
+//@route POST /api/sovhtt/danh-sach-quan/
+//@access SoVHTT
 const themQuan = asyncHandler(async (req, res) => {
   try {
     const newDistrictName = req.body.districtName;
@@ -164,13 +287,17 @@ const themQuan = asyncHandler(async (req, res) => {
     const districtCreated = await newDistrict.save();
 
     // Trả về phản hồi với thông tin của quận vừa được thêm
-    console.log(newDistrict);
+    // console.log(newDistrict);
     res.status(201).redirect(`/api/sovhtt/danh-sach-quan`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+//@desc Chỉnh sửa 1 quận
+//@route PUT /api/sovhtt/danh-sach-quan/:id
+//@access SoVHTT
 const chinhSuaQuan = asyncHandler(async (req, res) => {
   const districtId = req.params.id;
   // const currentDistrict = await District.findById(districtId);
@@ -186,7 +313,7 @@ const chinhSuaQuan = asyncHandler(async (req, res) => {
     );
 
     // Trả về phản hồi với thông tin của quận vừa được thêm
-    console.log(editedDistrict);
+    // console.log(editedDistrict);
     res.status(201).redirect(`/api/sovhtt/danh-sach-quan`);
   } catch (error) {
     console.error(error);
@@ -196,61 +323,44 @@ const chinhSuaQuan = asyncHandler(async (req, res) => {
   // console.log(id);
 });
 
-const editDanhSachQuan = asyncHandler(async (req, res) => {
-  const currentDistrict = await District.findById(req.params.id);
-  const districts = await District.find({});
-  if (districts) {
-    // districts = districts.map((district) => district.toObject());
-    // res.json({ districts });
-    res.render("SoVHTT_DSQuan_Edit", {
-      layout: "layoutSoVHTT_function",
-      // districts: multipleMongooseToObject(districts),
-      districts,
-      currentDistrict,
-    });
-  }
-  // res.json(currentDistrict);
-  // res.send("trang edit quan ne");
-});
-const addDanhSachQuan = asyncHandler(async (req, res) => {
-  const districts = await District.find({});
-  if (districts) {
-    // districts = districts.map((district) => district.toObject());
-    // res.json({ districts });
-    res.render("SoVHTT_DSQuan_Add", {
-      layout: "layoutSoVHTT_function",
-      // districts: multipleMongooseToObject(districts),
-      districts,
-    });
+//@desc Xóa 1 quận
+//@route DELETE /api/sovhtt/danh-sach-quan/:id
+//@access SoVHTT
+const xoaQuan = asyncHandler(async (req, res) => {
+  const districtId = req.params.id;
+  // const currentDistrict = await District.findById(districtId);
+  try {
+    const districtDeleted = await District.deleteOne({ _id: districtId });
+    res.status(201).redirect(`/api/sovhtt/danh-sach-quan`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 const danhSachPhuong = asyncHandler(async (req, res) => {
-  const district = await District.findById(req.params.id);
+  const district = await District.findById(req.params.idQuan);
   try {
-    const districtId = new mongoose.Types.ObjectId(req.params.id);
-    const wards = await District.aggregate([
+    const districtId = new mongoose.Types.ObjectId(req.params.idQuan);
+    const wards = await Ward.aggregate([
       {
         $match: {
-          _id: districtId,
+          districtID: districtId,
         },
       },
       {
         $lookup: {
-          from: "wards", // Replace with the actual name of your Ward collection
+          from: "locations",
           localField: "_id",
-          foreignField: "districtID",
-          as: "wards",
+          foreignField: "ward",
+          as: "locationDetails",
         },
       },
       {
-        $unwind: "$wards",
-      },
-      {
         $project: {
-          _id: "$wards._id",
-          name: "$wards.name", // Replace with the actual field names in your "Ward" collection
-          // Add other fields as needed
+          name: 1,
+          districtID: 1,
+          numberOfLocations: { $size: "$locationDetails" },
         },
       },
     ]);
@@ -266,6 +376,137 @@ const danhSachPhuong = asyncHandler(async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+const editDanhSachPhuong = asyncHandler(async (req, res) => {
+  const district = await District.findById(req.params.idQuan);
+  const currentWard = await Ward.findById(req.params.idPhuong);
+  try {
+    const districtId = new mongoose.Types.ObjectId(req.params.idQuan);
+    const wards = await Ward.aggregate([
+      {
+        $match: {
+          districtID: districtId,
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "ward",
+          as: "locationDetails",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          numberOfLocations: { $size: "$locationDetails" },
+        },
+      },
+    ]);
+    if (wards && district && currentWard) {
+      res.render("SoVHTT_DSPhuong_Edit", {
+        layout: "layoutSoVHTT_function",
+        wards,
+        district,
+        currentWard,
+      });
+      // res.send({ wards, district });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const addDanhSachPhuong = asyncHandler(async (req, res) => {
+  // res.send("add danh sach phuong ne");
+  const district = await District.findById(req.params.idQuan);
+  try {
+    const districtId = new mongoose.Types.ObjectId(req.params.idQuan);
+    const wards = await Ward.aggregate([
+      {
+        $match: {
+          districtID: districtId,
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "ward",
+          as: "locationDetails",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          numberOfLocations: { $size: "$locationDetails" },
+        },
+      },
+    ]);
+    if (wards && district) {
+      res.render("SoVHTT_DSPhuong_Add", {
+        layout: "layoutSoVHTT_function",
+        wards,
+        district,
+      });
+      // res.send({ wards, district });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const themPhuong = asyncHandler(async (req, res) => {
+  // res.send("thuc hien them phuong");
+  const districtID = req.params.idQuan;
+  try {
+    const newWardName = req.body.wardName;
+
+    // Thêm quận vào cả cơ sở dữ liệu và danh sách
+    const newWard = new Ward({
+      name: newWardName,
+      districtID: districtID,
+    });
+
+    const wardCreated = await newWard.save();
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-phuong/` + districtID);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const chinhSuaPhuong = asyncHandler(async (req, res) => {
+  const district = await District.findById(req.params.idQuan);
+  const currentWard = await Ward.findById(req.params.idPhuong);
+  try {
+    const editedWard = {
+      name: req.body.wardName,
+    };
+
+    const wardEdited = await Ward.updateOne(
+      { _id: currentWard._id },
+      editedWard
+    );
+    res.status(201).redirect(`/api/sovhtt/danh-sach-phuong/` + district._id);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const xoaPhuong = asyncHandler(async (req, res) => {
+  const districtId = req.params.idQuan;
+  const wardId = req.params.idPhuong;
+  // const currentDistrict = await District.findById(districtId);
+  try {
+    const wardDeleted = await Ward.deleteOne({ _id: wardId });
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-phuong/` + districtId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("thuc hien xoa phuong");
 });
 
 const danhSachQuangCao = asyncHandler(async (req, res) => {
@@ -836,7 +1077,13 @@ export {
   addDanhSachQuan,
   themQuan,
   chinhSuaQuan,
+  xoaQuan,
   danhSachPhuong,
+  editDanhSachPhuong,
+  addDanhSachPhuong,
+  themPhuong,
+  chinhSuaPhuong,
+  xoaPhuong,
   danhSachQuangCao,
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,

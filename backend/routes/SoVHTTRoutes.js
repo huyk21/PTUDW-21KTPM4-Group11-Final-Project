@@ -10,7 +10,13 @@ import {
   addDanhSachQuan,
   themQuan,
   chinhSuaQuan,
+  xoaQuan,
   danhSachPhuong,
+  editDanhSachPhuong,
+  addDanhSachPhuong,
+  themPhuong,
+  chinhSuaPhuong,
+  xoaPhuong,
   danhSachQuangCao,
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,
@@ -39,11 +45,19 @@ router.route("/xoa-diem-dat/:id").delete(deleteLocation);
 router.route("/danh-sach-quan/editDistrict/:id").get(editDanhSachQuan);
 router.route("/danh-sach-quan/addDistrict").get(addDanhSachQuan);
 // router.route("/danh-sach-quan/store").post(themQuan);
-router.route("/danh-sach-quan/:id").put(chinhSuaQuan);
+router.route("/danh-sach-quan/:id").put(chinhSuaQuan).delete(xoaQuan);
 router.route("/danh-sach-quan").get(danhSachQuan).post(themQuan);
 
+router.route("/danh-sach-phuong/:idQuan/addWard").get(addDanhSachPhuong);
+router
+  .route("/danh-sach-phuong/:idQuan/editWard/:idPhuong")
+  .get(editDanhSachPhuong);
 //Danh sách các Phường của quận theo id quận
-router.route("/danh-sach-phuong/:id").post(danhSachPhuong).get(danhSachPhuong);
+router
+  .route("/danh-sach-phuong/:idQuan/:idPhuong")
+  .put(chinhSuaPhuong)
+  .delete(xoaPhuong);
+router.route("/danh-sach-phuong/:idQuan").post(themPhuong).get(danhSachPhuong);
 
 //Danh sách điểm đặt
 router.route("/danh-sach-diem-dat").post(danhSachDiemDat).get(danhSachDiemDat);

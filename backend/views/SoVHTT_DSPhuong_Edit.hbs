@@ -1,39 +1,37 @@
 <main>
+
   <div class="container">
 
     <table class="table table-bordered">
-      <h2 class="text-center">Danh sách Quận</h2>
+      <h2 class="text-center">Danh sách Phường của {{district.name}}</h2>
       <!-- Button trigger modal -->
-      <a
+      <button
+        type="button"
         class="btn btn-success float-right mb-2"
-        id="add"
-        name="add"
-        href="/api/sovhtt/danh-sach-quan/addDistrict"
-        role="button"
+        id="openThemPhuongModalBtn"
+        data-bs-toggle="modal"
+        data-bs-target="#themPhuong"
       >
         <i class="bi bi-person-plus"></i>
         Thêm
-      </a>
-
+      </button>
       <thead class="custom-header">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Tên quận</th>
-          <th scope="col">Số lượng phường</th>
+          <th scope="col">Tên phường</th>
           <th scope="col">Số lượng điểm đặt</th>
           <th scope="col">Chi tiết</th>
         </tr>
       </thead>
       <tbody>
-        {{#each districts}}
+        {{#each wards}}
           <tr>
             <td scope="row">{{showIndex @index}}</td>
             <td>{{this.name}}</td>
-            <td>{{this.numberOfWards}}</td>
             <td>{{this.numberOfLocations}}</td>
-            <!--Calculate the number of locations to put here-->
+            <!--Calculate the number of ad locations to put here-->
             <td>
-              <a href="/api/sovhtt/danh-sach-phuong/{{this._id}}">Chi tiết
+              <a href="/api/sovhtt/danh-sach-diem-dat/{{this._id}}">Chi tiết
                 <i class="bi bi-info-circle"></i></a>
             </td>
             <td>
@@ -41,8 +39,9 @@
                 href="#"
                 class="pe-auto"
                 data-toggle="modal"
-                data-target="#xoaQuanModal"
-                data-id="{{this._id}}"
+                data-target="#xoaPhuongModal"
+                data-wardId="{{this._id}}"
+                data-districtId="{{this.districtID}}"
               >
                 <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
               </a>
@@ -50,12 +49,14 @@
             <td>
               <a
                 name="edit"
-                href="/api/sovhtt/danh-sach-quan/editDistrict/{{this._id}}"
+                href="/api/sovhtt/danh-sach-phuong/"
                 class="text-secondary float-end pe-auto"
                 {{! data-toggle="modal"
                 data-target="#chinhSuaQuan" }}
-                id="edit"
+                id="openChinhSuaPhuongModalBtn"
                 role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#chinhSuaPhuong"
               >
                 <i class="bi bi-pencil-square"></i>
               </a>
@@ -64,16 +65,15 @@
         {{/each}}
       </tbody>
     </table>
-
   </div>
 
-  <!-- Modal them Quan-->
-  {{!-- <div
+  <!-- Modal chinh sua Phuong-->
+  <div
     class="modal fade"
-    id="themQuan"
+    id="chinhSuaPhuong"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="themQuanLabel"
+    aria-labelledby="chinhSuaPhuongLabel"
     aria-hidden="true"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -84,33 +84,33 @@
     >
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h4 class="modal-title" id="themQuanLabel">Thêm quận</h4>
+          <h4 class="modal-title" id="chinhSuaPhuongLabel">Chỉnh sửa phường</h4>
           <button
             type="button"
             class="btn-close"
             data-dismiss="modal"
             aria-label="Close"
           >
-            {{! <span aria-hidden="true">&times;</span> }}
           </button>
         </div>
         <div class="modal-body">
           <!-- Your form goes here -->
           <form
-            id="addDistrictForm"
+            id="editWardForm"
             method="POST"
-            action="/api/sovhtt/danh-sach-quan/"
+            action="/api/sovhtt/danh-sach-phuong/{{district._id}}/{{currentWard._id}}?_method=PUT"
           >
             <div class="mb-3">
-              <label for="districtName">
-                <h6>Tên quận</h6>
+              <label for="wardName">
+                <h6>Tên phường</h6>
               </label>
               <input
                 type="text"
                 class="form-control"
-                id="districtName"
-                name="districtName"
-                placeholder="Nhập tên quận (vd: Quận 5)"
+                id="wardName"
+                name="wardName"
+                placeholder="Tên phường"
+                value="{{currentWard.name}}"
               />
             </div>
           </form>
@@ -119,52 +119,15 @@
           <button
             type="button"
             class="btn btn-secondary float-right mt-3"
-            id="closeBtnThemQuan"
-            data-bs-dismiss="modal"
+            onclick="window.location.href='/api/sovhtt/danh-sach-phuong/{{district._id}}'"
+            id="closeBtnChinhSuaPhuong"
           >Hủy</button>
           <button
             type="submit"
-            id="submitBtnThemQuan"
+            id="submitBtnChinhSuaPhuong"
             class="btn btn-primary float-right mt-3 mr-1"
-            form="addDistrictForm"
-          >Thêm</button>
-        </div>
-      </div>
-    </div>
-  </div> --}}
-
-  {{! Form xóa quận }}
-  <form name="delete-district-form" method="POST"></form>
-
-  {{! Modal xóa quận }}
-  <div id="xoaQuanModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Xóa quận?</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Bạn chắc chắn muốn xóa quận này?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            id="btn-delete-district"
-            type="button"
-            class="btn btn-danger"
-          >Xóa bỏ</button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >Hủy</button>
+            form="editWardForm"
+          >Lưu</button>
         </div>
       </div>
     </div>

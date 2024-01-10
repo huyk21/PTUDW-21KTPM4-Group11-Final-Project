@@ -59,17 +59,64 @@
 
 window.onload = function () {
   // Get the button by its ID
-  var addButton = document.getElementById("openThemQuanModalBtn");
-  var editButton = document.getElementById("openChinhSuaQuanModalBtn");
+  var addDistrictButton = document.getElementById("openThemQuanModalBtn");
+  var editDistrictButton = document.getElementById("openChinhSuaQuanModalBtn");
+
+  var addWardButton = document.getElementById("openThemPhuongModalBtn");
+  var editWardButton = document.getElementById("openChinhSuaPhuongModalBtn");
 
   // Trigger a click on the button
-  if (addButton) {
-    addButton.click();
+  if (addDistrictButton) {
+    addDistrictButton.click();
   }
-  if (editButton) {
-    editButton.click();
+  if (editDistrictButton) {
+    editDistrictButton.click();
+  }
+  if (addWardButton) {
+    addWardButton.click();
+  }
+  if (editWardButton) {
+    editWardButton.click();
   }
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+  var districtID;
+  var deleteForm = document.forms["delete-district-form"];
+  var btnDeleteDistrict = document.getElementById("btn-delete-district");
+
+  $("#xoaQuanModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    districtID = button.data("id");
+  });
+  btnDeleteDistrict.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-quan/" + districtID + "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var wardID;
+  var districtID;
+  var deleteForm = document.forms["delete-ward-form"];
+  var btnDeleteWard = document.getElementById("btn-delete-ward");
+
+  $("#xoaPhuongModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    wardID = button.data("wardid");
+    districtID = button.data("districtid");
+  });
+  btnDeleteWard.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-phuong/" +
+      districtID +
+      "/" +
+      wardID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
 
 // document
 //   .querySelector("#addDistrictForm")

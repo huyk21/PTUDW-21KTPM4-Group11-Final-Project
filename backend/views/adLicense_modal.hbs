@@ -155,12 +155,13 @@
             <td>
               <a
                 name="cancel"
-                id="cancel"
-                {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
+                id="buttonCancel"
                 class="btn {{#eq processStatus 'Đã xử lý' 'null' ''}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
-                href="/api/phuong/license_phuong/confirmDelete/{{_id}}"
+                href="/api/phuong/license_phuong/delete/{{_id}}"
                 role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelRequest"
               >Hủy</a>
             </td>
           </tr>
@@ -203,13 +204,13 @@
         >
           <button
             type="button"
-            class="btn btn-secondary"
             onclick="window.location.href='/api/phuong/license_phuong'"
+            class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
             <i class="bi bi-arrow-90deg-left"></i>&nbsp; Quay lại
           </button>
-          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/phuong/license_phuong'">
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/api/phuong/license_phuong/delete/{{selected._id}}'">
             <i class="bi bi-x"></i>
             &nbsp;Hủy
           </button>
@@ -218,189 +219,4 @@
     </div>
   </div>
 
-  <!-- Modal for creating new ad license -->
-  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div
-    class="modal fade"
-    id="newLicense"
-    tabindex="-1"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    role="dialog"
-    aria-labelledby="modalTitleId"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
-      role="document"
-    >
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold" id="modalTitleId">
-            Tạo yêu cầu cấp phép quảng cáo
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            onclick="window.location.href='/api/phuong/license_phuong'"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form method="POST" action="/api/phuong/license_phuong/create" class="m-0" id="createLicense">
-            <div class="row">
-              <div
-                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"        
-              >
-                <div class="mb-3">
-                  <label for="ad" class="form-label fw-bold">Bảng quảng cáo &
-                    điểm đặt</label>
-                  <input
-                    type="text"
-                    name="ad"
-                    id="ad"
-                    class="form-control"
-                    placeholder="Vui lòng nhập địa chỉ"
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="adContent" class="form-label fw-bold">Nội dung
-                    quảng cáo</label>
-                  <input
-                    type="text"
-                    name="adContent"
-                    id="adContent"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="companyInfo" class="form-label fw-bold">Thông tin
-                    công ty</label>
-                  <input
-                    type="text"
-                    name="companyInfo"
-                    id="companyInfo"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="companyEmail" class="form-label fw-bold">Email
-                    công ty</label>
-                  <input
-                    type="email"
-                    name="companyEmail"
-                    id="companyEmail"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="companyPhone" class="form-label fw-bold">Số điện
-                    thoại công ty</label>
-                  <input
-                    type="text"
-                    name="companyPhone"
-                    id="companyPhone"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="companyAddress" class="form-label fw-bold">Địa chỉ
-                    công ty</label>
-                  <input
-                    type="text"
-                    name="companyAddress"
-                    id="companyAddress"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="startDate" class="form-label fw-bold">Ngày bắt đầu
-                    hợp đồng</label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    id="startDate"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="endDate" class="form-label fw-bold">Ngày kết thúc
-                    hợp đồng</label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    id="endDate"
-                    class="form-control"
-                    placeholder=""
-                    aria-describedby="helpId"
-                    required
-                  />
-                </div>
-              </div>
-              {{!-- <div class="col-5 my-3">
-                <div class="mb-3">
-                  <label for="img" class="form-label fw-bold">Chọn file ảnh để
-                    tải lên</label>
-                  <input
-                    type="file"
-                    class="form-control"
-                    name="img"
-                    id="img"
-                    placeholder=""
-                    aria-describedby="fileHelpId"
-                    required
-                  />
-                  <div id="fileHelpId" class="form-text">Chọn ảnh của quảng cáo
-                    để tải lên</div>
-                </div>
-              </div> --}}
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            onclick="window.location.href='/api/phuong/license_phuong'"
-          >
-            <i class="bi bi-x"></i>
-            &nbsp; Hủy
-          </button>
-          <button type="submit" class="btn btn-primary" form="createLicense">
-            <i class="bi bi-send"></i>
-            &nbsp; Gửi
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 </main>

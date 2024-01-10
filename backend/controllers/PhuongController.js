@@ -13,12 +13,13 @@ import Ward from "../models/WardModel.js";
 
 //xử lý trên trang chủ phường
 const index = asyncHandler(async (req, res) => {
-  res.render("Phuong", { layout: "layoutPhuong" });
+  const name = req.session.name
+  res.render("Phuong", { layout: "layoutPhuong", name: name });
 });
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {
   try {
-    res.locals.adboard = await AdBoard.aggregate([
+    const adboard = await AdBoard.aggregate([
       {
         $lookup: {
           from: "locations",
@@ -63,7 +64,13 @@ const showAd = asyncHandler(async (req, res) => {
         },
       },
     ]);
-    res.render("adManager", {layout: "layoutAdManager"})
+
+    const workWard = req.session.workWard
+
+    const ward = await Ward.findById(workWard)
+    
+    res.locals.adboard = adboard.filter((ad) => ad.ward._id.toString() === workWard)
+    res.render("adManager", {layout: "layoutAdManager", wardname: ward})
   } catch (error) {
     console.error(error);
   }
@@ -116,8 +123,14 @@ const editAd = asyncHandler(async (req, res) => {
       },
     },
   ]);
+
+  const workWard = req.session.workWard
+
+  const ward = await Ward.findById(workWard)
+
+  const result = adboard.filter((ad) => ad.ward._id.toString() === workWard)
   const details = adboard.filter((ad) => ad.location._id.toString() === adID.toString())
-  res.render("adManager_modal", {layout: "layoutAdManager", adboard: adboard, details: details[0]})
+  res.render("adManager_modal", {layout: "layoutAdManager", adboard: result, details: details[0], wardname: ward})
 });
 
 const sendRequest = asyncHandler(async (req, res) => {
@@ -140,7 +153,7 @@ const sendRequest = asyncHandler(async (req, res) => {
 //xử lý trên trang yeu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
   try {
-    res.locals.license = await LicenseRequest.aggregate([
+    const license = await LicenseRequest.aggregate([
       {
         $lookup: {
           from: "locations",
@@ -155,12 +168,15 @@ const showLicense = asyncHandler(async (req, res) => {
       {
         $project: {
           "location._id": 0,
-          "location.district": 0,
-          "location.ward": 0
+          "location.district": 0
         }
       }
     ])
-    res.render("adLicense", {layout: "layoutAdLicense"})
+
+    const workWard = req.session.workWard
+    const ward = await Ward.findById(workWard)
+    res.locals.license = license.filter((li) => li.location.ward.toString() === workWard)
+    res.render("adLicense", {layout: "layoutAdLicense", ward: ward})
   }
   catch(error) {
     console.error(error)
@@ -205,14 +221,17 @@ const showConfirm = asyncHandler(async (req, res) => {
     {
       $project: {
         "location._id": 0,
-        "location.district": 0,
-        "location.ward": 0
+        "location.district": 0
       }
     }
   ])
 
+  const workWard = req.session.workWard
+  const ward = await Ward.findById(workWard)
+
+  const wardLicenses = licenses.filter((li) => li.location.ward.toString() === workWard)
   const results = licenses.filter((li) => li._id.toString() === id)
-  res.render("adLicense_modal", {layout: "layoutAdLicense", license: licenses, selected: results[0]})
+  res.render("adLicense_modal", {layout: "layoutAdLicense", license: wardLicenses, selected: results[0], ward: ward})
 })
 
 const deleteLicense = asyncHandler(async (req, res) => {
@@ -226,7 +245,7 @@ const deleteLicense = asyncHandler(async (req, res) => {
 //xử lý trên trang báo cáo của người dân
 const showReport = asyncHandler(async (req, res) => {
   try {
-    res.locals.report = await Report.aggregate([
+    const report = await Report.aggregate([
       {
         $lookup: {
           from: "locations",
@@ -256,15 +275,15 @@ const showReport = asyncHandler(async (req, res) => {
           "location.ward": 0,
           "ward.districtID": 0,
         },
-      },
-      {
-        $match: {
-          "ward.name": "Phường Đa Kao - Q1",
-        },
-      },
+      }
     ]);
+
+    const workWard = req.session.workWard
+    const ward = await Ward.findById(workWard)
+
+    res.locals.report = report.filter((rp) => rp.ward._id.toString() === workWard)
     res.render("reportManager", {
-      layout: "layoutReportManager",
+      layout: "layoutReportManager", ward: ward
     });
   } catch (error) {
     console.error(error);
@@ -315,15 +334,14 @@ const showReportDetails = asyncHandler(async (req, res) => {
         "ward.districtID": 0,
         "adboard.location": 0
       },
-    },
-    {
-      $match: {
-        "ward.name": "Phường Đa Kao - Q1",
-      },
-    },
+    }
   ]);
+
+  const workWard = req.session.workWard
+  const ward = await Ward.findById(workWard)
+  const result = report.filter((rp) => rp.ward._id.toString() === workWard)
   const details = report.filter((rp) => rp._id.toString() === reportID.toString())
-  res.render("reportManager_modal", {layout: "layoutReportManager", report: report, details: details[0]})
+  res.render("reportManager_modal", {layout: "layoutReportManager", report: result, details: details[0], ward: ward})
 })
 
 const updateReportStatus = asyncHandler(async (req, res) => {

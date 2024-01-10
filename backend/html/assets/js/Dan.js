@@ -6,7 +6,12 @@ let showReportedMarkers = true; // Flag to toggle visibility
 let markers = []; // Array to store markers
 //access Token
 // Event listener for the button
-
+var geolocate = new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true,
+  },
+  trackUserLocation: true,
+});
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 var map = new mapboxgl.Map({
@@ -15,13 +20,16 @@ var map = new mapboxgl.Map({
   center: [HCMlong, HCMlat],
   zoom: 13,
 });
+map.addControl(geolocate);
 //main function
 function main() {
   // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
+    geolocate.trigger();
     // Load your data
     const geojsonData = await loadData();
     console.log(geojsonData);
+    //move user to current location of user
 
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
@@ -376,8 +384,7 @@ function addControls(map) {
       positionOptions: {
         enableHighAccuracy: true,
       },
-      trackUserLocation: true, // Set to true to keep tracking user's location
-      showUserLocation: true, // Set to true to show user's location
+      trackUserLocation: true,
     })
   );
 }

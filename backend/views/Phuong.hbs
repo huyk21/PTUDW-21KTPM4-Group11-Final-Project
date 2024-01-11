@@ -33,7 +33,7 @@
           <button
             id="toLogIn"
             class="btn btn-lg m-3 sidebar-button"
-            onclick="window.location.href='/api/auth'"
+            onclick="handleLogout()"
             onmouseover="buttonHover('toLogIn')"
             onmouseleave="buttonLeave('toLogIn')"
           ><i class="bi bi-person-circle"></i></button>
@@ -103,7 +103,7 @@
               <div
                 class="card-body sidebar-elements py-0 border-bottom border-dark"
               >
-                <a href="/api/auth" class="container-fluid">
+                <a onclick="handleLogout()" class="container-fluid">
                   <p class="h5 fw-normal"><i class="bi bi-person-circle"></i>
                     &nbsp;Đăng xuất</p>
                 </a>

@@ -42,6 +42,44 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="text/javascript" src="/assets/js/captcha.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      // Check if the query parameter exists
+      const urlParams = new URLSearchParams(window.location.search);
+      const success = urlParams.get('success');
+      const confirm = urlParams.get('confirm')
+      const reset = urlParams.get('reset')
+
+      if (success === 'false') {
+        // Trigger SweetAlert
+        Swal.fire({
+          title: 'Thất bại!',
+          text: 'Mật khẩu được nhập không trùng khớp nhau!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+      else if (confirm === 'false') {
+        // Trigger SweetAlert
+        Swal.fire({
+          title: 'Thất bại!',
+          text: 'OTP không trùng khớp',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+      else if (reset === 'true') {
+        // Trigger SweetAlert
+        Swal.fire({
+          title: 'Thành công!',
+          text: 'Mật khẩu đã được đổi thành công, đang chuyển hướng bạn về trang đăng nhập!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    });
+    </script>
   </body>
 
 </html>

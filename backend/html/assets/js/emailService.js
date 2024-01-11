@@ -1,5 +1,5 @@
-import MailService from "nodemailer"
-import nodemailer from "nodemailer"
+import MailService from "nodemailer";
+import nodemailer from "nodemailer";
 
 MailService.sendReportSolution = async (userEmail, report) => {
   const transporter = nodemailer.createTransport({
@@ -30,6 +30,35 @@ MailService.sendReportSolution = async (userEmail, report) => {
     Chúc bạn nhiều sức khỏe,
     Chân thành,
     Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh`,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+MailService.sendOTP = async (userEmail, OTP) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "chattingapplication21ktpm4@gmail.com",
+      pass: "ehdd vajo acyl npos",
+    },
+  });
+
+  const mailOptions = {
+    from: "chattingapplication21ktpm4@gmail.com",
+    to: userEmail,
+    subject: `OTP đặt lại mật khẩu`,
+    text: `
+        Kính gửi bạn quý cán bộ,
+        
+        Bạn nhận được email này vì bạn đã yêu cầu đặt lại mật khẩu mới.
+        Mã OTP để xác nhận việc khởi tạo lại mật khẩu: ${OTP}
+
+        Nếu bạn không yêu cầu đặt lại mật khẩu của mình, vui lòng bỏ qua tin nhắn này
+        
+        Chúc bạn nhiều sức khỏe,
+        Chân thành,
+        Sở Văn hóa - Thể thao Thành phố Hồ Chí Minh`,
   };
 
   return transporter.sendMail(mailOptions);

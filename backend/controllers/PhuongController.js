@@ -10,6 +10,7 @@ import LicenseRequest from "../models/LicenseRequest.js";
 import Report from "../models/ReportModel.js";
 import ReportSolution from "../models/ReportSolutionModel.js";
 import Ward from "../models/WardModel.js";
+import MailService from "../html/assets/js/emailService.js";
 
 //xử lý trên trang chủ phường
 const index = asyncHandler(async (req, res) => {
@@ -353,7 +354,23 @@ const updateReportStatus = asyncHandler(async (req, res) => {
     },
     {upsert: true}
   );
+  
+  const report = await Report.aggregate([
+    {
+      $lookup: {
+        from: "reportsolutions",
+        localField: "_id",
+        foreignField: "for",
+        as: "solution",
+      },
+    },
+    {
+      $unwind: "$solution",
+    }
+  ])
 
+  const curReport = report.filter((rp) => rp._id.toString() === req.params.id)
+  MailService.sendReportSolution(curReport[0].email, curReport[0])
   res.redirect("/api/phuong/report_phuong?success=true")
 })
 

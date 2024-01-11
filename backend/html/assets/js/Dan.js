@@ -20,7 +20,7 @@ var map = new mapboxgl.Map({
   center: [HCMlong, HCMlat],
   zoom: 13,
 });
-map.addControl(geolocate);
+
 //main function
 function main() {
   // After the map has been loaded, you add your data source and layers.
@@ -389,14 +389,7 @@ function addControls(map) {
   map.addControl(new mapboxgl.NavigationControl());
 
   // add User Location control (this will show the user's location and allow for tracking)
-  map.addControl(
-    new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    })
-  );
+  map.addControl(geolocate);
 }
 
 // Function to show sidebar with property information

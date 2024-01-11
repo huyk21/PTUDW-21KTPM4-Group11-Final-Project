@@ -142,25 +142,30 @@ app.get("/api/loaddata", async (req, res) => {
       },
     ]);
 
-    const workWard = req.session.workWard
-    const workDistrict = req.session.workDistrict
-    console.log(workWard)
-    console.log(workDistrict)
+    const workWard = req.session.workWard;
+    const workDistrict = req.session.workDistrict;
+    console.log(workWard);
+    console.log(workDistrict);
 
-    if ((workWard === undefined && workDistrict === undefined) || (workWard === null && workDistrict === null)) {
-      res.locals.adboards = adboards
-      res.json(adboards)
-    }
-
-    else if (workWard !== null && workDistrict !== null) { //ward
-      const result = adboards.filter((ad) => ad.ward._id.toString() === workWard)
-      res.locals.adboards = result
-      res.json(result)
-    }
-    else {
-      const result = adboards.filter((ad) => ad.district._id.toString() === workDistrict)
-      res.locals.adboards = result
-      res.json(result)
+    if (
+      (workWard === undefined && workDistrict === undefined) ||
+      (workWard === null && workDistrict === null)
+    ) {
+      res.locals.adboards = adboards;
+      res.json(adboards);
+    } else if (workWard !== null && workDistrict !== null) {
+      //ward
+      const result = adboards.filter(
+        (ad) => ad.ward._id.toString() === workWard
+      );
+      res.locals.adboards = result;
+      res.json(result);
+    } else {
+      const result = adboards.filter(
+        (ad) => ad.district._id.toString() === workDistrict
+      );
+      res.locals.adboards = result;
+      res.json(result);
     }
   } catch (error) {
     console.error(error);
@@ -181,6 +186,9 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running....");
   });
 }
+app.get("*", (req, res) => {
+  res.render("index", { layout: "layoutDan" });
+});
 app.use(notFound);
 app.use(errorHandler);
 app.listen(port, () => {

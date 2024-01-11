@@ -21,109 +21,6 @@ const index = asyncHandler(async (req, res) => {
   });
 });
 
-const addLocation = asyncHandler(async (req, res) => {
-  const location = new Location({
-    address: "address example 5",
-    district: "65817cd245551b56b68d8a57",
-    ward: "6581882f45551b56b68d8b6c",
-    locationType: "Đất tư nhân, nhà ở riêng lẻ",
-    adFormat: "ad format",
-    status: "status",
-  });
-
-  const createdLocation = await location.save();
-
-  res.status(201).json(createdLocation);
-});
-
-const updateLocation = asyncHandler(async (req, res) => {
-  const { address, locationType, adFormat, status } = req.body;
-
-  const location = await Location.findById(req.params.id);
-
-  if (location) {
-    location.address = address;
-    // location.district = district;
-    // location.ward = ward;
-    // location.locationType = locationType;
-    // location.adFormat = adFormat;
-    // location.status = status;
-
-    const updatedLocation = await location.save();
-    res.json(updatedLocation);
-  } else {
-    res.status(404);
-    throw new Error("Location not found");
-  }
-});
-
-const readAdBoardOfLocation = asyncHandler(async (req, res) => {
-  const location = await Location.findById(req.params.id);
-
-  if (location) {
-    // location.address = address;
-    // location.district = district;
-    // location.ward = ward;
-    // location.locationType = locationType;
-    // location.adFormat = adFormat;
-    // location.status = status;
-
-    res.json(location.$getPopulatedDocs());
-
-    const updatedLocation = await location.save();
-    res.json(updatedLocation);
-  } else {
-    res.status(404);
-    throw new Error("Location not found");
-  }
-});
-
-const deleteLocation = asyncHandler(async (req, res) => {
-  const location = await Location.findById(req.params.id);
-
-  if (location) {
-    await Location.deleteOne({ _id: location._id });
-    res.json({ message: "Product removed" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-});
-
-// const dbGenerator = asyncHandler(async (req, res) => {
-
-//   const Users = await User.find({});
-
-//   const Locations = await Location.find({});
-
-//   const AdBoards = await AdBoard.find({});
-
-//   const AdjustBoards = await AdjustBoard.find({});
-
-//   const AdjustLocations = await AdjustLocation.find({});
-
-//   const Districts = await District.find({});
-
-//   const LicenseRequests = await LicenseRequest.find({});
-
-//   const Reports = await Report.find({});
-
-//   const ReportSolutions = await ReportSolution.find({});
-
-//   const Wards = await Ward.find({});
-//   res.json({
-//     Users,
-//     Locations,
-//     AdBoards,
-//     AdjustBoards,
-//     AdjustLocations,
-//     Districts,
-//     LicenseRequests,
-//     Reports,
-//     ReportSolutions,
-//   });
-// });
-
 //@desc Danh sách các quận
 //@route GET /api/sovhtt/danh-sach-quan/
 //@access SoVHTT
@@ -508,6 +405,7 @@ const xoaPhuong = asyncHandler(async (req, res) => {
   // res.send("thuc hien xoa phuong");
 });
 
+//////Quan li Quang Cao
 const danhSachQuangCao = asyncHandler(async (req, res) => {
   try {
     const adboards = await AdBoard.aggregate([
@@ -572,7 +470,8 @@ const danhSachQuangCao = asyncHandler(async (req, res) => {
 
 const danhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
   try {
-    const locationId = new mongoose.Types.ObjectId(req.params.id);
+    const locationId = new mongoose.Types.ObjectId(req.params.idDiemDat);
+    const location = await Location.findById(locationId);
     const adboards = await AdBoard.aggregate([
       {
         $match: { location: locationId },
@@ -627,6 +526,7 @@ const danhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
       res.render("SoVHTT_DSQCao", {
         layout: "layoutSoVHTT_function",
         adboards,
+        location,
       });
       // res.send(adboards);
     }
@@ -635,7 +535,230 @@ const danhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+const addDanhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
+  try {
+    const locationId = new mongoose.Types.ObjectId(req.params.idDiemDat);
+    const location = await Location.findById(locationId);
+    const adboards = await AdBoard.aggregate([
+      {
+        $match: { location: locationId },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          type: 1,
+          properties: 1,
+          geometry: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          location: "$locationDetails",
+        },
+      },
+    ]);
 
+    if (adboards) {
+      res.render("SoVHTT_DSQCao_Add", {
+        layout: "layoutSoVHTT_function",
+        adboards,
+        location,
+      });
+      // res.send(adboards);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("add danh sach quang cao");
+});
+const editDanhSachQuangCaoCuaDiemDat = asyncHandler(async (req, res) => {
+  try {
+    const currentAdboard = await AdBoard.findById(req.params.idQuangCao);
+    const locationId = new mongoose.Types.ObjectId(req.params.idDiemDat);
+    const location = await Location.findById(locationId);
+    const adboards = await AdBoard.aggregate([
+      {
+        $match: { location: locationId },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          type: 1,
+          properties: 1,
+          geometry: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+          location: "$locationDetails",
+        },
+      },
+    ]);
+
+    if (adboards) {
+      res.render("SoVHTT_DSQCao_Edit", {
+        layout: "layoutSoVHTT_function",
+        adboards,
+        location,
+        currentAdboard,
+      });
+      // res.send(adboards);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("edit danh sach quang cao");
+  // res.json({
+  //   locationID: req.params.idDiemDat,
+  //   adboardID: req.params.idQuangCao,
+  // });
+});
+const themQuangCao = asyncHandler(async (req, res) => {
+  const locationID = req.params.idDiemDat;
+  try {
+    const newBoardType = req.body.loaiBang;
+    const newQuantity = req.body.soLuong;
+    const newSize = req.body.kichThuoc;
+    const newExpirationDate = req.body.ngayHetHan;
+    const newImageUrl = req.body.hinhAnh;
+
+    const newAdboard = new AdBoard({
+      location: locationID,
+      properties: {
+        quantity: newQuantity,
+        boardType: newBoardType,
+        size: newSize,
+        expirationDate: newExpirationDate,
+        imageUrl: newImageUrl,
+      },
+    });
+    // console.log(newAdboard);
+
+    const adboardCreated = await newAdboard.save();
+    // console.log(adboardCreated);
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-quang-cao/` + locationID);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+  // res.send("thuc hien them quang cao");
+});
+const chinhSuaQuangCao = asyncHandler(async (req, res) => {
+  const locationId = new mongoose.Types.ObjectId(req.params.idDiemDat);
+  const location = await Location.findById(locationId);
+  const adboardID = new mongoose.Types.ObjectId(req.params.idQuangCao);
+  const adboard = await AdBoard.findById(adboardID);
+  try {
+    const editedAdboard = {
+      // location: locationId,
+      properties: {
+        quantity: req.body.soLuong,
+        boardType: req.body.loaiBang,
+        size: req.body.kichThuoc,
+        expirationDate: req.body.ngayHetHan,
+        imageUrl: req.body.hinhAnh,
+      },
+    };
+
+    const adboardEdited = await AdBoard.updateOne(
+      { _id: adboard._id },
+      editedAdboard
+    );
+    console.log(editedAdboard);
+    res.status(201).redirect(`/api/sovhtt/danh-sach-quang-cao/` + locationId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("thuc hien chinh sua quang cao");
+});
+const xoaQuangCao = asyncHandler(async (req, res) => {
+  const locationID = req.params.idDiemDat;
+  const adboardID = req.params.idQuangCao;
+  try {
+    const adboardDeleted = await AdBoard.deleteOne({ _id: adboardID });
+    // const adboard = await AdBoard.findById(adboardID);
+    // console.log(adboard);
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-quang-cao/` + locationID);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("thuc hien xoa quang cao");
+  // res.json({
+  //   locationID: req.params.idDiemDat,
+  //   adboardID: req.params.idQuangCao,
+  // });
+});
+
+//////Quan li diem dat
 const danhSachDiemDat = asyncHandler(async (req, res) => {
   try {
     const locations = await Location.aggregate([
@@ -1160,11 +1283,27 @@ const danhSachLoaiDiemDat = asyncHandler(async (req, res) => {
 });
 
 const danhSachHinhThucBaoCao = asyncHandler(async (req, res) => {
-  res.send("danh sach hinh thuc bao cao ne!!!");
+  const uniqueReportFormat = await Report.distinct("reportFormat");
+  // res.json(uniqueReportFormat);
+  if (uniqueReportFormat) {
+    res.render("SoVHTT_DSHThucBCao", {
+      layout: "layoutSoVHTT_function",
+      uniqueReportFormat,
+    });
+    // res.send(locations);
+  }
 });
 
 const danhSachHinhThucQuangCao = asyncHandler(async (req, res) => {
-  res.send("danh sach hinh thuc quang cao ne!!!");
+  const uniqueAdFormat = await Location.distinct("adFormat");
+  // res.json(uniqueAdFormat);
+  if (uniqueAdFormat) {
+    res.render("SoVHTT_DSHThucQCao", {
+      layout: "layoutSoVHTT_function",
+      uniqueAdFormat,
+    });
+    // res.send(locations);
+  }
 });
 
 //Thống kê báo cáo các quận
@@ -1263,9 +1402,6 @@ const thongKeBaoCaoPhuong = asyncHandler(async (req, res) => {
 
 export {
   index,
-  addLocation,
-  updateLocation,
-  deleteLocation,
   danhSachQuan,
   editDanhSachQuan,
   addDanhSachQuan,
@@ -1281,6 +1417,11 @@ export {
   danhSachQuangCao,
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,
+  addDanhSachQuangCaoCuaDiemDat,
+  editDanhSachQuangCaoCuaDiemDat,
+  themQuangCao,
+  chinhSuaQuangCao,
+  xoaQuangCao,
   danhSachDiemDatCuaPhuong,
   editDanhSachDiemDatCuaPhuong,
   addDanhSachDiemDatCuaPhuong,

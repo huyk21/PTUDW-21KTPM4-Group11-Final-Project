@@ -2,9 +2,6 @@ import express from "express";
 const router = express.Router();
 import {
   index,
-  addLocation,
-  updateLocation,
-  deleteLocation,
   danhSachQuan,
   editDanhSachQuan,
   addDanhSachQuan,
@@ -20,6 +17,11 @@ import {
   danhSachQuangCao,
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,
+  addDanhSachQuangCaoCuaDiemDat,
+  editDanhSachQuangCaoCuaDiemDat,
+  themQuangCao,
+  chinhSuaQuangCao,
+  xoaQuangCao,
   danhSachDiemDatCuaPhuong,
   editDanhSachDiemDatCuaPhuong,
   addDanhSachDiemDatCuaPhuong,
@@ -41,9 +43,6 @@ import { authUser, logoutUser } from "../controllers/UserController.js";
 import { protect, sovhtt } from "../middleware/authMiddleware.js";
 
 router.route("/").get(index);
-router.route("/them-diem-dat").post(protect, sovhtt, addLocation);
-router.route("/sua-diem-dat/:id").post(updateLocation);
-router.route("/xoa-diem-dat/:id").delete(deleteLocation);
 // router.route("/database").post(dbGenerator).get(dbGenerator);
 
 //Danh sách các Quận
@@ -85,15 +84,25 @@ router
   .get(danhSachDiemDatCuaPhuong);
 
 //Danh sách bảng quảng cáo theo id điểm đặt
-router
-  .route("/danh-sach-quang-cao")
-  .post(danhSachQuangCao)
-  .get(danhSachQuangCao);
+// router
+//   .route("/danh-sach-quang-cao")
+//   .post(danhSachQuangCao)
+//   .get(danhSachQuangCao);
 
+router
+  .route("/danh-sach-quang-cao/:idDiemDat/addAdboard")
+  .get(addDanhSachQuangCaoCuaDiemDat);
+router
+  .route("/danh-sach-quang-cao/:idDiemDat/editAdboard/:idQuangCao")
+  .get(editDanhSachQuangCaoCuaDiemDat);
+router
+  .route("/danh-sach-quang-cao/:idDiemDat/:idQuangCao")
+  .put(chinhSuaQuangCao)
+  .delete(xoaQuangCao);
 //Danh sách bảng quảng cáo theo id điểm đặt
 router
-  .route("/danh-sach-quang-cao/:id")
-  .post(danhSachQuangCaoCuaDiemDat)
+  .route("/danh-sach-quang-cao/:idDiemDat")
+  .post(themQuangCao)
   .get(danhSachQuangCaoCuaDiemDat);
 
 //Danh sách yêu cầu cấp phép quảng cáo

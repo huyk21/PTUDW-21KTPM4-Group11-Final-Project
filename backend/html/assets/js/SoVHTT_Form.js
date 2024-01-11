@@ -70,6 +70,11 @@ window.onload = function () {
     "openChinhSuaDiemDatModalBtn"
   );
 
+  var addAdboardButton = document.getElementById("openThemQuangCaoModalBtn");
+  var editAdboardnButton = document.getElementById(
+    "openChinhSuaQuangCaoModalBtn"
+  );
+
   // Trigger a click on the button
   if (addDistrictButton) {
     addDistrictButton.click();
@@ -88,6 +93,12 @@ window.onload = function () {
   }
   if (editLocationButton) {
     editLocationButton.click();
+  }
+  if (addAdboardButton) {
+    addAdboardButton.click();
+  }
+  if (editAdboardnButton) {
+    editAdboardnButton.click();
   }
 };
 
@@ -149,6 +160,31 @@ document.addEventListener("DOMContentLoaded", function () {
       wardID +
       "/" +
       locationID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var locationID;
+  var adboardID;
+  var deleteForm = document.forms["delete-adboard-form"];
+  var btnDeleteAdboard = document.getElementById("btn-delete-adboard");
+
+  $("#xoaQuangCaoModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    adboardID = button.data("adboardid");
+    locationID = button.data("locationid");
+
+    // console.log(locationID);
+    // console.log(wardID);
+  });
+  btnDeleteAdboard.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-quang-cao/" +
+      locationID +
+      "/" +
+      adboardID +
       "?_method=DELETE";
     deleteForm.submit();
   };

@@ -31,7 +31,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("wyontlwiblomtswists"));
 app.use(express.static(__dirname + "/html"));
-app.set("views", "/backend/views");
+app.set("views", path.join(__dirname, "/views"));
 app.use("/data", express.static(path.join(__dirname, "/data")));
 
 // Session

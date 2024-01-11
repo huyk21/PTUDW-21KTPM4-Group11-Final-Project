@@ -1,7 +1,8 @@
-document
-  .getElementById("closeReportFormButton")
-  .addEventListener("click", handleClose);
-
+if (document.getElementById("reportForm") != null) {
+  document
+    .getElementById("closeReportFormButton")
+    .addEventListener("click", handleClose);
+}
 function handleClose() {
   resetForm();
   toggleSubmitButton(false);
@@ -46,20 +47,10 @@ async function sendData(captcha) {
     const data = await response.json();
 
     if (data.success) {
-      Swal.fire({
-        title: "Thành công!",
-        text: "Xác nhập captcha thành công!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      alert("Xác nhận captcha thành công!");
       toggleSubmitButton(true);
     } else {
-      Swal.fire({
-        title: "Thất bại!",
-        text: `Xác nhận captcha thất bại!`,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      alert("Xác nhận captcha k thành công!");
     }
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
@@ -81,6 +72,4 @@ function toggleSubmitButton(enabled) {
 // Function to reset the form
 function resetForm() {
   document.getElementById("reportForm").reset(); // Reset the form
-  $("#summernote").summernote("code", ""); // Clear the Summernote editor content
-  // Add code to clear any additional form elements if necessary
 }

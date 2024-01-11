@@ -1,7 +1,9 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/UserModel.js";
-
+import Report from "../models/ReportModel.js";
+import ReportSolution from "../models/ReportSolutionModel.js";
+import Location from "../models/LocationModel.js";
 import session from "express-session";
 import Swal from "sweetalert2";
 import MailService from "../html/assets/js/emailService.js";
@@ -139,8 +141,13 @@ const showPlace = asyncHandler(async (req, res) => {
 });
 
 const getReport = asyncHandler(async (req, res) => {
-  let body = req.body;
-  res.status(200).json({ body });
+  let locationId = req.body.id;
+  let email = req.body.email;
+  let name = req.body.name;
+  let phoneNumber = req.body.phone - number;
+  let reportContent = req.body.report - content;
+  let reportType = req.body.report - type;
+  const location = await Location.findById(locationId).populate(address);
 });
 const uploadImage = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "nicereport" });

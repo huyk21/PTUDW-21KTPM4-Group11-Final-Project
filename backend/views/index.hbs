@@ -44,6 +44,7 @@
                       class="form-control"
                       id="full-name"
                       placeholder="Họ và tên"
+                      name="name"
                       required
                     />
                   </div>
@@ -75,28 +76,21 @@
                   </div>
                   <!-- Report Type -->
                   <div class="mb-3">
-                    <label
-                      for="report-type"
-                      class="form-label"
+                    <label for="report-type" class="form-label">Hình thức báo
+                      cáo</label>
+                    <select
+                      class="form-select"
+                      id="report-type"
                       name="report-type"
-                    >Hình thức báo cáo</label>
-                    <select class="form-select" id="report-type">
-                      <option selected>Chọn hình thức báo cáo</option>
-                      <!-- Option items here -->
-                      <option value="to-giac-sai-pham">
-                        Tố giác sai phạm
-                      </option>
-                      <option value="dang-ky-noi-dung">
-                        Đăng ký nội dung
-                      </option>
-                      <option value="dong-gop-y-kien">
-                        Đóng góp ý kiến
-                      </option>
-                      <option value="giai-dap-thac-mac">
-                        Giải đáp thắc mắc
-                      </option>
+                      required
+                    >
+                      <option value="Tố giác sai phạm">Tố giác sai phạm</option>
+                      <option value="Đăng ký nội dung">Đăng ký nội dung</option>
+                      <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
+                      <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
                     </select>
                   </div>
+
                   <!-- Report Content -->
                   <!-- WYSIWYG Editor for Report Content -->
                   <div class="mb-3">
@@ -105,25 +99,17 @@
                       class="form-label"
                       name="report-content"
                     >Nội dung báo cáo</label>
-                    <div id="summernote"></div>
-                  </div>
-                  <!-- File Upload -->
-                  <div class="mb-3">
-                    <label
-                      for="image-upload"
-                      class="form-label"
-                      onchange="submitImageHandler()"
-                      name="image-upload"
-                    >Tải lên ảnh (tối đa 2 ảnh)</label>
-                    <input
-                      type="file"
+
+                    <textarea
                       class="form-control"
-                      id="image-upload"
-                      accept="image/*"
-                      name="form-control"
-                      multiple
-                    />
+                      id="report-content"
+                      rows="3"
+                      placeholder="Nội dung báo cáo"
+                      required
+                      name="report-content"
+                    ></textarea>
                   </div>
+
                   <!-- Captcha -->
                   <div class="mb-3">
                     <button

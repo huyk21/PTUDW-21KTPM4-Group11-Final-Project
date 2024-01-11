@@ -703,22 +703,7 @@ function validateForm() {
   var email = document.getElementById("email").value;
   var phoneNumber = document.getElementById("phone-number").value;
   var reportType = document.getElementById("report-type").value;
-  var reportContent = $("#summernote").summernote("code");
-
-  // Log the selected image URLs
-  var imageFiles = document.getElementById("image-upload").files;
-  if (imageFiles.length > 0) {
-    console.log("Selected Image Information:");
-    for (var i = 0; i < Math.min(imageFiles.length, 2); i++) {
-      var imageFile = imageFiles[i];
-      console.log("Image " + (i + 1) + ":");
-      console.log(" - Name:", imageFile.name);
-      console.log(" - Type:", imageFile.type);
-      console.log(" - Size:", imageFile.size, "bytes");
-    }
-  } else {
-    console.log("No images selected.");
-  }
+  var reportContent = document.getElementById("report-content").value;
 
   if (
     firstName.trim() === "" ||
@@ -770,32 +755,6 @@ async function submitFormHandler(event) {
   }
 }
 
-function submitImageHandler() {
-  // Log the selected image files information
-  var imageFiles = document.getElementById("image-upload").files;
-  if (imageFiles.length > 0) {
-    // Prepare form data
-    var formData = new FormData();
-    for (var i = 0; i < Math.min(imageFiles.length, 2); i++) {
-      formData.append("image", imageFiles[i]);
-    }
-
-    // Fetch API to submit image data
-    fetch("/api/uploads", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Image(s) submitted successfully:", data);
-      })
-      .catch((error) => {
-        console.error("Error submitting image(s):", error);
-      });
-  } else {
-    console.log("No images selected.");
-  }
-}
 // Event listener for the modal hidden event (fires when the modal is closed)
 $("#reportModal").on("hidden.bs.modal", function () {
   resetForm(); // Reset the form

@@ -160,8 +160,10 @@ function main() {
   });
   map.on("click", "unclustered-point", function (e) {
     e.originalEvent.stopPropagation();
-    const status = e.features[0].properties.location.status;
-
+    const location = JSON.parse(e.features[0].properties.location);
+    const status = location.status;
+    const location_id = location._id;
+    window.history.pushState(null, null, `/place/${location_id}`);
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;

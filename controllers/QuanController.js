@@ -7,20 +7,20 @@ import AdjustBoard from "../models/AdjustBoardModel.js";
 import Location from "../models/LocationModel.js";
 import Ward from "../models/WardModel.js";
 import District from "../models/DistrictModel.js";
-import MailService from "../html/assets/js/emailService.js";
+import MailService from "../backend/html/assets/js/emailService.js";
 //xử lý trên trang chủ quận
 
 const index = asyncHandler(async (req, res) => {
   //const idQuan = "65817cd245551b56b68d8a57";
-  const name = req.session.name
-  const idQuan=req.session.workDistrict;
+  const name = req.session.name;
+  const idQuan = req.session.workDistrict;
   const district = await District.findById(idQuan);
   const ward = await Ward.find({ districtID: idQuan });
   res.render("Quan", {
     layout: "layoutQuan",
     district: district,
     ward: ward,
-    name:name
+    name: name,
   });
 });
 
@@ -104,8 +104,8 @@ const showAdId = asyncHandler(async (req, res) => {
     layout: "layoutAdManager",
     adboardDetails: adboardDetails,
     result: result,
-    district:district,
-    ward:ward
+    district: district,
+    ward: ward,
   });
 });
 const store = asyncHandler(async (req, res) => {
@@ -373,21 +373,21 @@ const editReport = asyncHandler(async (req, res) => {
   const idQuan = result.dictrict._id;
   const idPhuong = result.ward._id;
   //mail structures
-  const location=result.report.location;
-  const reporter=result.report.reporter;
-  const method=req.body.method;
-  const status=req.body.processing;
+  const location = result.report.location;
+  const reporter = result.report.reporter;
+  const method = req.body.method;
+  const status = req.body.processing;
   //mail structures
   const mail = {
     location,
     reporter,
     solution: {
       status,
-      method
-    }
+      method,
+    },
   };
 
-  MailService.sendReportSolution(result.report.email, mail)
+  MailService.sendReportSolution(result.report.email, mail);
   const reportSolution = await ReportSolution.updateOne(
     { for: req.params.reportId },
     {

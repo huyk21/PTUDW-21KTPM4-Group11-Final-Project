@@ -6,7 +6,7 @@ import ReportSolution from "../models/ReportSolutionModel.js";
 import Location from "../models/LocationModel.js";
 import session from "express-session";
 import Swal from "sweetalert2";
-import MailService from "../html/assets/js/emailService.js";
+import MailService from "../backend/html/assets/js/emailService.js";
 import bcrypt from "bcryptjs";
 // @desc    Auth user & get token
 // @route   POST /api/users/auth

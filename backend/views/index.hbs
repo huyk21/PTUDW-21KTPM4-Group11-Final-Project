@@ -31,15 +31,19 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form id="reportForm">
+                <form
+                  id="reportForm"
+                  type="submit"
+                  onsubmit="submitFormHandler(event)"
+                >
                   <!-- Personal Information -->
                   <div class="mb-3">
-                    <label for="first-name" class="form-label">Họ và tên</label>
+                    <label for="full-name" class="form-label">Họ và tên</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="first-name"
-                      placeholder="Họ"
+                      id="full-name"
+                      placeholder="Họ và tên"
                       required
                     />
                   </div>
@@ -51,6 +55,7 @@
                       class="form-control"
                       id="email"
                       placeholder="you@company.com"
+                      name="email"
                       required
                     />
                   </div>
@@ -63,14 +68,18 @@
                         class="form-control"
                         id="phone-number"
                         placeholder="Số điện thoại"
+                        name="phone-number"
                         required
                       />
                     </div>
                   </div>
                   <!-- Report Type -->
                   <div class="mb-3">
-                    <label for="report-type" class="form-label">Hình thức báo
-                      cáo</label>
+                    <label
+                      for="report-type"
+                      class="form-label"
+                      name="report-type"
+                    >Hình thức báo cáo</label>
                     <select class="form-select" id="report-type">
                       <option selected>Chọn hình thức báo cáo</option>
                       <!-- Option items here -->
@@ -91,11 +100,30 @@
                   <!-- Report Content -->
                   <!-- WYSIWYG Editor for Report Content -->
                   <div class="mb-3">
-                    <label for="report-content" class="form-label">Nội dung báo
-                      cáo</label>
+                    <label
+                      for="report-content"
+                      class="form-label"
+                      name="report-content"
+                    >Nội dung báo cáo</label>
                     <div id="summernote"></div>
                   </div>
-
+                  <!-- File Upload -->
+                  <div class="mb-3">
+                    <label
+                      for="image-upload"
+                      class="form-label"
+                      onchange="submitImageHandler()"
+                      name="image-upload"
+                    >Tải lên ảnh (tối đa 2 ảnh)</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="image-upload"
+                      accept="image/*"
+                      name="form-control"
+                      multiple
+                    />
+                  </div>
                   <!-- Captcha -->
                   <div class="mb-3">
                     <button
@@ -113,6 +141,7 @@
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  id="closeReportFormButton"
                 >
                   Close
                 </button>

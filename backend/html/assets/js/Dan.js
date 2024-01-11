@@ -12,6 +12,12 @@ var geolocate = new mapboxgl.GeolocateControl({
   },
   trackUserLocation: true,
 });
+setTimeout(() => {
+  document.getElementById("reportButton").addEventListener("click", () => {
+    openReportModal();
+    closeOverlay();
+  });
+}, 10); // Delaying just a bit to ensure the DOM is updated
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 var map = new mapboxgl.Map({
@@ -162,7 +168,7 @@ function main() {
     const location = JSON.parse(e.features[0].properties.location);
     const status = location.status;
     const location_id = location._id;
-    window.history.pushState(null, null, `/api/place/${location_id}`);
+    window.history.pushState(null, null, `/api/report/${location_id}`);
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -264,14 +270,6 @@ function main() {
 
             // Set up the event listener for the report button
             // It must be done after the popup is added to the map so the button exists in the DOM
-            setTimeout(() => {
-              document
-                .getElementById("reportButton")
-                .addEventListener("click", () => {
-                  openReportModal();
-                  closeOverlay();
-                });
-            }, 10); // Delaying just a bit to ensure the DOM is updated
 
             currentMarker.setPopup(popup); // Set popup to marker and show it
           } else {
@@ -700,3 +698,112 @@ toggleButton2.addEventListener("click", function () {
     toggleButton2.classList.add("bi-toggle-off");
   }
 });
+function validateForm() {
+  var firstName = document.getElementById("full-name").value;
+  var email = document.getElementById("email").value;
+  var phoneNumber = document.getElementById("phone-number").value;
+  var reportType = document.getElementById("report-type").value;
+  var reportContent = $("#summernote").summernote("code");
+
+  // Log the selected image URLs
+  var imageFiles = document.getElementById("image-upload").files;
+  if (imageFiles.length > 0) {
+    console.log("Selected Image Information:");
+    for (var i = 0; i < Math.min(imageFiles.length, 2); i++) {
+      var imageFile = imageFiles[i];
+      console.log("Image " + (i + 1) + ":");
+      console.log(" - Name:", imageFile.name);
+      console.log(" - Type:", imageFile.type);
+      console.log(" - Size:", imageFile.size, "bytes");
+    }
+  } else {
+    console.log("No images selected.");
+  }
+
+  if (
+    firstName.trim() === "" ||
+    email.trim() === "" ||
+    phoneNumber.trim() === "" ||
+    reportType === "Chọn hình thức báo cáo" ||
+    reportContent.trim() === ""
+  ) {
+    alert("Please fill");
+    return false;
+  }
+
+  console.log(
+    "Form data is valid. You can submit the form or perform further actions."
+  );
+  return true; // If you want the form to be submitted
+}
+
+async function submitFormHandler(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  // Validate the form before proceeding
+  if (!validateForm()) {
+    alert("Is not valid data form");
+    return;
+  }
+  var url = window.location.href;
+  var id = url.substring(url.lastIndexOf("/") + 1);
+  var form = document.getElementById("reportForm");
+  const formData = new FormData(form); // 'this' refers to the form
+  formData.append("id", id);
+  // Convert formData to JSON, assuming your server expects JSON
+  const jsonData = Object.fromEntries(formData.entries());
+
+  console.log(jsonData);
+
+  let res = await fetch("/api/report", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json", // sent request
+    },
+    body: JSON.stringify(jsonData), // body data type must match "Content-Type" header
+  });
+  //show the json file
+  if (res.status === 200) {
+    alert("Báo cáo thành công");
+    let result = await res.json();
+    console.log(result);
+  }
+}
+
+function submitImageHandler() {
+  // Log the selected image files information
+  var imageFiles = document.getElementById("image-upload").files;
+  if (imageFiles.length > 0) {
+    // Prepare form data
+    var formData = new FormData();
+    for (var i = 0; i < Math.min(imageFiles.length, 2); i++) {
+      formData.append("image", imageFiles[i]);
+    }
+
+    // Fetch API to submit image data
+    fetch("/api/uploads", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Image(s) submitted successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error submitting image(s):", error);
+      });
+  } else {
+    console.log("No images selected.");
+  }
+}
+// Event listener for the modal hidden event (fires when the modal is closed)
+$("#reportModal").on("hidden.bs.modal", function () {
+  resetForm(); // Reset the form
+});
+
+// Function to reset the form
+function resetForm() {
+  document.getElementById("reportForm").reset(); // Reset the form
+  $("#summernote").summernote("code", ""); // Clear the Summernote editor content
+  // Add code to clear any additional form elements if necessary
+}

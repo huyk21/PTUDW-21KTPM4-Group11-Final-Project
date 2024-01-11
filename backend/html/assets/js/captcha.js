@@ -1,3 +1,12 @@
+document
+  .getElementById("closeReportFormButton")
+  .addEventListener("click", handleClose);
+
+function handleClose() {
+  resetForm();
+  toggleSubmitButton(false);
+}
+
 document.getElementById("captchaButton").addEventListener("click", runVerify);
 
 async function runVerify(e) {
@@ -38,32 +47,40 @@ async function sendData(captcha) {
 
     if (data.success) {
       Swal.fire({
-        title: 'Thành công!',
-        text: 'Xác nhập captcha thành công!',
-        icon: 'success',
-        confirmButtonText: 'OK'
+        title: "Thành công!",
+        text: "Xác nhập captcha thành công!",
+        icon: "success",
+        confirmButtonText: "OK",
       });
       toggleSubmitButton(true);
     } else {
       Swal.fire({
-        title: 'Thất bại!',
+        title: "Thất bại!",
         text: `Xác nhận captcha thất bại!`,
-        icon: 'error',
-        confirmButtonText: 'OK'
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
     Swal.fire({
-      title: 'Thất bại!',
+      title: "Thất bại!",
       text: `Đăng nhập thất bại!`,
-      icon: 'error',
-      confirmButtonText: 'OK'
+      icon: "error",
+      confirmButtonText: "OK",
     });
   }
 }
+
 // Function to enable or disable the submit button based on captcha verification
 function toggleSubmitButton(enabled) {
   const submitButton = document.getElementById("submitButton");
   submitButton.disabled = !enabled;
+}
+
+// Function to reset the form
+function resetForm() {
+  document.getElementById("reportForm").reset(); // Reset the form
+  $("#summernote").summernote("code", ""); // Clear the Summernote editor content
+  // Add code to clear any additional form elements if necessary
 }

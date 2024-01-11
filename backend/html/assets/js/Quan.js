@@ -485,7 +485,7 @@ function showSidebar(properties) {
             <p class="fw-bold fs-6">Trạng thái: ${location.status}</p>
             <p class="fw-bold fs-6">Loại bảng quảng cáo: ${adboard.boardType}</p>
             <p class="fw-bold fs-6">Kích thước: ${adboard.size}</p>
-            <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
+            
         `);
 
     // Add event listener to the new button

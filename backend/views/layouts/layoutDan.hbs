@@ -25,6 +25,10 @@
     <!-- Place the first <script> tag in your HTML's <head> -->
 
     <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    {{! recaptcha }}
+    <script
+      src="https://www.google.com/recaptcha/api.js?render=6LeRskYpAAAAADHXmURgfhBeOBeH76B51U0NmJmj"
+    ></script>
   </head>
   <body>
     <!-- Collapsible Navigation Sidebar -->
@@ -47,7 +51,6 @@
     ></script>
 
     <!-- Your custom script file -->
-    <script type="text/javascript" src="/assets/js/Dan.js"></script>
 
     <!-- Replace the variables below. -->
     <script>
@@ -74,6 +77,8 @@
       $('.note-btn-fullscreen').hide(); $('button.note-btn-close').hide(); } }
       }); });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="/assets/js/captcha.js"></script>
+    <script type="text/javascript" src="/assets/js/Dan.js"></script>
   </body>
 </html>

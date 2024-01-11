@@ -1,3 +1,13 @@
+if (document.getElementById("reportForm") != null) {
+  document
+    .getElementById("closeReportFormButton")
+    .addEventListener("click", handleClose);
+}
+function handleClose() {
+  resetForm();
+  toggleSubmitButton(false);
+}
+
 document.getElementById("captchaButton").addEventListener("click", runVerify);
 
 async function runVerify(e) {
@@ -12,7 +22,6 @@ async function runCaptcha() {
       { action: "login" }
     );
     const test = await sendData(token);
-    console.log(test);
   } catch (error) {
     console.error("Error in runCaptcha:", error);
   }
@@ -38,18 +47,39 @@ async function sendData(captcha) {
     const data = await response.json();
 
     if (data.success) {
-      alert("Xac thuc thanh cong! Score: " + data.score);
+      Swal.fire({
+        title: "Thành công!",
+        text: "Xác nhập captcha thành công!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       toggleSubmitButton(true);
     } else {
-      alert("Xac thuc that bai! " + (data.msg || "Unknown error"));
+      Swal.fire({
+        title: "Thất bại!",
+        text: `Xác nhận captcha thất bại!`,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
-    alert("Đăng nhập thất bại! " + error.message);
+    Swal.fire({
+      title: "Thất bại!",
+      text: `Đăng nhập thất bại!`,
+      icon: "error",
+      confirmButtonText: "OK",
+    });
   }
 }
+
 // Function to enable or disable the submit button based on captcha verification
 function toggleSubmitButton(enabled) {
   const submitButton = document.getElementById("submitButton");
   submitButton.disabled = !enabled;
+}
+
+// Function to reset the form
+function resetForm() {
+  document.getElementById("reportForm").reset(); // Reset the form
 }

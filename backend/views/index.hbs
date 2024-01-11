@@ -31,26 +31,24 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form id="reportForm">
+                <form
+                  id="reportForm"
+                  type="submit"
+                  onsubmit="submitFormHandler(event)"
+                >
                   <!-- Personal Information -->
                   <div class="mb-3">
-                    <label for="first-name" class="form-label">Họ</label>
+                    <label for="full-name" class="form-label">Họ và tên</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="first-name"
-                      placeholder="Họ"
+                      id="full-name"
+                      placeholder="Họ và tên"
+                      name="name"
+                      required
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="last-name" class="form-label">Tên</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="last-name"
-                      placeholder="Tên"
-                    />
-                  </div>
+
                   <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input
@@ -58,6 +56,8 @@
                       class="form-control"
                       id="email"
                       placeholder="you@company.com"
+                      name="email"
+                      required
                     />
                   </div>
                   <div class="mb-3">
@@ -69,6 +69,8 @@
                         class="form-control"
                         id="phone-number"
                         placeholder="Số điện thoại"
+                        name="phoneNumber"
+                        required
                       />
                     </div>
                   </div>
@@ -76,40 +78,46 @@
                   <div class="mb-3">
                     <label for="report-type" class="form-label">Hình thức báo
                       cáo</label>
-                    <select class="form-select" id="report-type">
-                      <option selected>Chọn hình thức báo cáo</option>
-                      <!-- Option items here -->
-                      <option value="to-giac-sai-pham">
-                        Tố giác sai phạm
-                      </option>
-                      <option value="dang-ky-noi-dung">
-                        Đăng ký nội dung
-                      </option>
-                      <option value="dong-gop-y-kien">
-                        Đóng góp ý kiến
-                      </option>
-                      <option value="giai-dap-thac-mac">
-                        Giải đáp thắc mắc
-                      </option>
+                    <select
+                      class="form-select"
+                      id="report-type"
+                      name="reportType"
+                      required
+                    >
+                      <option value="Tố giác sai phạm">Tố giác sai phạm</option>
+                      <option value="Đăng ký nội dung">Đăng ký nội dung</option>
+                      <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
+                      <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
                     </select>
                   </div>
+
                   <!-- Report Content -->
                   <!-- WYSIWYG Editor for Report Content -->
                   <div class="mb-3">
-                    <label for="report-content" class="form-label">Nội dung báo
-                      cáo</label>
-                    <div id="summernote"></div>
+                    <label
+                      for="report-content"
+                      class="form-label"
+                      name="reportContent"
+                    >Nội dung báo cáo</label>
+
+                    <textarea
+                      class="form-control"
+                      id="report-content"
+                      rows="3"
+                      placeholder="Nội dung báo cáo"
+                      required
+                      name="reportContent"
+                    ></textarea>
                   </div>
 
                   <!-- Captcha -->
                   <div class="mb-3">
                     <button
-                      class="g-recaptcha"
-                      data-sitekey="6LehigkpAAAAANXmQHe3C2YykPnRrfBwMcPzkZlN"
-                      data-callback="onSubmit"
-                      data-action="submit"
+                      type="button"
+                      class="btn btn-primary btn-lg btn-block"
+                      id="captchaButton"
                     >
-                      CAptcha
+                      Xác nhận Captcha
                     </button>
                   </div>
                 </form>
@@ -119,10 +127,17 @@
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  id="closeReportFormButton"
                 >
                   Close
                 </button>
-                <button type="submit" class="btn btn-primary" form="reportForm">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  form="reportForm"
+                  id="submitButton"
+                  disabled
+                >
                   Gửi báo cáo
                 </button>
               </div>

@@ -155,7 +155,7 @@
                 name="cancel"
                 id="cancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
-                class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+                class="btn {{#eq license.processStatus 'Đã xử lý' 'null' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
                 href="/api/quan/license/showLiId/{{license._id}}"
                 role="button"
@@ -250,7 +250,7 @@
           <form method="POST" action="/api/quan/license/store" class="m-0" id="createLicense">
             <div class="row">
               <div
-                class="col-7 d-flex flex-row flex-wrap justify-content-between align-items-center my-3"
+                class="col-12 d-flex flex-row flex-wrap justify-content-between align-items-center my-2"
               >
                  <div class="mb-3 visually-hidden">
                   <label for="id" class="form-label fw-bold"></label>
@@ -273,6 +273,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -286,6 +287,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -299,6 +301,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -312,6 +315,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -325,6 +329,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -338,6 +343,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -351,6 +357,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -364,10 +371,11 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
               </div>
-              <div class="col-5 my-3">
+              <div class="col-5 my-3 visually-hidden">
                 <div class="mb-3">
                   <label for="img" class="form-label fw-bold">Chọn file ảnh để
                     tải lên</label>
@@ -378,6 +386,7 @@
                     id="img"
                     placeholder=""
                     aria-describedby="fileHelpId"
+             
                   />
                   <div id="fileHelpId" class="form-text">Chọn ảnh của quảng cáo
                     để tải lên</div>

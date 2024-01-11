@@ -26,13 +26,13 @@ handlebars.registerHelper("eq", function (a, b, c, d, options) {
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
+app.set("views", path.join(__dirname, "./views"));
+app.set("view engine", "hbs"); // set view engine
 app.use(methodOverride("_method"));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("wyontlwiblomtswists"));
 app.use(express.static(__dirname + "/html"));
-app.set("views", path.join(__dirname, "/views"));
-app.use("/data", express.static(path.join(__dirname, "/data")));
 
 // Session
 app.use(
@@ -82,16 +82,13 @@ app.engine(
     },
   })
 );
-
-app.set("view engine", "hbs"); // set view engine
+app.get("/", (req, res) => {
+  res.render("index", { layout: "layoutDan" });
+});
 app.use("/api/sovhtt", SoVHTTRoutes);
 app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);
 app.use("/api/", UserRoutes);
-
-app.get("/", (req, res) => {
-  res.render("index", { layout: "layoutDan" });
-});
 
 app.get("/api/loaddata", async (req, res) => {
   try {
@@ -142,8 +139,8 @@ app.get("/api/loaddata", async (req, res) => {
       },
     ]);
 
-    const workWard = req.session.workWard
-    const workDistrict = req.session.workDistrict
+    const workWard = req.session.workWard;
+    const workDistrict = req.session.workDistrict;
 
     if (
       (workWard === undefined && workDistrict === undefined) ||

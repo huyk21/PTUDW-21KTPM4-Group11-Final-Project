@@ -1,10 +1,12 @@
 const HCMlong = 106.702003;
 const HCMlat = 10.772417;
 const clusterBreakpointZoomLevel = 13; // Adjust this value as needed
-
+let propertiesReport;
+let createReport = false;
 let showReportedMarkers = true; // Flag to toggle visibility
 let markers = []; // Array to store markers
 //access Token
+let reportedPopups = [];
 // Event listener for the button
 var geolocate = new mapboxgl.GeolocateControl({
   positionOptions: {
@@ -26,14 +28,15 @@ var map = new mapboxgl.Map({
   center: [HCMlong, HCMlat],
   zoom: 13,
 });
-
+var geojsonData;
 //main function
 function main() {
   // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
     geolocate.trigger();
     // Load your data
-    const geojsonData = await loadData();
+    geojsonData = await loadData();
+
     //move user to current location of user
 
     // Add the source with your GeoJSON data and enable clustering
@@ -119,9 +122,32 @@ function main() {
         "circle-opacity": 1,
       },
     });
+
+    geojsonData.features.forEach((feature) => {
+      const location = feature.properties.location;
+
+      if (isLocationReported(location._id)) {
+        const coordinates = feature.geometry.coordinates;
+        const popupContent = `<strong>Reported Location:</strong> ${location.address}`;
+
+        // Create a popup
+        const popup = new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+        reportedPopups[location._id] = {
+          popup: popup,
+          coordinates: coordinates,
+          popupContent: popupContent,
+        };
+      }
+    });
   });
   let currentPopup = null; // This will hold the currently open popup
-
+  function hideReportedPopups() {
+    reportedPopups.forEach((popup) => popup.remove());
+    reportedPopups = []; // Clear the array after hiding all popups
+  }
   map.on("mouseenter", "unclustered-point", function (e) {
     map.getCanvas().style.cursor = "pointer"; // Change the cursor style as a UI indicator
     // Ensure you extract 'location' as an object
@@ -164,6 +190,8 @@ function main() {
     }
   });
   map.on("click", "unclustered-point", function (e) {
+    propertiesReport = e.features[0].properties;
+
     e.originalEvent.stopPropagation();
     const location = JSON.parse(e.features[0].properties.location);
     const status = location.status;
@@ -188,7 +216,6 @@ function main() {
   let geolocationActive = true;
   // When a click event occurs on a feature in the clusters layer, zoom in
   map.on("click", "clusters", function (e) {
-    // Get the cluster id from the features properties
     var clusterId = e.features[0].properties.cluster_id;
 
     // Get the point coordinates from the feature
@@ -428,7 +455,7 @@ function showSidebar(properties) {
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
-      showReports(properties); // Assuming 'address' can be used to fetch reports
+      showReports(propertiesReport, properties); // Assuming 'address' can be used to fetch reports
     });
     $("#viewListAdboard").click(function () {
       showListAdboard(properties); // Assuming 'address' can be used to fetch reports
@@ -483,53 +510,57 @@ function showBillboardDetails(adboard) {
   // Implement the logic to display billboard details here
   // You can use a modal or any other method to show the details
 }
-
-function showReports(properties) {
-  // Mock-up report data
-  var reportsData = [
-    {
-      date: "2023-11-15",
-      user: "User1",
-      content: "This is the first report content.",
-    },
-    {
-      date: "2023-11-14",
-      user: "User2",
-      content: "This is the second report content.",
-    },
-    // Add more reports as needed
-  ];
-
-  // Start with an empty HTML string
-  var reportsHtml = "";
-
-  // Loop over each report and append HTML string
-  reportsData.forEach(function (report) {
-    reportsHtml += `
-          <div class="card mt-2">
-              <div class="card-body">
-                  <h6 class="card-title">Report by ${report.user}</h6>
-                  <p class="card-text">${report.content}</p>
-                  <footer class="blockquote-footer">${report.date}</footer>
-                  
-              </div>
-          </div>
-          
-      `;
-  });
-  reportsHtml += `<button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>`;
-  // Set the reports HTML to the sidebar
-  $("#infoContent").html(reportsHtml);
-
-  // Change the text of the button to toggle back to ad details
-  $("#viewReportsBtn")
-    .text("Ẩn Báo Cáo")
-    .off("click")
-    .click(function () {
-      // Assuming showSidebar is your function that shows the ad details
-      showSidebar(properties); // currentProperties should be the current ad details
-    });
+function updateGeoJsonData(geojsonData, location_id) {
+  // Loop through each feature in the GeoJSON data
+  for (let feature of geojsonData.features) {
+    // Check if the feature's ID matches the reported location's ID
+    var location = feature.properties.location;
+  }
 }
+
+function showReports(propertiesReport, properties) {
+  const location = JSON.parse(propertiesReport.location);
+  //find un-clustered point thta has the same location id
+
+  const reportsCollection =
+    JSON.parse(localStorage.getItem("reportCollection")) || {};
+  console.log(reportsCollection);
+  const report = reportsCollection.find((r) => r.id === location._id);
+  console.log(report);
+
+  // Check if a report is found
+  if (report) {
+    let reportHtml = `
+        <div class="card mt-2">
+            <div class="card-body">
+                <h6 class="card-title">Họ tên: ${report.name}</h6>
+                <p class="card-text">Nội dung report: ${
+                  report.reportContent
+                }</p>
+                <footer class="blockquote-footer">${new Date().toLocaleDateString()}</footer>
+            </div>
+        </div>
+      `;
+
+    $("#infoContent").html(reportHtml);
+    $("#viewReportsBtn")
+      .text("Ẩn Báo Cáo")
+      .off("click")
+      .click(function () {
+        showSidebar(properties);
+      });
+  } else {
+    // Handle the case where no reports are available
+    $("#infoContent").html("<p>No reports available for this location.</p>");
+    $("#viewReportsBtn")
+      .text("Ẩn Báo Cáo")
+      .off("click")
+      .click(function () {
+        showSidebar(properties);
+      });
+  }
+}
+
 // Function to hide the sidebar
 function hideSidebar(map) {
   $("#sidebar").removeClass("visible");
@@ -591,6 +622,7 @@ async function loadData() {
         };
       }),
     };
+
     return featureCollection;
   } catch (error) {
     console.error(error);
@@ -622,27 +654,30 @@ function toggleMarkers() {
   });
 }
 
+let showReportedPopups = true; // Flag to track popup visibility
+let shouldRemovePopup = true;
 function toggleReportedMarkers() {
-  const unclusteredLayerId = "unclustered-point"; // The ID of your unclustered points layer
+  const unclusteredLayerId = "unclustered-point";
 
-  // Change the opacity for markers with status "BỊ BÁO CÁO"
+  // Toggle marker opacity
   const opacityExpression = [
     "case",
     ["==", ["get", "status", ["get", "location"]], "BỊ BÁO CÁO"],
-    showReportedMarkers ? 0 : 1, // toggle opacity for these markers
+    showReportedMarkers ? 0 : 1,
     1,
-  ]; // keep other markers unaffected
-
+  ];
   map.setPaintProperty(unclusteredLayerId, "circle-opacity", opacityExpression);
 
-  // Toggle the flag
-  showReportedMarkers = !showReportedMarkers;
-}
+  if (showReportedPopups) {
+    detachReportedPopups();
+  } else {
+    reattachReportedPopups();
+  }
 
-// Example of modifying the click event handler
-map.on("click", "unclustered-point", (e) => {
-  // Rest of your click handling logic...
-});
+  // Toggle flags
+  showReportedMarkers = !showReportedMarkers;
+  showReportedPopups = !showReportedPopups;
+}
 
 // Event listener for the button
 
@@ -757,6 +792,12 @@ async function submitFormHandler(event) {
     });
     let result = await res.json();
     console.log(result);
+    saveReportCollection(jsonData);
+    console.log(localStorage.getItem("reportCollection"));
+    //reload the web
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   } else {
     Swal.fire({
       title: "Thất bại!",
@@ -775,6 +816,45 @@ $("#reportModal").on("hidden.bs.modal", function () {
 // Function to reset the form
 function resetForm() {
   document.getElementById("reportForm").reset(); // Reset the form
-  $("#summernote").summernote("code", ""); // Clear the Summernote editor content
+
   // Add code to clear any additional form elements if necessary
+}
+
+// Function to save the report collection to local storage
+const saveReportCollection = (jsonData) => {
+  // Get the existing report collection or initialize it as an empty array
+  let reportCollection =
+    JSON.parse(localStorage.getItem("reportCollection")) || [];
+
+  // Add the new report to the collection
+  reportCollection.push(jsonData);
+
+  // Save the updated collection back to localStorage
+  localStorage.setItem("reportCollection", JSON.stringify(reportCollection));
+};
+function isLocationReported(location_id) {
+  const reportsCollection =
+    JSON.parse(localStorage.getItem("reportCollection")) || [];
+  return reportsCollection.some((report) => report.id === location_id);
+}
+
+function detachReportedPopups() {
+  Object.keys(reportedPopups).forEach((locationId) => {
+    const popup = reportedPopups[locationId].popup;
+    popup.remove(); // This removes the popup from the map\
+    console.log(reportedPopups);
+  });
+}
+
+function reattachReportedPopups() {
+  Object.keys(reportedPopups).forEach((locationId) => {
+    const { popupContent, popup, coordinates } = reportedPopups[locationId];
+    console.log(reportedPopups);
+    const newPopup = new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(popupContent)
+      .addTo(map);
+
+    reportedPopups[locationId].popup = newPopup; // Update the reference to the new popup
+  });
 }

@@ -7,17 +7,20 @@ import AdjustBoard from "../models/AdjustBoardModel.js";
 import Location from "../models/LocationModel.js";
 import Ward from "../models/WardModel.js";
 import District from "../models/DistrictModel.js";
-
+import MailService from "../html/assets/js/emailService.js";
 //xử lý trên trang chủ quận
 
 const index = asyncHandler(async (req, res) => {
-  const idQuan = "65817cd245551b56b68d8a57";
+  //const idQuan = "65817cd245551b56b68d8a57";
+  const name = req.session.name
+  const idQuan=req.session.workDistrict;
   const district = await District.findById(idQuan);
   const ward = await Ward.find({ districtID: idQuan });
   res.render("Quan", {
     layout: "layoutQuan",
     district: district,
     ward: ward,
+    name:name
   });
 });
 
@@ -37,7 +40,7 @@ const index = asyncHandler(async (req, res) => {
 
 //xử lý trên trang quản lý bảng quảng cáo
 const showAd = asyncHandler(async (req, res) => {
-  const idQuan = "65817cd245551b56b68d8a57";
+  const idQuan = req.session.workDistrict;
   const idPhuong = req.params.idPhuong;
   const district = await District.findById(idQuan);
   const ward = await Ward.findById(idPhuong);
@@ -141,7 +144,7 @@ const store = asyncHandler(async (req, res) => {
 });
 //xử lý trên trang yêu cầu cấp phép
 const showLicense = asyncHandler(async (req, res) => {
-  const idQuan = "65817cd245551b56b68d8a57";
+  const idQuan = req.session.workDistrict;
   const idPhuong = req.params.idPhuong;
   const dictrict = await District.findById(idQuan);
   const ward = await Ward.findById(idPhuong);
@@ -213,7 +216,7 @@ const showLicenseId = asyncHandler(async (req, res) => {
 });
 const createLicense = asyncHandler(async (req, res) => {
   const idPhuong = req.body.id;
-  const idQuan = "65817cd245551b56b68d8a57";
+  const idQuan = req.session.workDistrict;
   const location = await Location.find({});
   const locations = await Promise.all(
     location.map(async (location) => {
@@ -279,7 +282,7 @@ const deleteLicense = asyncHandler(async (req, res) => {
 });
 //xử lý trên trang báo cáo
 const showReport = asyncHandler(async (req, res) => {
-  const idQuan = "65817cd245551b56b68d8a57";
+  const idQuan = req.session.workDistrict;
   const idPhuong = req.params.idPhuong;
   const dictrict = await District.findById(idQuan);
   const ward = await Ward.findById(idPhuong);
@@ -369,11 +372,27 @@ const editReport = asyncHandler(async (req, res) => {
   );
   const idQuan = result.dictrict._id;
   const idPhuong = result.ward._id;
+  //mail structures
+  const location=result.report.location;
+  const reporter=result.report.reporter;
+  const method=req.body.method;
+  const status=req.body.processing;
+  //mail structures
+  const mail = {
+    location,
+    reporter,
+    solution: {
+      status,
+      method
+    }
+  };
+
+  MailService.sendReportSolution(result.report.email, mail)
   const reportSolution = await ReportSolution.updateOne(
     { for: req.params.reportId },
     {
       method: req.body.method,
-      status: req.body.processed,
+      status: req.body.processing,
     }
   );
   res.redirect(`/api/quan/report/${idPhuong}`);

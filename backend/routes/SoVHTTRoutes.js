@@ -30,6 +30,8 @@ import {
   xoaDiemDat,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
+  approveDanhSachYeuCauChinhSuaDiemDat,
+  duyetYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
   approveDanhSachYeuCauChinhSuaQuangCao,
   duyetYeuCauChinhSuaQuangCao,
@@ -113,10 +115,16 @@ router
   .post(danhSachYeuCauCapPhepQuangCao)
   .get(danhSachYeuCauCapPhepQuangCao);
 
+router
+  .route("/danh-sach-yeu-cau-chinh-sua-diem-dat/:idCurrent/approve/:idNew")
+  .get(approveDanhSachYeuCauChinhSuaDiemDat);
+
+router
+  .route("/danh-sach-yeu-cau-chinh-sua-diem-dat/:idCurrent/:idNew")
+  .put(duyetYeuCauChinhSuaDiemDat);
 //Danh sách yêu cầu chỉnh sửa điểm đặt
 router
   .route("/danh-sach-yeu-cau-chinh-sua-diem-dat")
-  .post(danhSachYeuCauChinhSuaDiemDat)
   .get(danhSachYeuCauChinhSuaDiemDat);
 
 router

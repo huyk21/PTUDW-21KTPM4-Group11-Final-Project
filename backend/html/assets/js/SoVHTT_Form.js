@@ -71,12 +71,15 @@ window.onload = function () {
   );
 
   var addAdboardButton = document.getElementById("openThemQuangCaoModalBtn");
-  var editAdboardnButton = document.getElementById(
+  var editAdboardButton = document.getElementById(
     "openChinhSuaQuangCaoModalBtn"
   );
 
-  var approveEditAdboardnButton = document.getElementById(
+  var approveEditAdboardButton = document.getElementById(
     "openXetDuyetChinhSuaQuangCaoModalBtn"
+  );
+  var approveEditLocationButton = document.getElementById(
+    "openXetDuyetChinhSuaDiemDatModalBtn"
   );
 
   // Trigger a click on the button
@@ -101,12 +104,16 @@ window.onload = function () {
   if (addAdboardButton) {
     addAdboardButton.click();
   }
-  if (editAdboardnButton) {
-    editAdboardnButton.click();
+  if (editAdboardButton) {
+    editAdboardButton.click();
   }
 
-  if (approveEditAdboardnButton) {
-    approveEditAdboardnButton.click();
+  if (approveEditLocationButton) {
+    approveEditLocationButton.click();
+  }
+
+  if (approveEditAdboardButton) {
+    approveEditAdboardButton.click();
   }
 };
 

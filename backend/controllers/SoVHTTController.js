@@ -1127,6 +1127,7 @@ const danhSachYeuCauCapPhepQuangCao = asyncHandler(async (req, res) => {
   }
 });
 
+// danh sach yeu cau chinh sua diem dat
 const danhSachYeuCauChinhSuaDiemDat = asyncHandler(async (req, res) => {
   // const adjustlocations = await AdjustLocation.find({});
   // res.render("SoVHTT_YCCSuaDDat", {
@@ -1196,7 +1197,115 @@ const danhSachYeuCauChinhSuaDiemDat = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+const approveDanhSachYeuCauChinhSuaDiemDat = asyncHandler(async (req, res) => {
+  // res.send("clone danh sach yeu cau chinh sua quang cao");
+  const newLocation = await AdjustLocation.findById(req.params.idNew);
+  const currentLocation = await Location.findById(newLocation.forID);
+  // res.json({
+  //   current: currentAdboard,
+  //   new: newAdboard,
+  // });
+  try {
+    const adjustlocations = await AdjustLocation.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "forID",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardOfLocation",
+        },
+      },
+      {
+        $unwind: "$wardOfLocation",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtOfLocation",
+        },
+      },
+      {
+        $unwind: "$districtOfLocation",
+      },
+      {
+        $project: {
+          for: 1,
+          newAddress: 1,
+          newLocationType: 1,
+          newAdFormat: 1,
+          newStatus: 1,
+          adjustDate: 1,
+          reason: 1,
+          location: "$locationDetails",
+          ward: "$wardOfLocation",
+          district: "$districtOfLocation",
+        },
+      },
+    ]);
 
+    if (adjustlocations) {
+      res.render("SoVHTT_YCCSuaDDat_Duyet", {
+        layout: "layoutSoVHTT_function",
+        adjustlocations,
+        newLocation,
+        currentLocation,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const duyetYeuCauChinhSuaDiemDat = asyncHandler(async (req, res) => {
+  // res.send("clone danh sach yeu cau chinh sua quang cao");
+  const newLocation = await AdjustLocation.findById(req.params.idNew);
+  const currentLocation = await Location.findById(newLocation.forID);
+  // res.json({
+  //   current: currentAdboard,
+  //   new: newAdboard,
+  // });
+
+  try {
+    const editedLocation = {
+      address: req.body.diaChi,
+      locationType: req.body.phanLoai,
+      adFormat: req.body.hinhThuc,
+      status: req.body.tinhTrang,
+    };
+    const locationEdited = await Location.updateOne(
+      { _id: currentLocation._id },
+      editedLocation
+    );
+    console.log(editedLocation);
+
+    const requestDeleted = await AdjustLocation.deleteOne({
+      _id: newLocation._id,
+    });
+    console.log(requestDeleted);
+    res
+      .status(201)
+      .redirect(`/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("thuc hien duyet yeu cau chinh sua diem dat");
+});
+
+// danh sach yeu cau chinh sua quang cao
 const danhSachYeuCauChinhSuaQuangCao = asyncHandler(async (req, res) => {
   // const adjustboards = await AdjustBoard.find({});
   // res.render("SoVHTT_DSYCCSuaQCao", {
@@ -1548,6 +1657,8 @@ export {
   xoaDiemDat,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
+  approveDanhSachYeuCauChinhSuaDiemDat,
+  duyetYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
   approveDanhSachYeuCauChinhSuaQuangCao,
   duyetYeuCauChinhSuaQuangCao,

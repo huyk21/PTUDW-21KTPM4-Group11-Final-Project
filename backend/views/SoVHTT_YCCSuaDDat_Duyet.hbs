@@ -1,8 +1,8 @@
 <main>
 
   <div class="container">
-    {{!-- <div class="container mt-3">
-      <!-- Modal them yeu cau chinh sua quang cao-->
+    <div class="container mt-3">
+      <!-- Modal chinh sua diem dat-->
       <div
         class="modal fade"
         id="xetYeuCau"
@@ -15,7 +15,7 @@
           <div class="modal-content">
             <div class="modal-header bg-primary text-white">
               <h4 class="modal-title" id="xetYeuCauLabel">Chi tiết yêu cầu chỉnh
-                sửa quảng cáo</h4>
+                sửa điểm đặt</h4>
               <button
                 type="button"
                 class="close"
@@ -30,41 +30,31 @@
                 <div class="col-md-6">
                   <!-- Left side of the split body -->
                   <div class="container">
-                    <p><strong>Loại bảng:</strong>
-                      {{adboard.properties.boardType}}</p>
-                    <p><strong>Kích thước:</strong>
-                      {{adboard.properties.size}}</p>
-                    <p><strong>Số lượng:</strong>
-                      {{adboard.properties.quantity}}</p>
-                    <p><strong>Ngày hết hạn hợp đồng:</strong>
-                      {{adboard.properties.expirationDate}}</p>
-                    <p><strong>Hình ảnh:</strong></p>
-                    <img
-                      src="/billboard.jpg"
-                      class="img-fluid mb-1"
-                      alt="image not found"
-                    />
+                    <p><strong>Địa chỉ:</strong>
+                      {{location.address}}</p>
+                    <p><strong>Khu vực:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
+                    <p><strong>Hình thức:</strong> {{location.adFormat}}</p>
+                    <p><strong>Phân loại:</strong>
+                      {{location.locationType}}</p>
                   </div>
                   <h5 class="text-center bg-secondary text-white">Trước</h5>
                 </div>
                 <div class="col-md-6 border-left">
                   <!-- Right side of the split body with vertical line -->
                   <div class="container">
-                    <p><strong>Loại bảng mới:</strong>
-                      {{adjustboard.newBoardType}}</p>
-                    <p><strong>Kích thước mới:</strong>
-                      {{adjustboard.newSize}}</p>
-                    <p><strong>Số lượng mới:</strong>
-                      {{adjustboard.newQuantity}}</p>
-                    <p><strong>Ngày hết hạn hợp đồng mới:</strong>
-                      {{adjustboard.newExpirationDate}}</p>
-                    <p><strong>Hình ảnh:</strong></p>
-                    <img
-                      src="/billboard.jpg"
-                      class="img-fluid mb-1"
-                      alt="image not found"
-                    />
-
+                    <p><strong>Địa chỉ mới:</strong>
+                      {{this.newAddress}}</p>
+                    <p><strong>Khu vực mới:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
+                    <p><strong>Hình thức mới:</strong>
+                      {{this.newAdFormat}}</p>
+                    <p><strong>Phân loại mới:</strong>
+                      {{this.newLocationType}}</p>
                   </div>
                   <h5 class="text-center bg-secondary text-white">Sau</h5>
                 </div>
@@ -76,7 +66,7 @@
               <div class="container">
                 <h6 class="float-left"><span
                     class="bg-success float-left text-success"
-                  >aaaa</span>
+                  >____</span>
                   : nội dung được chỉnh sửa</h6>
               </div>
 
@@ -95,15 +85,16 @@
                 class="btn btn-secondary float-right mt-3"
                 data-dismiss="modal"
               >Hủy</button>
+
             </div>
 
           </div>
         </div>
       </div>
-    </div> --}}
+    </div>
 
     <table class="table table-bordered">
-      <h2 class="text-center">Danh sách các yêu cầu chỉnh sửa quảng cáo</h2>
+      <h2 class="text-center">Danh sách các yêu cầu chỉnh sửa điểm đặt</h2>
       <!-- Button trigger modal -->
       <button type="button" class="btn bg-opacity-0 float-right mb-2">
         <i class="bi bi-funnel"></i>
@@ -121,7 +112,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each adjustboards}}
+        {{#each adjustlocations}}
           <tr>
             <td scope="row">{{showIndex @index}}</td>
             <td>{{this.location.address}}</td>
@@ -136,10 +127,10 @@
                 class="text-secondary float-end pe-auto"
                 {{! data-toggle="modal"
                 data-target="#chinhSuaQuan" }}
-                id="openXetDuyetChinhSuaQuangCaoModalBtn"
+                id="openXetDuyetChinhSuaDiemDatModalBtn"
                 role="button"
                 data-bs-toggle="modal"
-                data-bs-target="#xetDuyetChinhSuaQuangCao"
+                data-bs-target="#xetDuyetChinhSuaDiemDat"
               >
                 <i class="bi bi-info-circle text-secondary"></i>
                 Xử lí
@@ -154,10 +145,10 @@
   <!-- Modal chinh sua quang cao-->
   <div
     class="modal fade"
-    id="xetDuyetChinhSuaQuangCao"
+    id="xetDuyetChinhSuaDiemDat"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="xetDuyetChinhSuaQuangCaoLabel"
+    aria-labelledby="xetDuyetChinhSuaDiemDatLabel"
     aria-hidden="true"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -168,8 +159,8 @@
     >
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h4 class="modal-title" id="xetDuyetChinhSuaQuangCaoLabel">Chi tiết
-            yêu cầu chỉnh sửa quảng cáo</h4>
+          <h4 class="modal-title" id="xetDuyetChinhSuaDiemDatLabel">Chi tiết yêu
+            cầu chỉnh sửa điểm đặt</h4>
           <button
             type="button"
             class="btn-close"
@@ -187,73 +178,59 @@
                 <!-- Left side of the split body -->
                 <div class="container">
                   <form
-                    id="rejectEditAdboardForm"
+                    id="rejectEditLocationForm"
                     method="POST"
-                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/{{currentAdboard._id}}/{{newAdboard._id}}?_method=PUT"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/{{currentLocation._id}}/{{newLocation._id}}?_method=PUT"
                   >
                     {{!  }}
-                    <label for="loaiBang" class="mt-3">
-                      <p><strong>Loại bảng hiện tại:</strong>
-                      </p>
+                    <label for="diaChi" class="mt-3">
+                      <p><strong>Địa chỉ hiện tại:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="loaiBang"
-                      name="loaiBang"
-                      value="{{currentAdboard.properties.boardType}}"
+                      id="diaChi"
+                      name="diaChi"
+                      value="{{currentLocation.address}}"
                       readonly
                     />
                     {{!  }}
-                    <label for="kichThuoc" class="mt-3">
-                      <p><strong>Kích thước hiện tại:</strong>
-                      </p>
+                    <label for="hinhThuc" class="mt-3">
+                      <p><strong>Hình thức hiện tại:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="kichThuoc"
-                      name="kichThuoc"
-                      value="{{currentAdboard.properties.size}}"
+                      id="hinhThuc"
+                      name="hinhThuc"
+                      value="{{currentLocation.adFormat}}"
                       readonly
                     />
 
                     {{!  }}
-                    <label for="soLuong" class="mt-3">
-                      <p><strong>Số lượng hiện tại:</strong>
-                      </p>
+                    <label for="phanLoai" class="mt-3">
+                      <p><strong>Phân loại hiện tại:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="soLuong"
-                      name="soLuong"
-                      value="{{currentAdboard.properties.quantity}}"
+                      id="phanLoai"
+                      name="phanLoai"
+                      value="{{currentLocation.locationType}}"
                       readonly
                     />
 
                     {{!  }}
-                    <label for="ngayHetHan" class="mt-3">
-                      <p><strong>Ngày hết hạn hợp đồng hiện tại:</strong>
-                      </p>
+                    <label for="tinhTrang" class="mt-3">
+                      <p><strong>Tình trạng hiện tại:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="ngayHetHan"
-                      name="ngayHetHan"
-                      value="{{currentAdboard.properties.expirationDate}}"
+                      id="tinhTrang"
+                      name="tinhTrang"
+                      value="{{currentLocation.status}}"
                       readonly
-                    />
-
-                    <label for="hinhAnh" class="mt-3">
-                      <p><strong>Hình ảnh hiện tại:</strong></p>
-                    </label>
-                    <img
-                      id=" hinhAnh"
-                      src="/assets/img/billboard.jpg"
-                      class="img-fluid mb-1"
-                      alt="image not found"
                     />
                   </form>
                 </div>
@@ -263,73 +240,59 @@
                 <!-- Right side of the split body with vertical line -->
                 <div class="container">
                   <form
-                    id="approveEditAdboardForm"
+                    id="approveEditLocationForm"
                     method="POST"
-                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/{{currentAdboard._id}}/{{newAdboard._id}}?_method=PUT"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/{{currentLocation._id}}/{{newLocation._id}}?_method=PUT"
                   >
                     {{!  }}
-                    <label for="loaiBang" class="mt-3">
-                      <p><strong>Loại bảng mới:</strong>
-                      </p>
+                    <label for="diaChi" class="mt-3">
+                      <p><strong>Địa chỉ mới:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="loaiBang"
-                      name="loaiBang"
-                      value="{{newAdboard.newBoardType}}"
+                      id="diaChi"
+                      name="diaChi"
+                      value="{{newLocation.newAddress}}"
                       readonly
                     />
                     {{!  }}
-                    <label for="kichThuoc" class="mt-3">
-                      <p><strong>Kích thước mới:</strong>
-                      </p>
+                    <label for="hinhThuc" class="mt-3">
+                      <p><strong>Hình thức mới:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="kichThuoc"
-                      name="kichThuoc"
-                      value="{{newAdboard.newSize}}"
+                      id="hinhThuc"
+                      name="hinhThuc"
+                      value="{{newLocation.newAdFormat}}"
                       readonly
                     />
 
                     {{!  }}
-                    <label for="soLuong" class="mt-3">
-                      <p><strong>Số lượng mới:</strong>
-                      </p>
+                    <label for="phanLoai" class="mt-3">
+                      <p><strong>Phân loại mới:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="soLuong"
-                      name="soLuong"
-                      value="{{newAdboard.newQuantity}}"
+                      id="phanLoai"
+                      name="phanLoai"
+                      value="{{newLocation.newLocationType}}"
                       readonly
                     />
 
                     {{!  }}
-                    <label for="ngayHetHan" class="mt-3">
-                      <p><strong>Ngày hết hạn hợp đồng mới:</strong>
-                      </p>
+                    <label for="tinhTrang" class="mt-3">
+                      <p><strong>Tình trạng mới:</strong></p>
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="ngayHetHan"
-                      name="ngayHetHan"
-                      value="{{newAdboard.newExpirationDate}}"
+                      id="tinhTrang"
+                      name="tinhTrang"
+                      value="{{newLocation.newStatus}}"
                       readonly
-                    />
-
-                    <label for="hinhAnh" class="mt-3">
-                      <p><strong>Hình ảnh mới:</strong></p>
-                    </label>
-                    <img
-                      id=" hinhAnh"
-                      src="/assets/img/billboard.jpg"
-                      class="img-fluid mb-1"
-                      alt="image not found"
                     />
                   </form>
 
@@ -343,22 +306,22 @@
         <div class="modal-footer">
           <button
             type="submit"
-            id="submitBtnApproveXetDuyetChinhSuaQuangCao"
+            id="submitBtnApproveXetDuyetChinhSuaDiemDat"
             class="btn btn-success float-right mt-3 mr-1"
-            form="approveEditAdboardForm"
+            form="approveEditLocationForm"
           >Phê duyệt</button>
           <button
             type="submit"
-            id="submitBtnRejectXetDuyetChinhSuaQuangCao"
+            id="submitBtnRejectXetDuyetChinhSuaDiemDat"
             class="btn btn-danger float-right mt-3 mr-1"
-            form="rejectEditAdboardForm"
+            form="rejectEditLocationForm"
           >Từ chối</button>
 
           <button
             type="button"
             class="btn btn-secondary float-right mt-3"
-            onclick="window.location.href='/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/'"
-            id="closeBtnChinhSuaQuangCao"
+            onclick="window.location.href='/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/'"
+            id="closeBtnChinhSuaDiemDat"
           >Hủy</button>
         </div>
       </div>

@@ -1,0 +1,175 @@
+<main>
+
+  <div class="container">
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách điểm đặt</h2>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-success float-right mb-2"
+        data-toggle="modal"
+        data-target="#themDiemDat"
+      >
+        <i class="bi bi-plus-square"></i>
+        Thêm
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Khu vực</th>
+          {{! <th scope="col">Số lượng</th> }}
+          <th scope="col">Hình thức</th>
+          <th scope="col">Phân loại</th>
+          <th scope="col">Tình trạng</th>
+          <th scope="col">Chi tiết</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each locations}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.ward.name}} - {{this.district.name}}</td>
+            {{!-- <td>{{this.adboard.properties.quantity}}</td> --}}
+            <td>{{this.adFormat}}</td>
+            <td>{{this.locationType}}</td>
+            <td>{{this.status}}</td>
+            <td>
+              <a href="/api/sovhtt/danh-sach-quang-cao/{{this._id}}">Chi tiết</a></td>
+            <td>
+              <a
+                href="#"
+                class="pe-auto"
+                data-toggle="modal"
+                data-target="#xoaPhuongModal"
+                data-wardId="{{this._id}}"
+                data-districtId="{{this.districtID}}"
+              >
+                <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
+              </a>
+            </td>
+            <td>
+              <a
+                name="edit"
+                href="/api/sovhtt/danh-sach-diem-dat/"
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="openChinhSuaDiemDatModalBtn"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#chinhSuaDiemDat"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal chinh sua diem dat quang cao-->
+  <div
+    class="modal fade"
+    id="chinhSuaDiemDat"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="chinhSuaDiemDatLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="chinhSuaDiemDatLabel">Chỉnh sửa điểm đặt</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6 class="mt-1 text-center font-italic opacity-50">Lưu ý: Để trống
+            nếu không chỉnh sửa</h6>
+          <!-- Your form goes here -->
+          <form
+            id="editLocationForm"
+            method="POST"
+            action="/api/sovhtt/danh-sach-diem-dat/{{ward._id}}/{{currentLocation._id}}?_method=PUT"
+          >
+            <div class="mb-3">
+              <label for="diaChi" class="mt-3">
+                <h6>Địa chỉ</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="diaChi"
+                name="diaChi"
+                value="{{currentLocation.address}}"
+              />
+
+              <label for="khuVuc" class="mt-3">
+                <h6>Khu vực</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="khuVuc"
+                name="khuVuc"
+                value="{{ward.name}}"
+                readonly
+              />
+
+              <label for="hinhThuc" class="mt-3">
+                <h6>Hình thức</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="hinhThuc"
+                name="hinhThuc"
+                value="{{currentLocation.adFormat}}"
+              />
+
+              <label for="phanLoai" class="mt-3">
+                <h6>Phân loại</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="phanLoai"
+                name="phanLoai"
+                value="{{currentLocation.locationType}}"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-diem-dat/{{ward._id}}'"
+            id="closeBtnChinhSuaDiemDat"
+          >Hủy</button>
+          <button
+            type="submit"
+            id="submitBtnChinhSuaDiemDat"
+            class="btn btn-primary float-right mt-3 mr-1"
+            form="editLocationForm"
+          >Lưu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

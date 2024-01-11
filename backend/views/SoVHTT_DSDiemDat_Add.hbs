@@ -1,0 +1,163 @@
+<main>
+
+  <div class="container">
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách điểm đặt</h2>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-success float-right mb-2"
+        id="openThemDiemDatModalBtn"
+        data-bs-toggle="modal"
+        data-bs-target="#themDiemDat"
+      >
+        <i class="bi bi-person-plus"></i>
+        Thêm
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Khu vực</th>
+          {{! <th scope="col">Số lượng</th> }}
+          <th scope="col">Hình thức</th>
+          <th scope="col">Phân loại</th>
+          <th scope="col">Tình trạng</th>
+          <th scope="col">Chi tiết</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each locations}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.ward.name}} - {{this.district.name}}</td>
+            {{!-- <td>{{this.adboard.properties.quantity}}</td> --}}
+            <td>{{this.adFormat}}</td>
+            <td>{{this.locationType}}</td>
+            <td>{{this.status}}</td>
+            <td>
+              <a href="/api/sovhtt/danh-sach-quang-cao/{{this._id}}">Chi tiết</a></td>
+            <td>
+              <button class="btn">
+                <i class="bi bi-trash-fill text-danger"></i>
+              </button>
+              <button
+                class="btn"
+                data-toggle="modal"
+                data-target="#chinhSuaDiemDat"
+              >
+                <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal them diem dat quang cao-->
+  <div
+    class="modal fade"
+    id="themDiemDat"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="themDiemDatLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="themDiemDatLabel">Thêm điểm đặt</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <form
+            id="addLocationForm"
+            method="POST"
+            action="/api/sovhtt/danh-sach-diem-dat/{{ward._id}}"
+          >
+            <div class="mb-3">
+              <label for="diaChi" class="mt-3">
+                <h6>Địa chỉ</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="diaChi"
+                name="diaChi"
+                placeholder="Nhập địa chỉ (vd: Điện Biên Phủ - Mạc Đĩnh Chi)"
+              />
+
+              <label for="khuVuc" class="mt-3">
+                <h6>Khu vực</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="khuVuc"
+                name="khuVuc"
+                value="{{ward.name}}"
+                readonly
+              />
+
+              <label for="hinhThuc" class="mt-3">
+                <h6>Hình thức</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="hinhThuc"
+                name="hinhThuc"
+                placeholder="Nhập hình thức (vd: Cổ động chính trị)"
+              />
+
+              <label for="phanLoai" class="mt-3">
+                <h6>Phân loại</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="phanLoai"
+                name="phanLoai"
+                placeholder="Nhập phân loại (vd: Đất công/công viên/hành lang)"
+              />
+
+              <label for="viTri" class="mt-3">
+                <h6>Vị trí</h6>
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-diem-dat/{{ward._id}}'"
+            id="closeBtnThemDiemDat"
+          >Hủy</button>
+          <button
+            type="submit"
+            id="submitBtnThemDiemDat"
+            class="btn btn-primary float-right mt-3 mr-1"
+            form="addLocationForm"
+          >Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

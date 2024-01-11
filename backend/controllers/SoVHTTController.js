@@ -161,7 +161,6 @@ const danhSachQuan = asyncHandler(async (req, res) => {
       // res.json({ districts });
       res.render("SoVHTT_DSQuan", {
         layout: "layoutSoVHTT_function",
-        // districts: multipleMongooseToObject(districts),
         districts,
       });
     }
@@ -702,7 +701,140 @@ const danhSachDiemDat = asyncHandler(async (req, res) => {
 
 const danhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
   try {
-    const wardId = new mongoose.Types.ObjectId(req.params.id);
+    const wardId = new mongoose.Types.ObjectId(req.params.idPhuong);
+    const ward = await Ward.findById(wardId);
+    const districtID = ward.districtID;
+    const locations = await Location.aggregate([
+      {
+        $match: { ward: wardId },
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+      // {
+      //   $lookup: {
+      //     from: "adboards", // Replace with the actual name of your "Pictures" collection
+      //     localField: "_id", // Assuming _id is the location id
+      //     foreignField: "location",
+      //     as: "adboardDetails",
+      //   },
+      // },
+      // {
+      //   $unwind: "$adboardDetails",
+      // },
+      {
+        $project: {
+          _id: 1,
+          address: 1,
+          adFormat: 1,
+          locationType: 1,
+          status: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+        },
+      },
+    ]);
+
+    if (locations && wardId) {
+      res.render("SoVHTT_DSDiemDat", {
+        layout: "layoutSoVHTT_function",
+        locations,
+        ward,
+      });
+      // res.send(locations);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const addDanhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
+  try {
+    const wardId = new mongoose.Types.ObjectId(req.params.idPhuong);
+    const ward = await Ward.findById(wardId);
+    const districtId = new mongoose.Types.ObjectId(ward.districtID);
+    const district = await District.findById(districtId);
+    const locations = await Location.aggregate([
+      {
+        $match: { ward: wardId },
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "district",
+          foreignField: "_id",
+          as: "districtDetails",
+        },
+      },
+      {
+        $unwind: "$districtDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "ward",
+          foreignField: "_id",
+          as: "wardDetails",
+        },
+      },
+      {
+        $unwind: "$wardDetails",
+      },
+
+      {
+        $project: {
+          _id: 1,
+          address: 1,
+          adFormat: 1,
+          locationType: 1,
+          status: 1,
+          district: "$districtDetails",
+          ward: "$wardDetails",
+        },
+      },
+    ]);
+
+    if (locations && wardId && district) {
+      res.render("SoVHTT_DSDiemDat_Add", {
+        layout: "layoutSoVHTT_function",
+        locations,
+        ward,
+        district,
+      });
+      // res.send(locations);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const editDanhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
+  try {
+    const currentLocation = await Location.findById(req.params.idDiemDat);
+    const wardId = new mongoose.Types.ObjectId(req.params.idPhuong);
+    const ward = await Ward.findById(wardId);
+    const districtId = new mongoose.Types.ObjectId(ward.districtID);
+    const district = await District.findById(districtId);
     const locations = await Location.aggregate([
       {
         $match: { ward: wardId },
@@ -730,17 +862,6 @@ const danhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
         $unwind: "$wardDetails",
       },
       {
-        $lookup: {
-          from: "adboards", // Replace with the actual name of your "Pictures" collection
-          localField: "_id", // Assuming _id is the location id
-          foreignField: "location",
-          as: "adboardDetails",
-        },
-      },
-      {
-        $unwind: "$adboardDetails",
-      },
-      {
         $project: {
           _id: 1,
           address: 1,
@@ -749,15 +870,17 @@ const danhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
           status: 1,
           district: "$districtDetails",
           ward: "$wardDetails",
-          adboard: "$adboardDetails",
         },
       },
     ]);
 
-    if (locations && wardId) {
-      res.render("SoVHTT_DSDiemDat", {
+    if (locations && wardId && district) {
+      res.render("SoVHTT_DSDiemDat_Edit", {
         layout: "layoutSoVHTT_function",
         locations,
+        ward,
+        district,
+        currentLocation,
       });
       // res.send(locations);
     }
@@ -765,6 +888,77 @@ const danhSachDiemDatCuaPhuong = asyncHandler(async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+const themDiemDat = asyncHandler(async (req, res) => {
+  const wardId = req.params.idPhuong;
+  const ward = await Ward.findById(wardId);
+  const districtId = ward.districtID;
+  try {
+    const newAddress = req.body.diaChi;
+    const newAdFormat = req.body.hinhThuc;
+    const newLocationType = req.body.phanLoai;
+
+    const newLocation = new Location({
+      address: newAddress,
+      adFormat: newAdFormat,
+      locationType: newLocationType,
+      ward: wardId,
+      status: "ĐÃ QUY HOẠCH",
+      district: districtId,
+    });
+    // console.log(newLocation);
+
+    const locationCreated = await newLocation.save();
+    console.log(locationCreated);
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-diem-dat/` + wardId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+  // res.send("thuc hien them diem dat");
+});
+const chinhSuaDiemDat = asyncHandler(async (req, res) => {
+  const wardId = new mongoose.Types.ObjectId(req.params.idPhuong);
+  const ward = await Ward.findById(wardId);
+  const locationID = new mongoose.Types.ObjectId(req.params.idDiemDat);
+  const location = await Location.findById(locationID);
+  try {
+    const editedLocation = {
+      address: req.body.diaChi,
+      adFormat: req.body.hinhThuc,
+      locationType: req.body.phanLoai,
+      ward: wardId,
+      district: ward.districtID,
+    };
+
+    const locationEdited = await Location.updateOne(
+      { _id: location._id },
+      editedLocation
+    );
+    console.log(editedLocation);
+    res.status(201).redirect(`/api/sovhtt/danh-sach-diem-dat/` + wardId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const xoaDiemDat = asyncHandler(async (req, res) => {
+  const locationID = req.params.idDiemDat;
+  const wardId = req.params.idPhuong;
+  try {
+    const locationDeleted = await Location.deleteOne({ _id: locationID });
+    // const location = await Location.findById(locationID);
+    // console.log(location);
+
+    res.status(201).redirect(`/api/sovhtt/danh-sach-diem-dat/` + wardId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // res.send("thuc hien xoa diem dat");
 });
 
 const danhSachYeuCauCapPhepQuangCao = asyncHandler(async (req, res) => {
@@ -1088,6 +1282,11 @@ export {
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,
   danhSachDiemDatCuaPhuong,
+  editDanhSachDiemDatCuaPhuong,
+  addDanhSachDiemDatCuaPhuong,
+  themDiemDat,
+  chinhSuaDiemDat,
+  xoaDiemDat,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,

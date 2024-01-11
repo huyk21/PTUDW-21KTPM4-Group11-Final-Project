@@ -65,6 +65,11 @@ window.onload = function () {
   var addWardButton = document.getElementById("openThemPhuongModalBtn");
   var editWardButton = document.getElementById("openChinhSuaPhuongModalBtn");
 
+  var addLocationButton = document.getElementById("openThemDiemDatModalBtn");
+  var editLocationButton = document.getElementById(
+    "openChinhSuaDiemDatModalBtn"
+  );
+
   // Trigger a click on the button
   if (addDistrictButton) {
     addDistrictButton.click();
@@ -77,6 +82,12 @@ window.onload = function () {
   }
   if (editWardButton) {
     editWardButton.click();
+  }
+  if (addLocationButton) {
+    addLocationButton.click();
+  }
+  if (editLocationButton) {
+    editLocationButton.click();
   }
 };
 
@@ -113,6 +124,31 @@ document.addEventListener("DOMContentLoaded", function () {
       districtID +
       "/" +
       wardID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var locationID;
+  var wardID;
+  var deleteForm = document.forms["delete-location-form"];
+  var btnDeleteLocation = document.getElementById("btn-delete-location");
+
+  $("#xoaDiemDatModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    wardID = button.data("wardid");
+    locationID = button.data("locationid");
+
+    // console.log(locationID);
+    // console.log(wardID);
+  });
+  btnDeleteLocation.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-diem-dat/" +
+      wardID +
+      "/" +
+      locationID +
       "?_method=DELETE";
     deleteForm.submit();
   };

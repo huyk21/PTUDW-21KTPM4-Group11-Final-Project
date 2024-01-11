@@ -21,6 +21,11 @@ import {
   danhSachDiemDat,
   danhSachQuangCaoCuaDiemDat,
   danhSachDiemDatCuaPhuong,
+  editDanhSachDiemDatCuaPhuong,
+  addDanhSachDiemDatCuaPhuong,
+  themDiemDat,
+  chinhSuaDiemDat,
+  xoaDiemDat,
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
@@ -60,12 +65,23 @@ router
 router.route("/danh-sach-phuong/:idQuan").post(themPhuong).get(danhSachPhuong);
 
 //Danh sách điểm đặt
-router.route("/danh-sach-diem-dat").post(danhSachDiemDat).get(danhSachDiemDat);
+//router.route("/danh-sach-diem-dat").post(danhSachDiemDat).get(danhSachDiemDat);
 
+router
+  .route("/danh-sach-diem-dat/:idPhuong/addLocation")
+  .get(addDanhSachDiemDatCuaPhuong);
+router
+  .route("/danh-sach-diem-dat/:idPhuong/editLocation/:idDiemDat")
+  .get(editDanhSachDiemDatCuaPhuong);
+
+router
+  .route("/danh-sach-diem-dat/:idPhuong/:idDiemDat")
+  .put(chinhSuaDiemDat)
+  .delete(xoaDiemDat);
 //Danh sách điểm đặt theo id phường
 router
-  .route("/danh-sach-diem-dat/:id")
-  .post(danhSachDiemDatCuaPhuong)
+  .route("/danh-sach-diem-dat/:idPhuong")
+  .post(themDiemDat)
   .get(danhSachDiemDatCuaPhuong);
 
 //Danh sách bảng quảng cáo theo id điểm đặt

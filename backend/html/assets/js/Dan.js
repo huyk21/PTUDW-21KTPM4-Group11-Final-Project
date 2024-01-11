@@ -20,7 +20,7 @@ var map = new mapboxgl.Map({
   center: [HCMlong, HCMlat],
   zoom: 13,
 });
-map.addControl(geolocate);
+
 //main function
 function main() {
   // After the map has been loaded, you add your data source and layers.
@@ -28,7 +28,6 @@ function main() {
     geolocate.trigger();
     // Load your data
     const geojsonData = await loadData();
-    console.log(geojsonData);
     //move user to current location of user
 
     // Add the source with your GeoJSON data and enable clustering
@@ -160,8 +159,10 @@ function main() {
   });
   map.on("click", "unclustered-point", function (e) {
     e.originalEvent.stopPropagation();
-    const status = e.features[0].properties.location.status;
-
+    const location = JSON.parse(e.features[0].properties.location);
+    const status = location.status;
+    const location_id = location._id;
+    window.history.pushState(null, null, `/api/place/${location_id}`);
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -218,7 +219,14 @@ function main() {
     if (currentMarker) {
       currentMarker.remove();
     }
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ["unclustered-point", "clusters"],
+    });
 
+    if (features.length === 0) {
+      // Click is outside the elements of interest, reset the URL
+      window.history.pushState(null, null, "/"); // Reset to the home page or any default URL
+    }
     if (geolocationActive) {
       // Stop geolocation by triggering it again
       geolocate.trigger();
@@ -263,9 +271,10 @@ function main() {
             // It must be done after the popup is added to the map so the button exists in the DOM
             setTimeout(() => {
               document
-                .getElementById("reportLocationBtn")
+                .getElementById("reportButton")
                 .addEventListener("click", () => {
                   openReportModal();
+                  closeOverlay();
                 });
             }, 10); // Delaying just a bit to ensure the DOM is updated
 
@@ -389,14 +398,7 @@ function addControls(map) {
   map.addControl(new mapboxgl.NavigationControl());
 
   // add User Location control (this will show the user's location and allow for tracking)
-  map.addControl(
-    new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    })
-  );
+  map.addControl(geolocate);
 }
 
 // Function to show sidebar with property information
@@ -604,11 +606,9 @@ $(document).ready(function () {
 main();
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement) {
-    console.log("Entered fullscreen mode");
     // If your sidebar needs to be moved inside the fullscreen element:
     document.fullscreenElement.appendChild(document.getElementById("sidebar"));
   } else {
-    console.log("Exited fullscreen mode");
     // Move the sidebar back to its original container if needed
   }
 });

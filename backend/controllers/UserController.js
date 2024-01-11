@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/UserModel.js";
+import Location from "../models/LocationModel.js";
 import session from "express-session";
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -65,4 +66,12 @@ const logoutUser = (req, res) => {
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
-export { authUser, logoutUser, showLogin };
+const showPlace = asyncHandler(async (req, res) => {
+  const location = await Location.findById(req.params.id).populate(
+    "district",
+    "name"
+  );
+
+  res.redirect("/");
+});
+export { showPlace, authUser, logoutUser, showLogin };

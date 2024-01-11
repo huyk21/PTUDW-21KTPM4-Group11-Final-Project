@@ -10,6 +10,7 @@ import LicenseRequest from "../models/LicenseRequest.js";
 import Report from "../models/ReportModel.js";
 import ReportSolution from "../models/ReportSolutionModel.js";
 import Ward from "../models/WardModel.js";
+import MailService from "../html/assets/js/emailService.js";
 
 //xử lý trên trang chủ phường
 const index = asyncHandler(async (req, res) => {
@@ -146,8 +147,7 @@ const sendRequest = asyncHandler(async (req, res) => {
   })
 
   await AdjustBoard.collection.insertOne(request)
-  
-  res.redirect("/api/phuong/ad_phuong")
+  res.redirect("/api/phuong/ad_phuong?success=true")
 })
 
 //xử lý trên trang yeu cầu cấp phép
@@ -200,7 +200,7 @@ const createLicense = asyncHandler(async (req, res) => {
   })
   
   await LicenseRequest.collection.insertOne(license)
-  res.redirect("/api/phuong/license_phuong")
+  res.redirect("/api/phuong/license_phuong?success=true")
 });
 
 const showConfirm = asyncHandler(async (req, res) => {
@@ -239,7 +239,7 @@ const deleteLicense = asyncHandler(async (req, res) => {
 
   await LicenseRequest.deleteOne({_id: id})
 
-  res.redirect("/api/phuong/license_phuong")
+  res.redirect("/api/phuong/license_phuong?delete=true")
 });
 
 //xử lý trên trang báo cáo của người dân
@@ -354,8 +354,24 @@ const updateReportStatus = asyncHandler(async (req, res) => {
     },
     {upsert: true}
   );
+  
+  const report = await Report.aggregate([
+    {
+      $lookup: {
+        from: "reportsolutions",
+        localField: "_id",
+        foreignField: "for",
+        as: "solution",
+      },
+    },
+    {
+      $unwind: "$solution",
+    }
+  ])
 
-  res.redirect("/api/phuong/report_phuong")
+  const curReport = report.filter((rp) => rp._id.toString() === req.params.id)
+  MailService.sendReportSolution(curReport[0].email, curReport[0])
+  res.redirect("/api/phuong/report_phuong?success=true")
 })
 
 export {

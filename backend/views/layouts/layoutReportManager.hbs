@@ -43,6 +43,9 @@
     <!-- Include the Bootstrap bundle script that contains Bootstrap's JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!--SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Your custom script file -->
     <script type="text/javascript" src="/assets/js/Phuong.js"></script>
     <!-- Modal Scripts -->
@@ -79,6 +82,24 @@
       button.click();
     }
   };
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      // Check if the query parameter exists
+      const urlParams = new URLSearchParams(window.location.search);
+      const success = urlParams.get('success');
+
+      if (success === 'true') {
+        // Trigger SweetAlert
+        Swal.fire({
+          title: 'Thành công!',
+          text: 'Báo cáo đã được xử lý và cập nhật!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    });
     </script>
   </body>
 </html>

@@ -1,0 +1,368 @@
+<main>
+
+  <div class="container">
+    <div class="container mt-3">
+      <!-- Modal them yeu cau chinh sua quang cao-->
+      <div
+        class="modal fade"
+        id="xetYeuCau"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="xetYeuCauLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="xetYeuCauLabel">Chi tiết yêu cầu chỉnh
+                sửa quảng cáo</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- Left side of the split body -->
+                  <div class="container">
+                    <p><strong>Loại bảng:</strong>
+                      {{adboard.properties.boardType}}</p>
+                    <p><strong>Kích thước:</strong>
+                      {{adboard.properties.size}}</p>
+                    <p><strong>Số lượng:</strong>
+                      {{adboard.properties.quantity}}</p>
+                    <p><strong>Ngày hết hạn hợp đồng:</strong>
+                      {{adboard.properties.expirationDate}}</p>
+                    <p><strong>Hình ảnh:</strong></p>
+                    <img
+                      src="/billboard.jpg"
+                      class="img-fluid mb-1"
+                      alt="image not found"
+                    />
+                  </div>
+                  <h5 class="text-center bg-secondary text-white">Trước</h5>
+                </div>
+                <div class="col-md-6 border-left">
+                  <!-- Right side of the split body with vertical line -->
+                  <div class="container">
+                    <p><strong>Loại bảng mới:</strong>
+                      {{adjustboard.newBoardType}}</p>
+                    <p><strong>Kích thước mới:</strong>
+                      {{adjustboard.newSize}}</p>
+                    <p><strong>Số lượng mới:</strong>
+                      {{adjustboard.newQuantity}}</p>
+                    <p><strong>Ngày hết hạn hợp đồng mới:</strong>
+                      {{adjustboard.newExpirationDate}}</p>
+                    <p><strong>Hình ảnh:</strong></p>
+                    <img
+                      src="/billboard.jpg"
+                      class="img-fluid mb-1"
+                      alt="image not found"
+                    />
+
+                  </div>
+                  <h5 class="text-center bg-secondary text-white">Sau</h5>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="container">
+                <h6 class="float-left"><span
+                    class="bg-success float-left text-success"
+                  >aaaa</span>
+                  : nội dung được chỉnh sửa</h6>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-success float-right mt-3 mr-1"
+                data-dismiss="modal"
+              >Phê duyệt</button>
+              <button
+                type="submit"
+                class="btn btn-danger float-right mt-3 mr-1"
+                data-dismiss="modal"
+              >Từ chối</button>
+              <button
+                type="button"
+                class="btn btn-secondary float-right mt-3"
+                data-dismiss="modal"
+              >Hủy</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách các yêu cầu chỉnh sửa quảng cáo</h2>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn bg-opacity-0 float-right mb-2">
+        <i class="bi bi-funnel"></i>
+        Lọc
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Quận</th>
+          <th scope="col">Phường</th>
+          <th scope="col">Thời điểm</th>
+          <th scope="col">Lí do</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each adjustboards}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.location.address}}</td>
+            <td>{{this.district.name}}</td>
+            <td>{{this.ward.name}}</td>
+            <td>{{this.adjustDate}}</td>
+            <td>{{this.reason}}</td>
+            <td>
+              <a
+                name="edit"
+                href=""
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="openXetDuyetChinhSuaQuangCaoModalBtn"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#xetDuyetChinhSuaQuangCao"
+              >
+                <i class="bi bi-info-circle text-secondary"></i>
+                Xử lí
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal chinh sua quang cao-->
+  <div
+    class="modal fade"
+    id="xetDuyetChinhSuaQuangCao"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="xetDuyetChinhSuaQuangCaoLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="xetDuyetChinhSuaQuangCaoLabel">Chi tiết
+            yêu cầu chỉnh sửa quảng cáo</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <div class="mb-3">
+
+            <div class="row">
+              <div class="col-md-6">
+                <!-- Left side of the split body -->
+                <div class="container">
+                  <form
+                    id="rejectEditAdboardForm"
+                    method="POST"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/{{currentAdboard._id}}/{{newAdboard._id}}?_method=PUT"
+                  >
+                    {{!  }}
+                    <label for="loaiBang" class="mt-3">
+                      <p><strong>Loại bảng hiện tại:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="loaiBang"
+                      name="loaiBang"
+                      value="{{currentAdboard.properties.boardType}}"
+                      readonly
+                    />
+                    {{!  }}
+                    <label for="kichThuoc" class="mt-3">
+                      <p><strong>Kích thước hiện tại:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="kichThuoc"
+                      name="kichThuoc"
+                      value="{{currentAdboard.properties.size}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="soLuong" class="mt-3">
+                      <p><strong>Số lượng hiện tại:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="soLuong"
+                      name="soLuong"
+                      value="{{currentAdboard.properties.quantity}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="ngayHetHan" class="mt-3">
+                      <p><strong>Ngày hết hạn hợp đồng hiện tại:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ngayHetHan"
+                      name="ngayHetHan"
+                      value="{{currentAdboard.properties.expirationDate}}"
+                      readonly
+                    />
+
+                    <label for="hinhAnh" class="mt-3">
+                      <p><strong>Hình ảnh hiện tại:</strong></p>
+                    </label>
+                    <img
+                      id=" hinhAnh"
+                      src="/assets/img/billboard.jpg"
+                      class="img-fluid mb-1"
+                      alt="image not found"
+                    />
+                  </form>
+                </div>
+                <h5 class="text-center bg-secondary text-white">Trước</h5>
+              </div>
+              <div class="col-md-6 border-left">
+                <!-- Right side of the split body with vertical line -->
+                <div class="container">
+                  <form
+                    id="approveEditAdboardForm"
+                    method="POST"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/{{currentAdboard._id}}/{{newAdboard._id}}?_method=PUT"
+                  >
+                    {{!  }}
+                    <label for="loaiBang" class="mt-3">
+                      <p><strong>Loại bảng mới:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="loaiBang"
+                      name="loaiBang"
+                      value="{{newAdboard.newBoardType}}"
+                      readonly
+                    />
+                    {{!  }}
+                    <label for="kichThuoc" class="mt-3">
+                      <p><strong>Kích thước mới:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="kichThuoc"
+                      name="kichThuoc"
+                      value="{{newAdboard.newSize}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="soLuong" class="mt-3">
+                      <p><strong>Số lượng mới:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="soLuong"
+                      name="soLuong"
+                      value="{{newAdboard.newQuantity}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="ngayHetHan" class="mt-3">
+                      <p><strong>Ngày hết hạn hợp đồng mới:</strong>
+                      </p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ngayHetHan"
+                      name="ngayHetHan"
+                      value="{{newAdboard.newExpirationDate}}"
+                      readonly
+                    />
+
+                    <label for="hinhAnh" class="mt-3">
+                      <p><strong>Hình ảnh mới:</strong></p>
+                    </label>
+                    <img
+                      id=" hinhAnh"
+                      src="/assets/img/billboard.jpg"
+                      class="img-fluid mb-1"
+                      alt="image not found"
+                    />
+                  </form>
+
+                </div>
+                <h5 class="text-center bg-secondary text-white">Sau</h5>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            id="submitBtnApproveXetDuyetChinhSuaQuangCao"
+            class="btn btn-success float-right mt-3 mr-1"
+            form="approveEditAdboardForm"
+          >Phê duyệt</button>
+          <button
+            type="submit"
+            id="submitBtnRejectXetDuyetChinhSuaQuangCao"
+            class="btn btn-danger float-right mt-3 mr-1"
+            form="rejectEditAdboardForm"
+          >Từ chối</button>
+
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/'"
+            id="closeBtnChinhSuaQuangCao"
+          >Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

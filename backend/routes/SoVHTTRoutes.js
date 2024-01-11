@@ -31,6 +31,8 @@ import {
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
+  approveDanhSachYeuCauChinhSuaQuangCao,
+  duyetYeuCauChinhSuaQuangCao,
   danhSachLoaiDiemDat,
   danhSachHinhThucBaoCao,
   danhSachHinhThucQuangCao,
@@ -117,10 +119,16 @@ router
   .post(danhSachYeuCauChinhSuaDiemDat)
   .get(danhSachYeuCauChinhSuaDiemDat);
 
+router
+  .route("/danh-sach-yeu-cau-chinh-sua-quang-cao/:idCurrent/approve/:idNew")
+  .get(approveDanhSachYeuCauChinhSuaQuangCao);
 //Danh sách yêu cầu chỉnh sửa quảng cáo
+
+router
+  .route("/danh-sach-yeu-cau-chinh-sua-quang-cao/:idCurrent/:idNew")
+  .put(duyetYeuCauChinhSuaQuangCao);
 router
   .route("/danh-sach-yeu-cau-chinh-sua-quang-cao")
-  .post(danhSachYeuCauChinhSuaQuangCao)
   .get(danhSachYeuCauChinhSuaQuangCao);
 
 //Thống kê báo cáo

@@ -1084,6 +1084,7 @@ const xoaDiemDat = asyncHandler(async (req, res) => {
   // res.send("thuc hien xoa diem dat");
 });
 
+//////// Danh sach yeu cau
 const danhSachYeuCauCapPhepQuangCao = asyncHandler(async (req, res) => {
   try {
     const licenserequests = await LicenseRequest.aggregate([
@@ -1277,11 +1278,129 @@ const danhSachYeuCauChinhSuaQuangCao = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+const approveDanhSachYeuCauChinhSuaQuangCao = asyncHandler(async (req, res) => {
+  // res.send("clone danh sach yeu cau chinh sua quang cao");
+  const newAdboard = await AdjustBoard.findById(req.params.idNew);
+  const currentAdboard = await AdBoard.findById(newAdboard.forID);
+  // res.json({
+  //   current: currentAdboard,
+  //   new: newAdboard,
+  // });
+  try {
+    const adjustboards = await AdjustBoard.aggregate([
+      {
+        $lookup: {
+          from: "adboards",
+          localField: "forID",
+          foreignField: "_id",
+          as: "adboardDetails",
+        },
+      },
+      {
+        $unwind: "$adboardDetails",
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "adboardDetails.location",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
+      {
+        $unwind: "$locationDetails",
+      },
+      {
+        $lookup: {
+          from: "wards",
+          localField: "locationDetails.ward",
+          foreignField: "_id",
+          as: "wardOfLocation",
+        },
+      },
+      {
+        $unwind: "$wardOfLocation",
+      },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "locationDetails.district",
+          foreignField: "_id",
+          as: "districtOfLocation",
+        },
+      },
+      {
+        $unwind: "$districtOfLocation",
+      },
+      {
+        $project: {
+          for: 1,
+          newQuantity: 1,
+          newBoardType: 1,
+          newSize: 1,
+          newExpirationDate: 1,
+          adjustDate: 1,
+          reason: 1,
+          forAdboard: "$adboardDetails",
+          location: "$locationDetails",
+          ward: "$wardOfLocation",
+          district: "$districtOfLocation",
+        },
+      },
+    ]);
+
+    if (adjustboards) {
+      res.render("SoVHTT_DSYCCSuaQCao_Duyet", {
+        layout: "layoutSoVHTT_function",
+        adjustboards,
+        currentAdboard,
+        newAdboard,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const duyetYeuCauChinhSuaQuangCao = asyncHandler(async (req, res) => {
+  // res.send("clone danh sach yeu cau chinh sua quang cao");
+  const newAdboard = await AdjustBoard.findById(req.params.idNew);
+  const currentAdboard = await AdBoard.findById(newAdboard.forID);
+  // res.json({
+  //   current: currentAdboard,
+  //   new: newAdboard,
+  // });
+
+  try {
+    const editedAdboard = {
+      location: currentAdboard.location,
+      properties: {
+        quantity: req.body.soLuong,
+        size: req.body.kichThuoc,
+        boardType: req.body.loaiBang,
+        expirationDate: req.body.ngayHetHan,
+      },
+    };
+    const adboardEdited = await AdBoard.updateOne(
+      { _id: currentAdboard._id },
+      editedAdboard
+    );
+    console.log(editedAdboard);
+
+    const requestDeleted = await AdjustBoard.deleteOne({ _id: newAdboard._id });
+    console.log(requestDeleted);
+    res
+      .status(201)
+      .redirect(`/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 const danhSachLoaiDiemDat = asyncHandler(async (req, res) => {
   res.send("danh sach loai diem dat ne!!!");
 });
-
 const danhSachHinhThucBaoCao = asyncHandler(async (req, res) => {
   const uniqueReportFormat = await Report.distinct("reportFormat");
   // res.json(uniqueReportFormat);
@@ -1293,7 +1412,6 @@ const danhSachHinhThucBaoCao = asyncHandler(async (req, res) => {
     // res.send(locations);
   }
 });
-
 const danhSachHinhThucQuangCao = asyncHandler(async (req, res) => {
   const uniqueAdFormat = await Location.distinct("adFormat");
   // res.json(uniqueAdFormat);
@@ -1431,6 +1549,8 @@ export {
   danhSachYeuCauCapPhepQuangCao,
   danhSachYeuCauChinhSuaDiemDat,
   danhSachYeuCauChinhSuaQuangCao,
+  approveDanhSachYeuCauChinhSuaQuangCao,
+  duyetYeuCauChinhSuaQuangCao,
   danhSachLoaiDiemDat,
   danhSachHinhThucBaoCao,
   danhSachHinhThucQuangCao,

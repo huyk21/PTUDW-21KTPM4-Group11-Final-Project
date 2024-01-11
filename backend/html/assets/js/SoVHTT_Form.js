@@ -75,6 +75,10 @@ window.onload = function () {
     "openChinhSuaQuangCaoModalBtn"
   );
 
+  var approveEditAdboardnButton = document.getElementById(
+    "openXetDuyetChinhSuaQuangCaoModalBtn"
+  );
+
   // Trigger a click on the button
   if (addDistrictButton) {
     addDistrictButton.click();
@@ -99,6 +103,10 @@ window.onload = function () {
   }
   if (editAdboardnButton) {
     editAdboardnButton.click();
+  }
+
+  if (approveEditAdboardnButton) {
+    approveEditAdboardnButton.click();
   }
 };
 

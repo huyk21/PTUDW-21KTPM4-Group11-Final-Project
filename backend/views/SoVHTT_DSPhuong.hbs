@@ -2,126 +2,19 @@
 
   <div class="container">
 
-    <div class="container mt-3">
-
-      <!-- Modal them Quan-->
-      <div
-        class="modal fade"
-        id="themPhuong"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="themPhuongLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h4 class="modal-title" id="themPhuongLabel">Thêm phường</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Your form goes here -->
-              <form>
-                <div class="form-group">
-                  <label for="formThemPhuong">
-                    <h6>Tên phường</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="formThemPhuong"
-                    placeholder="Nhập tên phường (vd: phường 5)"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary float-right mt-3"
-                  data-dismiss="modal"
-                >Hủy</button>
-                <button
-                  type="submit"
-                  class="btn btn-primary float-right mt-3 mr-1"
-                  data-dismiss="modal"
-                >Thêm</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="modal fade"
-        id="chinhSuaPhuong"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="chinhSuaPhuongLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h4 class="modal-title" id="chinhSuaPhuongLabel">Chỉnh sửa phường</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Your form goes here -->
-              <form>
-                <div class="form-group">
-                  <label for="formChinhSuaPhuong">
-                    <h6>Tên phường</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="formChinhSuaPhuong"
-                    placeholder="Nhập tên phường (vd: Phường 5)"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary float-right mt-3"
-                  data-dismiss="modal"
-                >Hủy</button>
-                <button
-                  type="submit"
-                  class="btn btn-primary float-right mt-3 mr-1"
-                  data-dismiss="modal"
-                >Thêm</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <table class="table table-bordered">
       <h2 class="text-center">Danh sách Phường của {{district.name}}</h2>
       <!-- Button trigger modal -->
-      <button
-        type="button"
+      <a
         class="btn btn-success float-right mb-2"
-        data-toggle="modal"
-        data-target="#themPhuong"
+        id="add"
+        name="add"
+        href="/api/sovhtt/danh-sach-phuong/{{district._id}}/addWard"
+        role="button"
       >
         <i class="bi bi-person-plus"></i>
         Thêm
-      </button>
+      </a>
       <thead class="custom-header">
         <tr>
           <th scope="col">#</th>
@@ -135,23 +28,33 @@
           <tr>
             <td scope="row">{{showIndex @index}}</td>
             <td>{{this.name}}</td>
-            <td>25</td>
+            <td>{{this.numberOfLocations}}</td>
             <!--Calculate the number of ad locations to put here-->
             <td>
               <a href="/api/sovhtt/danh-sach-diem-dat/{{this._id}}">Chi tiết
                 <i class="bi bi-info-circle"></i></a>
             </td>
             <td>
-              <a href="#" class="pe-auto">
+              <a
+                href="#"
+                class="pe-auto"
+                data-toggle="modal"
+                data-target="#xoaPhuongModal"
+                data-wardid="{{this._id}}"
+                data-districtid="{{this.districtID}}"
+              >
                 <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
               </a>
             </td>
             <td>
               <a
-                href="#"
+                name="edit"
+                href="/api/sovhtt/danh-sach-phuong/{{this.districtID}}/editWard/{{this._id}}"
                 class="text-secondary float-end pe-auto"
-                data-toggle="modal"
-                data-target="#chinhSuaPhuong"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="edit"
+                role="button"
               >
                 <i class="bi bi-pencil-square"></i>
               </a>
@@ -160,6 +63,156 @@
         {{/each}}
       </tbody>
     </table>
+  </div>
+
+  {{! <!-- Modal them Quan-->
+  <div
+    class="modal fade"
+    id="themPhuong"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="themPhuongLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="themPhuongLabel">Thêm phường</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <form>
+            <div class="form-group">
+              <label for="formThemPhuong">
+                <h6>Tên phường</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="formThemPhuong"
+                placeholder="Nhập tên phường (vd: phường 5)"
+              />
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-secondary float-right mt-3"
+              data-dismiss="modal"
+            >Hủy</button>
+            <button
+              type="submit"
+              class="btn btn-primary float-right mt-3 mr-1"
+              data-dismiss="modal"
+            >Thêm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="chinhSuaPhuong"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="chinhSuaPhuongLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="chinhSuaPhuongLabel">Chỉnh sửa phường</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <form
+            id="editWardForm"
+            method="POST"
+            action="/api/sovhtt/danh-sach-phuong/?_method=PUT"
+          >
+            <div class="mb-3">
+              <label for="wardName">
+                <h6>Tên phường</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="wardName"
+                placeholder="Nhập tên phường (vd: Phường 5)"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-phuong/'"
+            id="closeBtnChinhSuaPhuong"
+          >Hủy</button>
+          <button
+            type="submit"
+            id="submitBtnChinhSuaPhuong"
+            class="btn btn-primary float-right mt-3 mr-1"
+            form="editWardForm"
+          >Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div> }}
+
+  {{! Form xóa phường }}
+  <form name="delete-ward-form" method="POST"></form>
+
+  {{! Modal xóa phường }}
+  <div id="xoaPhuongModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Xóa phường?</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn chắc chắn muốn xóa phường này?</p>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-delete-ward" type="button" class="btn btn-danger">Xóa
+            bỏ</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Hủy</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </main>

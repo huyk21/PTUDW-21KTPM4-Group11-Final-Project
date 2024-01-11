@@ -2,7 +2,7 @@
 
   <div class="container">
 
-    <div class="container mt-3">
+    {{! <div class="container mt-3">
 
       <!-- Modal them hinh thuc quang cao-->
       <div
@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> }}
 
     <table class="table table-bordered">
       <h2 class="text-center">Danh sách hình thức quảng cáo</h2>
@@ -137,56 +137,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td>Cổ động chính trị</td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaHinhThuc"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">2</td>
-          <td>Quảng cáo thương mại</td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaHinhThuc"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td scope="row">3</td>
-          <td>Xã hội hoá</td>
-          <td>
-            <button class="btn">
-              <i class="bi bi-trash-fill text-danger"></i>
-            </button>
-            <button
-              class="btn"
-              data-toggle="modal"
-              data-target="#chinhSuaHinhThuc"
-            >
-              <i class="bi bi-pencil-square text-secondary"></i>
-            </button>
-          </td>
-        </tr>
+        {{#each uniqueAdFormat}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this}}</td>
+            <td>
+              <button class="btn">
+                <i class="bi bi-trash-fill text-danger"></i>
+              </button>
+              <button
+                class="btn"
+                data-toggle="modal"
+                data-target="#chinhSuaHinhThuc"
+              >
+                <i class="bi bi-pencil-square text-secondary"></i>
+              </button>
+            </td>
+          </tr>
+        {{/each}}
 
       </tbody>
     </table>

@@ -59,17 +59,151 @@
 
 window.onload = function () {
   // Get the button by its ID
-  var addButton = document.getElementById("openThemQuanModalBtn");
-  var editButton = document.getElementById("openChinhSuaQuanModalBtn");
+  var addDistrictButton = document.getElementById("openThemQuanModalBtn");
+  var editDistrictButton = document.getElementById("openChinhSuaQuanModalBtn");
+
+  var addWardButton = document.getElementById("openThemPhuongModalBtn");
+  var editWardButton = document.getElementById("openChinhSuaPhuongModalBtn");
+
+  var addLocationButton = document.getElementById("openThemDiemDatModalBtn");
+  var editLocationButton = document.getElementById(
+    "openChinhSuaDiemDatModalBtn"
+  );
+
+  var addAdboardButton = document.getElementById("openThemQuangCaoModalBtn");
+  var editAdboardButton = document.getElementById(
+    "openChinhSuaQuangCaoModalBtn"
+  );
+
+  var approveEditAdboardButton = document.getElementById(
+    "openXetDuyetChinhSuaQuangCaoModalBtn"
+  );
+  var approveEditLocationButton = document.getElementById(
+    "openXetDuyetChinhSuaDiemDatModalBtn"
+  );
 
   // Trigger a click on the button
-  if (addButton) {
-    addButton.click();
+  if (addDistrictButton) {
+    addDistrictButton.click();
   }
-  if (editButton) {
-    editButton.click();
+  if (editDistrictButton) {
+    editDistrictButton.click();
+  }
+  if (addWardButton) {
+    addWardButton.click();
+  }
+  if (editWardButton) {
+    editWardButton.click();
+  }
+  if (addLocationButton) {
+    addLocationButton.click();
+  }
+  if (editLocationButton) {
+    editLocationButton.click();
+  }
+  if (addAdboardButton) {
+    addAdboardButton.click();
+  }
+  if (editAdboardButton) {
+    editAdboardButton.click();
+  }
+
+  if (approveEditLocationButton) {
+    approveEditLocationButton.click();
+  }
+
+  if (approveEditAdboardButton) {
+    approveEditAdboardButton.click();
   }
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+  var districtID;
+  var deleteForm = document.forms["delete-district-form"];
+  var btnDeleteDistrict = document.getElementById("btn-delete-district");
+
+  $("#xoaQuanModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    districtID = button.data("id");
+  });
+  btnDeleteDistrict.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-quan/" + districtID + "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var wardID;
+  var districtID;
+  var deleteForm = document.forms["delete-ward-form"];
+  var btnDeleteWard = document.getElementById("btn-delete-ward");
+
+  $("#xoaPhuongModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    wardID = button.data("wardid");
+    districtID = button.data("districtid");
+  });
+  btnDeleteWard.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-phuong/" +
+      districtID +
+      "/" +
+      wardID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var locationID;
+  var wardID;
+  var deleteForm = document.forms["delete-location-form"];
+  var btnDeleteLocation = document.getElementById("btn-delete-location");
+
+  $("#xoaDiemDatModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    wardID = button.data("wardid");
+    locationID = button.data("locationid");
+
+    // console.log(locationID);
+    // console.log(wardID);
+  });
+  btnDeleteLocation.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-diem-dat/" +
+      wardID +
+      "/" +
+      locationID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var locationID;
+  var adboardID;
+  var deleteForm = document.forms["delete-adboard-form"];
+  var btnDeleteAdboard = document.getElementById("btn-delete-adboard");
+
+  $("#xoaQuangCaoModal").on("show.bs.modal", function (event) {
+    var button = $(event.relatedTarget);
+    adboardID = button.data("adboardid");
+    locationID = button.data("locationid");
+
+    // console.log(locationID);
+    // console.log(wardID);
+  });
+  btnDeleteAdboard.onclick = function () {
+    deleteForm.action =
+      "/api/sovhtt/danh-sach-quang-cao/" +
+      locationID +
+      "/" +
+      adboardID +
+      "?_method=DELETE";
+    deleteForm.submit();
+  };
+});
 
 // document
 //   .querySelector("#addDistrictForm")

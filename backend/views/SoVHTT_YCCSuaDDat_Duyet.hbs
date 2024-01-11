@@ -1,0 +1,331 @@
+<main>
+
+  <div class="container">
+    <div class="container mt-3">
+      <!-- Modal chinh sua diem dat-->
+      <div
+        class="modal fade"
+        id="xetYeuCau"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="xetYeuCauLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h4 class="modal-title" id="xetYeuCauLabel">Chi tiết yêu cầu chỉnh
+                sửa điểm đặt</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- Left side of the split body -->
+                  <div class="container">
+                    <p><strong>Địa chỉ:</strong>
+                      {{location.address}}</p>
+                    <p><strong>Khu vực:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
+                    <p><strong>Hình thức:</strong> {{location.adFormat}}</p>
+                    <p><strong>Phân loại:</strong>
+                      {{location.locationType}}</p>
+                  </div>
+                  <h5 class="text-center bg-secondary text-white">Trước</h5>
+                </div>
+                <div class="col-md-6 border-left">
+                  <!-- Right side of the split body with vertical line -->
+                  <div class="container">
+                    <p><strong>Địa chỉ mới:</strong>
+                      {{this.newAddress}}</p>
+                    <p><strong>Khu vực mới:</strong>
+                      {{ward.name}}
+                      -
+                      {{district.name}}</p>
+                    <p><strong>Hình thức mới:</strong>
+                      {{this.newAdFormat}}</p>
+                    <p><strong>Phân loại mới:</strong>
+                      {{this.newLocationType}}</p>
+                  </div>
+                  <h5 class="text-center bg-secondary text-white">Sau</h5>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="container">
+                <h6 class="float-left"><span
+                    class="bg-success float-left text-success"
+                  >____</span>
+                  : nội dung được chỉnh sửa</h6>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-success float-right mt-3 mr-1"
+                data-dismiss="modal"
+              >Phê duyệt</button>
+              <button
+                type="submit"
+                class="btn btn-danger float-right mt-3 mr-1"
+                data-dismiss="modal"
+              >Từ chối</button>
+              <button
+                type="button"
+                class="btn btn-secondary float-right mt-3"
+                data-dismiss="modal"
+              >Hủy</button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách các yêu cầu chỉnh sửa điểm đặt</h2>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn bg-opacity-0 float-right mb-2">
+        <i class="bi bi-funnel"></i>
+        Lọc
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Quận</th>
+          <th scope="col">Phường</th>
+          <th scope="col">Thời điểm</th>
+          <th scope="col">Lí do</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each adjustlocations}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.location.address}}</td>
+            <td>{{this.district.name}}</td>
+            <td>{{this.ward.name}}</td>
+            <td>{{this.adjustDate}}</td>
+            <td>{{this.reason}}</td>
+            <td>
+              <a
+                name="edit"
+                href=""
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="openXetDuyetChinhSuaDiemDatModalBtn"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#xetDuyetChinhSuaDiemDat"
+              >
+                <i class="bi bi-info-circle text-secondary"></i>
+                Xử lí
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal chinh sua quang cao-->
+  <div
+    class="modal fade"
+    id="xetDuyetChinhSuaDiemDat"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="xetDuyetChinhSuaDiemDatLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="xetDuyetChinhSuaDiemDatLabel">Chi tiết yêu
+            cầu chỉnh sửa điểm đặt</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <div class="mb-3">
+
+            <div class="row">
+              <div class="col-md-6">
+                <!-- Left side of the split body -->
+                <div class="container">
+                  <form
+                    id="rejectEditLocationForm"
+                    method="POST"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/{{currentLocation._id}}/{{newLocation._id}}?_method=PUT"
+                  >
+                    {{!  }}
+                    <label for="diaChi" class="mt-3">
+                      <p><strong>Địa chỉ hiện tại:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="diaChi"
+                      name="diaChi"
+                      value="{{currentLocation.address}}"
+                      readonly
+                    />
+                    {{!  }}
+                    <label for="hinhThuc" class="mt-3">
+                      <p><strong>Hình thức hiện tại:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="hinhThuc"
+                      name="hinhThuc"
+                      value="{{currentLocation.adFormat}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="phanLoai" class="mt-3">
+                      <p><strong>Phân loại hiện tại:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phanLoai"
+                      name="phanLoai"
+                      value="{{currentLocation.locationType}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="tinhTrang" class="mt-3">
+                      <p><strong>Tình trạng hiện tại:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tinhTrang"
+                      name="tinhTrang"
+                      value="{{currentLocation.status}}"
+                      readonly
+                    />
+                  </form>
+                </div>
+                <h5 class="text-center bg-secondary text-white">Trước</h5>
+              </div>
+              <div class="col-md-6 border-left">
+                <!-- Right side of the split body with vertical line -->
+                <div class="container">
+                  <form
+                    id="approveEditLocationForm"
+                    method="POST"
+                    action="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/{{currentLocation._id}}/{{newLocation._id}}?_method=PUT"
+                  >
+                    {{!  }}
+                    <label for="diaChi" class="mt-3">
+                      <p><strong>Địa chỉ mới:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="diaChi"
+                      name="diaChi"
+                      value="{{newLocation.newAddress}}"
+                      readonly
+                    />
+                    {{!  }}
+                    <label for="hinhThuc" class="mt-3">
+                      <p><strong>Hình thức mới:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="hinhThuc"
+                      name="hinhThuc"
+                      value="{{newLocation.newAdFormat}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="phanLoai" class="mt-3">
+                      <p><strong>Phân loại mới:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phanLoai"
+                      name="phanLoai"
+                      value="{{newLocation.newLocationType}}"
+                      readonly
+                    />
+
+                    {{!  }}
+                    <label for="tinhTrang" class="mt-3">
+                      <p><strong>Tình trạng mới:</strong></p>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tinhTrang"
+                      name="tinhTrang"
+                      value="{{newLocation.newStatus}}"
+                      readonly
+                    />
+                  </form>
+
+                </div>
+                <h5 class="text-center bg-secondary text-white">Sau</h5>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            id="submitBtnApproveXetDuyetChinhSuaDiemDat"
+            class="btn btn-success float-right mt-3 mr-1"
+            form="approveEditLocationForm"
+          >Phê duyệt</button>
+          <button
+            type="submit"
+            id="submitBtnRejectXetDuyetChinhSuaDiemDat"
+            class="btn btn-danger float-right mt-3 mr-1"
+            form="rejectEditLocationForm"
+          >Từ chối</button>
+
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-yeu-cau-chinh-sua-diem-dat/'"
+            id="closeBtnChinhSuaDiemDat"
+          >Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

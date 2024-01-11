@@ -1,0 +1,178 @@
+<main>
+
+  <div class="container">
+
+    <table class="table table-bordered">
+      <h2 class="text-center">Danh sách bảng quảng cáo</h2>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-success float-right mb-2"
+        data-toggle="modal"
+        data-target="#themQuangCao"
+      >
+        <i class="bi bi-plus-square"></i>
+        Thêm
+      </button>
+      <thead class="custom-header">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Loại bảng</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Khu vực</th>
+          <th scope="col">Kích thước</th>
+          <th scope="col">Hình thức</th>
+          <th scope="col">Phân loại</th>
+          <th scope="col">Tình trạng</th>
+          <th scope="col">Vị trí</th>
+          <th scope="col">Hình ảnh</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each adboards}}
+          <tr>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.properties.boardType}}</td>
+            <td>{{this.location.address}}</td>
+            <td>{{this.ward.name}} - {{this.district.name}}</td>
+            <td>{{this.properties.size}}</td>
+            <td>{{this.location.adFormat}}</td>
+            <td>{{this.location.locationType}}</td>
+            <td>{{this.location.status}}</td>
+            <td> <a href="">Chi tiết</a></td>
+            <td> <a href="">Xem</a></td>
+            <td>
+              <a
+                name="edit"
+                href="/api/sovhtt/danh-sach-quang-cao/"
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="openChinhSuaQuangCaoModalBtn"
+                role="button"
+                data-bs-toggle="modal"
+                data-bs-target="#chinhSuaQuangCao"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal chinh sua quang cao-->
+  <div
+    class="modal fade"
+    id="chinhSuaQuangCao"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="chinhSuaQuangCaoLabel"
+    aria-hidden="true"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title" id="chinhSuaQuangCaoLabel">Chỉnh sửa quảng cáo</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Your form goes here -->
+          <form
+            id="editAdboardForm"
+            method="POST"
+            action="/api/sovhtt/danh-sach-quang-cao/{{location._id}}/{{currentAdboard._id}}?_method=PUT"
+          >
+            <div class="mb-3">
+              <label for="loaiBang" class="mt-3">
+                <h6>Loại bảng</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="loaiBang"
+                name="loaiBang"
+                value="{{currentAdboard.properties.boardType}}"
+              />
+
+              <label for="soLuong" class="mt-3">
+                <h6>Số lượng</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="soLuong"
+                name="soLuong"
+                value="{{currentAdboard.properties.quantity}}"
+              />
+
+              <label for="kichThuoc" class="mt-3">
+                <h6>Kích thước</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="kichThuoc"
+                name="kichThuoc"
+                value="{{currentAdboard.properties.size}}"
+              />
+
+              <label for="ngayHetHan" class="mt-3">
+                <h6>Ngày hết hạn</h6>
+              </label>
+              <input
+                type="date"
+                class="form-control"
+                id="ngayHetHan"
+                name="ngayHetHan"
+                value="{{currentAdboard.properties.expirationDate}}"
+              />
+
+              {{!-- <div id="expirationDateDescription">Ngày hết hạn hiện tại:
+                {{currentAdboard.properties.expirationDate}}</div> --}}
+
+              <label for="hinhAnh" class="mt-3">
+                <h6>Hình Ảnh</h6>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="hinhAnh"
+                name="hinhAnh"
+                value="{{currentAdboard.properties.imageUrl}}"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary float-right mt-3"
+            onclick="window.location.href='/api/sovhtt/danh-sach-quang-cao/{{location._id}}'"
+            id="closeBtnChinhSuaQuangCao"
+          >Hủy</button>
+          <button
+            type="submit"
+            id="submitBtnChinhSuaQuangCao"
+            class="btn btn-primary float-right mt-3 mr-1"
+            form="editAdboardForm"
+          >Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

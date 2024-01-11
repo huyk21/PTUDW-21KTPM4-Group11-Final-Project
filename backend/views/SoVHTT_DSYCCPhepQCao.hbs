@@ -99,7 +99,6 @@
       <thead class="custom-header">
         <tr>
           <th scope="col" class="text-center align-middle">#</th>
-          <th scope="col" class="text-center align-middle">Bảng/Điểm đặt</th>
           <th scope="col" class="text-center align-middle">Nội dung quảng cáo</th>
           <th scope="col" class="text-center align-middle">Thông tin công ty</th>
           <th scope="col" class="text-center align-middle">Email</th>
@@ -115,8 +114,6 @@
         {{#each licenserequests}}
           <tr>
             <td scope="row">{{showIndex @index}}</td>
-            <td>{{this.location.adFormat}}
-              {{this.location.address}}</td>
             <td>{{this.adContent}}</td>
             <td>{{this.companyInfo}}</td>
             <td>{{this.companyEmail}}</td>

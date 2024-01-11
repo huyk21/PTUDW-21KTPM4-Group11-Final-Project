@@ -2,249 +2,25 @@
 
   <div class="container">
 
-    <div class="container mt-3">
-
-      <!-- Modal them diem dat quang cao-->
-      <div
-        class="modal fade"
-        id="themDiemDat"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="themDiemDatLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h4 class="modal-title" id="themDiemDatLabel">Thêm điểm đặt</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Your form goes here -->
-              <form>
-                <div class="form-group">
-
-                  <label for="diaChi" class="mt-3">
-                    <h6>Địa chỉ</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="diaChi"
-                    placeholder="Nhập địa chỉ (vd: Điện Biên Phủ - Mạc Đĩnh Chi)"
-                  />
-
-                  <label for="khuVuc" class="mt-3">
-                    <h6>Khu vực</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="khuVuc"
-                    placeholder="Nhập khu vực (vd: Phường Đa Kao - Quận 1)"
-                  />
-
-                  <label for="soLuong" class="mt-3">
-                    <h6>Số lượng</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="soLuong"
-                    placeholder="Nhập số lượng (vd: 1 trụ/bảng)"
-                  />
-
-                  <label for="hinhThuc" class="mt-3">
-                    <h6>Hình thức</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="hinhThuc"
-                    placeholder="Nhập hình thức (vd: Cổ động chính trị)"
-                  />
-
-                  <label for="phanLoai" class="mt-3">
-                    <h6>Phân loại</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="phanLoai"
-                    placeholder="Nhập phân loại (vd: Đất công/công viên/hành lang)"
-                  />
-
-                  <label for="viTri" class="mt-3">
-                    <h6>Vị trí</h6>
-                  </label>
-                  <div class="container">
-                    <button
-                      type="button"
-                      class="btn btn-primary float-start"
-                      id="viTri"
-                    >
-                      <i class="bi bi-geo-alt"></i>
-                      Chọn vị trí
-                    </button>
-                  </div>
-
-                </div>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary float-right mt-3"
-                  data-dismiss="modal"
-                >Hủy</button>
-                <button
-                  type="submit"
-                  class="btn btn-primary float-right mt-3 mr-1"
-                  data-dismiss="modal"
-                >Thêm</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal chinh sua diem dat quang cao-->
-      <div
-        class="modal fade"
-        id="chinhSuaDiemDat"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="chinhSuaDiemDatLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h4 class="modal-title" id="chinhSuaDiemDatLabel">Chỉnh sửa điểm
-                đặt</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <h6 class="mt-1 text-center font-italic opacity-50">Lưu ý: Để
-                trống nếu không chỉnh sửa</h6>
-              <!-- Your form goes here -->
-              <form>
-                <div class="form-group">
-
-                  <label for="diaChi" class="mt-3">
-                    <h6>Địa chỉ</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="diaChi"
-                    placeholder="Nhập địa chỉ (vd: Điện Biên Phủ - Mạc Đĩnh Chi)"
-                  />
-
-                  <label for="khuVuc" class="mt-3">
-                    <h6>Khu vực</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="khuVuc"
-                    placeholder="Nhập khu vực (vd: Phường Đa Kao - Quận 1)"
-                  />
-
-                  <label for="soLuong" class="mt-3">
-                    <h6>Số lượng</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="soLuong"
-                    placeholder="Nhập số lượng (vd: 1 trụ/bảng)"
-                  />
-
-                  <label for="hinhThuc" class="mt-3">
-                    <h6>Hình thức</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="hinhThuc"
-                    placeholder="Nhập hình thức (vd: Cổ động chính trị)"
-                  />
-
-                  <label for="phanLoai" class="mt-3">
-                    <h6>Phân loại</h6>
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="phanLoai"
-                    placeholder="Nhập phân loại (vd: Đất công/công viên/hành lang)"
-                  />
-
-                  <label for="viTri" class="mt-3">
-                    <h6>Vị trí</h6>
-                  </label>
-                  <div class="container mt-3 mb-3">
-                    <button
-                      type="button"
-                      class="btn btn-primary float-start"
-                      id="viTri"
-                    >
-                      <i class="bi bi-geo-alt"></i>
-                      Chọn vị trí
-                    </button>
-                  </div>
-
-                </div>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary float-right mt-3"
-                  data-dismiss="modal"
-                >Hủy</button>
-                <button
-                  type="submit"
-                  class="btn btn-primary float-right mt-3 mr-1"
-                  data-dismiss="modal"
-                >Thêm</button>
-
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <table class="table table-bordered">
       <h2 class="text-center">Danh sách điểm đặt</h2>
       <!-- Button trigger modal -->
-      <button
-        type="button"
+      <a
         class="btn btn-success float-right mb-2"
-        data-toggle="modal"
-        data-target="#themDiemDat"
+        id="add"
+        name="add"
+        href="/api/sovhtt/danh-sach-diem-dat/{{ward._id}}/addLocation"
+        role="button"
       >
-        <i class="bi bi-plus-square"></i>
+        <i class="bi bi-person-plus"></i>
         Thêm
-      </button>
+      </a>
       <thead class="custom-header">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Địa chỉ</th>
           <th scope="col">Khu vực</th>
-          <th scope="col">Số lượng</th>
+          {{! <th scope="col">Số lượng</th> }}
           <th scope="col">Hình thức</th>
           <th scope="col">Phân loại</th>
           <th scope="col">Tình trạng</th>
@@ -258,27 +34,77 @@
             <td scope="row">{{showIndex @index}}</td>
             <td>{{this.address}}</td>
             <td>{{this.ward.name}} - {{this.district.name}}</td>
-            <td>{{this.adboard.properties.quantity}}</td>
+            {{!-- <td>{{this.adboard.properties.quantity}}</td> --}}
             <td>{{this.adFormat}}</td>
             <td>{{this.locationType}}</td>
             <td>{{this.status}}</td>
             <td>
               <a href="/api/sovhtt/danh-sach-quang-cao/{{this._id}}">Chi tiết</a></td>
             <td>
-              <button class="btn">
-                <i class="bi bi-trash-fill text-danger"></i>
-              </button>
-              <button
-                class="btn"
+              <a
+                href="#"
+                class="pe-auto"
                 data-toggle="modal"
-                data-target="#chinhSuaDiemDat"
+                data-target="#xoaDiemDatModal"
+                data-locationid="{{this._id}}"
+                data-wardid="{{this.ward._id}}"
               >
-                <i class="bi bi-pencil-square text-secondary"></i>
-              </button>
+                <i class="bi bi-trash-fill float-end text-danger pe-auto"></i>
+              </a>
+            </td>
+            <td>
+              <a
+                name="edit"
+                href="/api/sovhtt/danh-sach-diem-dat/{{ward._id}}/editLocation/{{this._id}}"
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="edit"
+                role="button"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </a>
             </td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+  </div>
+
+  {{! Form xóa điểm đặt }}
+  <form name="delete-location-form" method="POST"></form>
+
+  {{! Modal xóa điểm đặt }}
+  <div id="xoaDiemDatModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Xóa điểm đặt?</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn chắc chắn muốn xóa điểm đặt này?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            id="btn-delete-location"
+            type="button"
+            class="btn btn-danger"
+          >Xóa bỏ</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Hủy</button>
+        </div>
+      </div>
+    </div>
   </div>
 </main>

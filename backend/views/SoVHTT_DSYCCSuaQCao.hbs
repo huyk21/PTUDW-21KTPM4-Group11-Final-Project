@@ -1,7 +1,7 @@
 <main>
 
   <div class="container">
-    <div class="container mt-3">
+    {{!-- <div class="container mt-3">
       <!-- Modal them yeu cau chinh sua quang cao-->
       <div
         class="modal fade"
@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
 
     <table class="table table-bordered">
       <h2 class="text-center">Danh sách các yêu cầu chỉnh sửa quảng cáo</h2>
@@ -130,10 +130,18 @@
             <td>{{this.adjustDate}}</td>
             <td>{{this.reason}}</td>
             <td>
-              <button class="btn" data-toggle="modal" data-target="#xetYeuCau">
+              <a
+                name="approve"
+                href="/api/sovhtt/danh-sach-yeu-cau-chinh-sua-quang-cao/{{this.forAdboard._id}}/approve/{{this._id}}"
+                class="text-secondary float-end pe-auto"
+                {{! data-toggle="modal"
+                data-target="#chinhSuaQuan" }}
+                id="approve"
+                role="button"
+              >
                 <i class="bi bi-info-circle text-secondary"></i>
                 Xử lí
-              </button>
+              </a>
             </td>
           </tr>
         {{/each}}

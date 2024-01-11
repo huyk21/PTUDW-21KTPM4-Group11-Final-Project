@@ -749,9 +749,21 @@ async function submitFormHandler(event) {
   });
   //show the json file
   if (res.status === 200) {
-    alert("Báo cáo thành công");
+    Swal.fire({
+      title: "Thành công!",
+      text: "Báo cáo thành công!",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
     let result = await res.json();
     console.log(result);
+  } else {
+    Swal.fire({
+      title: "Thất bại!",
+      text: `Báo cáo thất bại`,
+      icon: "error",
+      confirmButtonText: "OK",
+    });
   }
 }
 

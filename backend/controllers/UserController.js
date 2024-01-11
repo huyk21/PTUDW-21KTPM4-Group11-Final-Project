@@ -141,16 +141,45 @@ const showPlace = asyncHandler(async (req, res) => {
 });
 
 const getReport = asyncHandler(async (req, res) => {
-  let locationId = req.body.id;
+  let body = req.body;
+  let locationId = req.body.id; // Use locationID instead of id
   let email = req.body.email;
-  let name = req.body.name;
-  let phoneNumber = req.body.phone - number;
-  let reportContent = req.body.report - content;
-  let reportType = req.body.report - type;
-  const location = await Location.findById(locationId).populate(address);
+  let name = req.body.name; // Use reporter instead of name
+  let phoneNumber = req.body.phoneNumber; // Use phoneNo instead of phoneNumber
+  let reportContent = req.body.reportContent; // Use reportDetails instead of reportContent
+  let reportType = req.body.reportType; // Use reportFormat instead of reportType
+  const location = await Location.findById(locationId);
+  const address = location.address;
+  // Format the date as "YY/MM/DD"
+  const formattedDate = new Date().toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  const report = new Report({
+    location: address,
+    reporter: name,
+    email: email,
+    phoneNo: phoneNumber,
+    reportDetails: reportContent,
+    reportFormat: reportType,
+    reportDate: formattedDate,
+    locationID: locationId,
+  });
+  const newReport = await report.save();
+  const reportSolution = new ReportSolution({
+    for: newReport._id,
+    method: "Đang chờ xử lý",
+    status: "Chưa xử lý",
+  });
+  const newReportSolution = await reportSolution.save();
+
+  res.status(200).json({ body });
 });
+
 const uploadImage = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "nicereport" });
+  res.status(200).json({ body });
 });
 export {
   showPlace,

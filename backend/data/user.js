@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import bcrypt from "bcryptjs";
 
 const accounts = [
   {
@@ -68,7 +67,5 @@ const accounts = [
     password: bcrypt.hashSync("CanBoSoVHTT", 10),
   },
 ];
-
-export default accounts;
 
 export default accounts;

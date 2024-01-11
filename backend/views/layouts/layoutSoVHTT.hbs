@@ -40,10 +40,13 @@
     ></script>
 
     <!-- Your custom script file -->
-    <script
-      type="text/javascript"
-      src="/assets/js/SoVHTT.js"
-    ></script>
+    <script type="text/javascript" src="/assets/js/SoVHTT.js"></script>
 
+    <script>
+      function handleLogout() { fetch('/api/logout', { method: 'POST', headers:
+      { 'Content-Type': 'application/json' }, }) .then(response =>
+      response.json()) .then(data => { console.log(data); window.location.href =
+      '/api/auth'; }) .catch(error => { console.error('Error:', error); }); }
+    </script>
   </body>
 </html>

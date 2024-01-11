@@ -6,7 +6,18 @@ let showReportedMarkers = true; // Flag to toggle visibility
 let markers = []; // Array to store markers
 //access Token
 // Event listener for the button
-
+var geolocate = new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true,
+  },
+  trackUserLocation: true,
+});
+setTimeout(() => {
+  document.getElementById("reportButton").addEventListener("click", () => {
+    openReportModal();
+    closeOverlay();
+  });
+}, 10); // Delaying just a bit to ensure the DOM is updated
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHV5azIxIiwiYSI6ImNsbnpzcWhycTEwbnYybWxsOTAydnc2YmYifQ.55__cADsvmLEm7G1pib5nA";
 var map = new mapboxgl.Map({
@@ -15,13 +26,15 @@ var map = new mapboxgl.Map({
   center: [HCMlong, HCMlat],
   zoom: 13,
 });
+
 //main function
 function main() {
   // After the map has been loaded, you add your data source and layers.
   map.on("load", async function () {
+    geolocate.trigger();
     // Load your data
     const geojsonData = await loadData();
-    console.log(geojsonData);
+    //move user to current location of user
 
     // Add the source with your GeoJSON data and enable clustering
     map.addSource("ads", {
@@ -152,8 +165,10 @@ function main() {
   });
   map.on("click", "unclustered-point", function (e) {
     e.originalEvent.stopPropagation();
-    const status = e.features[0].properties.location.status;
-
+    const location = JSON.parse(e.features[0].properties.location);
+    const status = location.status;
+    const location_id = location._id;
+    window.history.pushState(null, null, `/api/report/${location_id}`);
     if (status === "BỊ BÁO CÁO" && !showReportedMarkers) {
       hideSidebar();
       return;
@@ -169,7 +184,8 @@ function main() {
     }
   });
   // Assuming you've already added your 'clusters' layer and your 'ads' source.
-
+  // Flag to track if geolocation is active
+  let geolocationActive = true;
   // When a click event occurs on a feature in the clusters layer, zoom in
   map.on("click", "clusters", function (e) {
     // Get the cluster id from the features properties
@@ -203,10 +219,21 @@ function main() {
 
   // Add a click event to the map to perform reverse geocoding
   map.on("click", function (e) {
+    //if there exist geolocate, then stop geolocate when click
+
     // Remove the previous marker if it exists
     if (currentMarker) {
       currentMarker.remove();
     }
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ["unclustered-point", "clusters"],
+    });
+
+    if (features.length === 0) {
+      // Click is outside the elements of interest, reset the URL
+      window.history.pushState(null, null, "/"); // Reset to the home page or any default URL
+    }
+
     var features = map.queryRenderedFeatures(e.point, {
       layers: ["unclustered-point"],
     });
@@ -235,7 +262,7 @@ function main() {
                 <h6>Thông tin vị trí: </h6>
                 <p>Địa chỉ: ${data.features[0].place_name}</p>
                 <p class="fw-bold">Chưa có thông tin quảng cáo</p>
-                              `;
+              `;
             var popup = new mapboxgl.Popup({ offset: 25 })
               .setLngLat(e.lngLat)
               .setHTML(popupContent)
@@ -243,13 +270,6 @@ function main() {
 
             // Set up the event listener for the report button
             // It must be done after the popup is added to the map so the button exists in the DOM
-            setTimeout(() => {
-              document
-                .getElementById("reportLocationBtn")
-                .addEventListener("click", () => {
-                  openReportModal();
-                });
-            }, 10); // Delaying just a bit to ensure the DOM is updated
 
             currentMarker.setPopup(popup); // Set popup to marker and show it
           } else {
@@ -371,15 +391,7 @@ function addControls(map) {
   map.addControl(new mapboxgl.NavigationControl());
 
   // add User Location control (this will show the user's location and allow for tracking)
-  map.addControl(
-    new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true, // Set to true to keep tracking user's location
-      showUserLocation: true, // Set to true to show user's location
-    })
-  );
+  map.addControl(geolocate);
 }
 
 // Function to show sidebar with property information
@@ -400,29 +412,138 @@ function showSidebar(properties) {
     // Update the content of the sidebar
     $("#infoContent").html(`
             <h5 class="fw-bold">Địa chỉ: ${location.address}</h5>
-            <p class="fw-bold fs-6">Số lượng: ${adboard.quantity}</p>
             <p class="fw-bold fs-6">Khu vực: ${ward.name}</p>
             <p class="fw-bold fs-6">Loại vị trí: ${location.locationType}</p>
             <p class="fw-bold fs-6">Hình thức quảng cáo: ${location.adFormat}</p>
             <p class="fw-bold fs-6">Trạng thái: ${location.status}</p>
-            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${adboard.boardType}</p>
-            <p class="fw-bold fs-6">Kích thước: ${adboard.size}</p>
+            <div class="row">
+        <div class="col">
             <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
+        </div>
+        <div class="col">
+            <button id="viewListAdboard" class="btn btn-primary">Xem List QC</button>
+        </div>
+    </div>
         `);
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
       showReports(properties); // Assuming 'address' can be used to fetch reports
     });
-
+    $("#viewListAdboard").click(function () {
+      showListAdboard(properties); // Assuming 'address' can be used to fetch reports
+    });
     // Show the sidebar by adding the 'visible' class
     $("#sidebar").addClass("visible");
   }, 150);
 }
+function showListAdboard(properties) {
+  // Mock-up adboard data
+  let adboard = JSON.parse(properties.adboard);
 
+  // Create HTML for the adboard image
+  var adboardHtml = `
+  <div class="card mt-2">
+    <img src="${adboard.imageUrl}" class="card-img-top" alt="Billboard Image" id="adboardImage">
+    <button class="btn btn-primary mt-2" id="viewDetailsButton">View Details</button>
+  </div>
+`;
+
+  // Set the adboard HTML to the sidebar
+  $("#infoContent").html(adboardHtml);
+
+  // Add a click event listener to the adboard image to show details
+  $("#viewDetailsButton").click(function () {
+    // Create HTML for the adboard details
+    var adboardDetailsHtml = `
+      <div class="card mt-2">
+        <div class="card-body">
+          <h5 class="card-title">Billboard Details</h5>
+         
+          <p class="card-text">Số lượng: ${adboard.quantity}</p>
+          <p class="card-text">Loại biển quảng cáo: ${adboard.boardType}</p>
+          <p class="card-text">Kích thước: ${adboard.size}</p>
+          <p class="card-text">Ngày hết hạn: ${adboard.expirationDate}</p>
+          <button class="btn btn-primary mt-2" id="goback">Quay lại</button>
+        </div>
+      </div>
+    `;
+
+    // Set the adboard details HTML to the sidebar
+    $("#infoContent").html(adboardDetailsHtml);
+    $("#goback").click(function () {
+      // Assuming showSidebar is your function that shows the ad details
+      showSidebar(properties); // currentProperties should be the current ad details
+    });
+  });
+}
+
+// Function to show billboard details (you need to implement this function)
+function showBillboardDetails(adboard) {
+  // Implement the logic to display billboard details here
+  // You can use a modal or any other method to show the details
+}
+
+function showReports(properties) {
+  // Mock-up report data
+  var reportsData = [
+    {
+      date: "2023-11-15",
+      user: "User1",
+      content: "This is the first report content.",
+    },
+    {
+      date: "2023-11-14",
+      user: "User2",
+      content: "This is the second report content.",
+    },
+    // Add more reports as needed
+  ];
+
+  // Start with an empty HTML string
+  var reportsHtml = "";
+
+  // Loop over each report and append HTML string
+  reportsData.forEach(function (report) {
+    reportsHtml += `
+          <div class="card mt-2">
+              <div class="card-body">
+                  <h6 class="card-title">Report by ${report.user}</h6>
+                  <p class="card-text">${report.content}</p>
+                  <footer class="blockquote-footer">${report.date}</footer>
+                  
+              </div>
+          </div>
+          
+      `;
+  });
+  reportsHtml += `<button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>`;
+  // Set the reports HTML to the sidebar
+  $("#infoContent").html(reportsHtml);
+
+  // Change the text of the button to toggle back to ad details
+  $("#viewReportsBtn")
+    .text("Ẩn Báo Cáo")
+    .off("click")
+    .click(function () {
+      // Assuming showSidebar is your function that shows the ad details
+      showSidebar(properties); // currentProperties should be the current ad details
+    });
+}
 // Function to hide the sidebar
 function hideSidebar(map) {
   $("#sidebar").removeClass("visible");
+}
+
+// Function to open the report modal
+function openReportModal() {
+  var overlay = document.getElementById("pageOverlay");
+  var reportModalElement = document.getElementById("reportModal");
+  var reportModal = new bootstrap.Modal(reportModalElement, {
+    backdrop: "static", // Keep static backdrop to prevent closing when clicking outside
+  });
+  reportModal.show();
+  overlay.style.display = "block"; // Show the overlay
 }
 
 //function to close the overlay
@@ -507,7 +628,7 @@ function toggleReportedMarkers() {
   // Change the opacity for markers with status "BỊ BÁO CÁO"
   const opacityExpression = [
     "case",
-    ["==", ["get", "status"], "BỊ BÁO CÁO"],
+    ["==", ["get", "status", ["get", "location"]], "BỊ BÁO CÁO"],
     showReportedMarkers ? 0 : 1, // toggle opacity for these markers
     1,
   ]; // keep other markers unaffected
@@ -531,11 +652,9 @@ $(document).ready(function () {
 main();
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement) {
-    console.log("Entered fullscreen mode");
     // If your sidebar needs to be moved inside the fullscreen element:
     document.fullscreenElement.appendChild(document.getElementById("sidebar"));
   } else {
-    console.log("Exited fullscreen mode");
     // Move the sidebar back to its original container if needed
   }
 });
@@ -579,3 +698,83 @@ toggleButton2.addEventListener("click", function () {
     toggleButton2.classList.add("bi-toggle-off");
   }
 });
+function validateForm() {
+  var firstName = document.getElementById("full-name").value;
+  var email = document.getElementById("email").value;
+  var phoneNumber = document.getElementById("phone-number").value;
+  var reportType = document.getElementById("report-type").value;
+  var reportContent = document.getElementById("report-content").value;
+
+  if (
+    firstName.trim() === "" ||
+    email.trim() === "" ||
+    phoneNumber.trim() === "" ||
+    reportType === "Chọn hình thức báo cáo" ||
+    reportContent.trim() === ""
+  ) {
+    alert("Please fill");
+    return false;
+  }
+
+  console.log(
+    "Form data is valid. You can submit the form or perform further actions."
+  );
+  return true; // If you want the form to be submitted
+}
+
+async function submitFormHandler(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  // Validate the form before proceeding
+  if (!validateForm()) {
+    alert("Is not valid data form");
+    return;
+  }
+  var url = window.location.href;
+  var id = url.substring(url.lastIndexOf("/") + 1);
+  var form = document.getElementById("reportForm");
+  const formData = new FormData(form); // 'this' refers to the form
+  formData.append("id", id);
+  // Convert formData to JSON, assuming your server expects JSON
+  const jsonData = Object.fromEntries(formData.entries());
+
+  console.log(jsonData);
+
+  let res = await fetch("/api/report", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json", // sent request
+    },
+    body: JSON.stringify(jsonData), // body data type must match "Content-Type" header
+  });
+  //show the json file
+  if (res.status === 200) {
+    Swal.fire({
+      title: "Thành công!",
+      text: "Báo cáo thành công!",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+    let result = await res.json();
+    console.log(result);
+  } else {
+    Swal.fire({
+      title: "Thất bại!",
+      text: `Báo cáo thất bại`,
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+  }
+}
+
+// Event listener for the modal hidden event (fires when the modal is closed)
+$("#reportModal").on("hidden.bs.modal", function () {
+  resetForm(); // Reset the form
+});
+
+// Function to reset the form
+function resetForm() {
+  document.getElementById("reportForm").reset(); // Reset the form
+  $("#summernote").summernote("code", ""); // Clear the Summernote editor content
+  // Add code to clear any additional form elements if necessary
+}

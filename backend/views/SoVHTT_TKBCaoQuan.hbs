@@ -20,15 +20,17 @@
         </tr>
       </thead>
       <tbody>
-        {{#each ward}}
+        {{#each wards}}
           <tr>
-            <td scope="row">{{ward._id}}</td>
-            <td>{{ward.name}}</td>
-            <td>25</td>
-            <td>20/25</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.numberOfReports}}</td>
+            <td
+            >{{this.numberOfProcessedReportsolutions}}/{{this.numberOfReports}}</td>
             <!--Apply flexible calculations here-->
             <td>
-              <a href="/thongkephuong">Chi tiết
+              <a href="/api/sovhtt/thong-ke-bao-cao-phuong/{{this._id}}">Chi
+                tiết
                 <i class="bi bi-info-circle"></i></a>
             </td>
 

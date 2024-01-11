@@ -5,14 +5,69 @@
         <div class="card">
           <div class="card-body">
             <h2 class="card-title text-center">Tạo tài khoản cho cán bộ</h2>
-            <form>
+            <form
+              id="taoTaiKhoan"
+              method="POST"
+              action="/api/sovhtt/tao-tai-khoan"
+              onsubmit="return validateForm()"
+            >
               <div class="form-group">
-                <label for="tenTaiKhoan">Tên tài khoản</label>
+                <label for="tenCanBo">Tên cán bộ</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tenCanBo"
+                  name="tenCanBo"
+                  placeholder="Nhập tên cán bộ"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="ngaySinh">Ngày sinh</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="ngaySinh"
+                  name="ngaySinh"
+                  placeholder="Nhập ngày sinh"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
                 <input
                   type="email"
                   class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Nhập email"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="sdt">Số điện thoại</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sdt"
+                  name="sdt"
+                  placeholder="Nhập số điện thoại"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="tenTaiKhoan">Tên tài khoản</label>
+                <input
+                  type="text"
+                  class="form-control"
                   id="tenTaiKhoan"
+                  name="tenTaiKhoan"
                   placeholder="Nhập tên tài khoản"
+                  required
                 />
               </div>
 
@@ -22,7 +77,9 @@
                   type="password"
                   class="form-control"
                   id="matKhau"
+                  name="matKhau"
                   placeholder="Nhập mật khẩu"
+                  required
                 />
               </div>
               <div class="form-group">
@@ -31,45 +88,24 @@
                   type="password"
                   class="form-control"
                   id="xacNhanMatKhau"
+                  name="xacNhanMatKhau"
                   placeholder="Nhập lại mật khẩu để xác nhận"
+                  required
                 />
               </div>
               <div class="form-group">
                 <label for="khuVuc">Phân công khu vực</label>
-                <select class="form-control" id="khuVuc">
-                  <option selected>Chưa phân công</option>
-                  <option value="phuong">Cán bộ Phường</option>
+                <select class="form-control" id="khuVuc" name="khuVuc">
+                  <option value="phuong" selected>Cán bộ Phường</option>
                   <option value="quan">Cán bộ Quận</option>
                   <!-- Add more options as needed -->
                 </select>
               </div>
-              <!-- Additional selection fields -->
-              <div class="form-group" id="chonQuanGroup" style="display: none;">
-                <label for="chonQuan">Chọn quận</label>
-                <select class="form-control" id="chonQuan">
-                  <!-- Options for the second selection field -->
-                  {{#each district}}
-                  <option value="{{district.id}}">{{district.name}}</option>
-                  {{/each}}
-                </select>
-              </div>
-
-              <div
-                class="form-group"
-                id="chonPhuongGroup"
-                style="display: none;"
-              >
-                <label for="chonPhuong">Chọn phường</label>
-                <select class="form-control" id="chonPhuong">
-                  <!-- Options for the third selection field will depend on what you chose on second selection-->
-                  {{#each ward}}
-                  <option value="{{ward._id}}">{{ward.name}}</option>
-                  {{/each}}
-                </select>
-              </div>
-
-              <button type="submit" class="btn btn-primary btn-block">Tạo tài
-                khoản</button>
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                form="taoTaiKhoan"
+              >Tạo tài khoản</button>
             </form>
           </div>
         </div>

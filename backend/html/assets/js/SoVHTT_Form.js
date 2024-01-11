@@ -82,6 +82,10 @@ window.onload = function () {
     "openXetDuyetChinhSuaDiemDatModalBtn"
   );
 
+  var openDetailReportButton = document.getElementById(
+    "openDetailReportModalBtn"
+  );
+
   // Trigger a click on the button
   if (addDistrictButton) {
     addDistrictButton.click();
@@ -114,6 +118,10 @@ window.onload = function () {
 
   if (approveEditAdboardButton) {
     approveEditAdboardButton.click();
+  }
+
+  if (openDetailReportButton) {
+    openDetailReportButton.click();
   }
 };
 
@@ -204,6 +212,16 @@ document.addEventListener("DOMContentLoaded", function () {
     deleteForm.submit();
   };
 });
+
+function validateForm() {
+  var password = document.getElementById("matKhau").value;
+  var confirmPassword = document.getElementById("xacNhanMatKhau").value;
+  if (password !== confirmPassword) {
+    alert("Mật khẩu và Xác nhận mật khẩu không trùng, vui lòng kiểm tra lại");
+    return false;
+  }
+  return true;
+}
 
 // document
 //   .querySelector("#addDistrictForm")

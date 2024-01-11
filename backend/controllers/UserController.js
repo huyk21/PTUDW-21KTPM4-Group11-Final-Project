@@ -133,7 +133,7 @@ const logoutUser = asyncHandler(async(req, res) => {
       res.status(200).json({ message: "Logged out successfully" });
     }
   });
-};
+});
                                 
 const showPlace = asyncHandler(async (req, res) => {
   const location = await Location.findById(req.params.id).populate(

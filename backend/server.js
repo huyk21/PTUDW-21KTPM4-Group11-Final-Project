@@ -142,8 +142,8 @@ app.get("/api/loaddata", async (req, res) => {
       },
     ]);
 
-    const workWard = req.session.workWard
-    const workDistrict = req.session.workDistrict
+    const workWard = req.session.workWard;
+    const workDistrict = req.session.workDistrict;
 
     if (
       (workWard === undefined && workDistrict === undefined) ||

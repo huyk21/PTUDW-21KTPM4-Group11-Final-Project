@@ -1,70 +1,10 @@
 <main>
   <div class="container">
 
-    <div class="container mt-3">
-      <!-- Modal hien thi chi tiet bao cao-->
-      <div
-        class="modal fade"
-        id="hienChiTiet"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="hienChiTietLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h4 class="modal-title" id="hienChiTietLabel">Chi tiết báo cáo</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <!-- Left side of the split body -->
-                  <div class="container">
-                    <h5>Về việc {{report.reportFormat}}</h5>
-                    <p>{{report.reportDetails}}
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-6 border-left">
-                  <!-- Right side of the split body with vertical line -->
-                  <div class="container">
-                    <h5>Hình ảnh đính kèm: </h5>
-                    <img
-                      src="/billboard.jpg"
-                      class="img-fluid mb-1"
-                      alt="image not found"
-                    />
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary float-right mt-3"
-                data-dismiss="modal"
-              >Hủy</button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
     <table class="table table-bordered">
       <h2 class="text-center">Thống kê báo cáo của người dân trong khu vực
-        {{ward.name}},
+        {{ward.name}}
+        -
         {{district.name}}</h2>
       <!-- Button trigger modal -->
       <button type="button" class="btn bg-opacity-0 float-right mb-2">
@@ -87,26 +27,29 @@
         </tr>
       </thead>
       <tbody>
-        {{#each report}}
+        {{#each reports}}
           <tr>
-            <td scope="row">{{report._id}}</td>
-            <td>{{report.reportDate}}</td>
-            <td>{{report.reporter}}</td>
-            <td>{{report.email}}</td>
-            <td>{{report.phoneNo}}</td>
-            <td>{{report.location}}</td>
-            <td>{{report.reportFormat}}</td>
+            <td scope="row">{{showIndex @index}}</td>
+            <td>{{this.reportDate}}</td>
+            <td>{{this.reporter}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phoneNo}}</td>
+            <td>{{this.locationDetail.address}}</td>
+            <td>{{this.reportFormat}}</td>
+            <td>{{this.reportSolutionDetail.method}}</td>
             <td>
-              <button
-                class="btn"
-                data-toggle="modal"
-                data-target="#hienChiTiet"
+              <a
+                name="detail"
+                href="/api/sovhtt/thong-ke-bao-cao-phuong/{{this.locationDetail.ward}}/detail/{{this._id}}"
+                class="text-secondary float-end pe-auto"
+                id="detail"
+                role="button"
               >
                 <i class="bi bi-info-circle text-secondary"></i>
                 Xem
-              </button>
+              </a>
             </td>
-            <td>{{reportsolution.method}}</td>
+
           </tr>
         {{/each}}
       </tbody>

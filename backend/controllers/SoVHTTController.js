@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 //@desc Register user
 //@route POST /api/users
 //@access Public
@@ -1538,7 +1539,7 @@ const thongKeBaoCao = asyncHandler(async (req, res) => {
   // res.render("SoVHTT_TKBaoCao", {
   //   layout: "layoutSoVHTT_function",
   // });
-  const status = "Đã xử lý xong";
+  const status = "Đã xử lý";
 
   try {
     const districts = await District.aggregate([
@@ -1620,13 +1621,284 @@ const thongKeBaoCao = asyncHandler(async (req, res) => {
 });
 
 const thongKeBaoCaoQuan = asyncHandler(async (req, res) => {
-  res.send("danh sach thongKeBaoCaoQuan ne!!!");
+  // res.render("SoVHTT_TKBCaoQuan", {
+  //   layout: "layoutSoVHTT_function",
+  // });
+
+  // res.render("SoVHTT_TKBaoCao", {
+  //   layout: "layoutSoVHTT_function",
+  // });
+  const status = "Đã xử lý";
+  const districtID = req.params.idQuan;
+  const district = await District.findById(districtID);
+
+  try {
+    const wards = await Ward.aggregate([
+      {
+        $match: {
+          districtID: district._id,
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "_id",
+          foreignField: "ward",
+          as: "locations",
+        },
+      },
+      {
+        $lookup: {
+          from: "reports",
+          localField: "locations._id",
+          foreignField: "locationID",
+          as: "reports",
+        },
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          localField: "reports._id",
+          foreignField: "for",
+          as: "allreportsolutions",
+        },
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          let: { reportIds: "$reports._id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $in: ["$for", "$$reportIds"] },
+                    { $eq: ["$status", status] },
+                  ],
+                },
+              },
+            },
+            {
+              $count: "processedReportsolutionsCount",
+            },
+          ],
+          as: "processedReportsolutionsCount",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          numberOfReports: { $size: "$reports" },
+          numberOfProcessedReportsolutions: {
+            $ifNull: [
+              {
+                $arrayElemAt: [
+                  "$processedReportsolutionsCount.processedReportsolutionsCount",
+                  0,
+                ],
+              },
+              0,
+            ],
+          },
+        },
+      },
+    ]);
+
+    if (wards) {
+      res.render("SoVHTT_TKBCaoQuan", {
+        layout: "layoutSoVHTT_function",
+        wards,
+        district,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 const thongKeBaoCaoPhuong = asyncHandler(async (req, res) => {
-  res.send("danh sach thongKeBaoCaoPhuong ne!!!");
+  const wardID = req.params.idPhuong;
+  const ward = await Ward.findById(wardID);
+  const district = await District.findById(ward.districtID);
+  try {
+    const reports = await Report.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "locationID",
+          foreignField: "_id",
+          as: "locationDetail",
+        },
+      },
+      {
+        $unwind: "$locationDetail",
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          localField: "_id",
+          foreignField: "for",
+          as: "reportSolutionDetail",
+        },
+      },
+      {
+        $unwind: "$reportSolutionDetail",
+      },
+      {
+        $match: {
+          "locationDetail.ward": ward._id,
+        },
+      },
+      {
+        $project: {
+          reportFormat: 1,
+          reporter: 1,
+          email: 1,
+          phoneNo: 1,
+          reportDetails: 1,
+          reportDate: 1,
+          locationDetail: "$locationDetail",
+          reportSolutionDetail: "$reportSolutionDetail",
+        },
+      },
+    ]);
+
+    if (reports) {
+      res.render("SoVHTT_TKBCaoPhuong", {
+        layout: "layoutSoVHTT_function",
+        reports,
+        ward,
+        district,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+const chiTietThongKeBaoCaoPhuong = asyncHandler(async (req, res) => {
+  const currentReport = await Report.findById(req.params.idBaoCao);
+  const wardID = req.params.idPhuong;
+  const ward = await Ward.findById(wardID);
+  const district = await District.findById(ward.districtID);
+  try {
+    const reports = await Report.aggregate([
+      {
+        $lookup: {
+          from: "locations",
+          localField: "locationID",
+          foreignField: "_id",
+          as: "locationDetail",
+        },
+      },
+      {
+        $unwind: "$locationDetail",
+      },
+      {
+        $lookup: {
+          from: "reportsolutions",
+          localField: "_id",
+          foreignField: "for",
+          as: "reportSolutionDetail",
+        },
+      },
+      {
+        $unwind: "$reportSolutionDetail",
+      },
+      {
+        $match: {
+          "locationDetail.ward": ward._id,
+        },
+      },
+      {
+        $project: {
+          reportFormat: 1,
+          reporter: 1,
+          email: 1,
+          phoneNo: 1,
+          reportDetails: 1,
+          reportDate: 1,
+          locationDetail: "$locationDetail",
+          reportSolutionDetail: "$reportSolutionDetail",
+        },
+      },
+    ]);
+
+    if (reports) {
+      res.render("SoVHTT_TKBCaoPhuong_Detail", {
+        layout: "layoutSoVHTT_function",
+        reports,
+        ward,
+        district,
+        currentReport,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
+//Tao tai khoan
+const trangTaoTaiKhoan = asyncHandler(async (req, res) => {
+  res.render("SoVHTT_TaoTK", {
+    layout: "layoutSoVHTT_function",
+  });
+});
+const taoTaiKhoan = asyncHandler(async (req, res) => {
+  try {
+    const name = req.body.tenCanBo;
+    const email = req.body.email;
+    const dateOfBirth = req.body.ngaySinh;
+    const phoneNo = req.body.sdt;
+    const username = req.body.tenTaiKhoan;
+    const password = req.body.matKhau;
+    const confirmPassword = req.body.xacNhanMatKhau;
+    const role = req.body.khuVuc;
+
+    var phuong = false;
+    var quan = false;
+    var so = false;
+    if (role == "phuong") {
+      phuong = true;
+    } else if (role == "quan") {
+      quan = true;
+    } else if (role == "so") {
+      so = true;
+    }
+
+    const newUser = new User({
+      name: name,
+      email: email,
+      dateOfBirth: dateOfBirth,
+      phoneNo: phoneNo,
+      username: username,
+      password: bcrypt.hashSync(password, 10),
+      isPhuong: phuong,
+      isQuan: quan,
+      isSo: so,
+    });
+    const userCreated = await newUser.save();
+    // res.json({
+    //   name,
+    //   email,
+    //   dateOfBirth,
+    //   phoneNo,
+    //   username,
+    //   password,
+    //   confirmPassword,
+    //   role,
+    //   phuong,
+    //   quan,
+    //   so,
+    // });
+    res.status(201).redirect(`/api/sovhtt/tao-tai-khoan`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 export {
   index,
   danhSachQuan,
@@ -1668,4 +1940,7 @@ export {
   thongKeBaoCao,
   thongKeBaoCaoQuan,
   thongKeBaoCaoPhuong,
+  chiTietThongKeBaoCaoPhuong,
+  trangTaoTaiKhoan,
+  taoTaiKhoan,
 };

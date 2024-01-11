@@ -155,7 +155,7 @@
                 name="cancel"
                 id="buttonCancel"
                 {{!-- class="btn {{#eq locationDetails.status 'ĐÃ CẤP PHÉP' 'BỊ BÁO CÁO'}}btn-success  {{else}} btn-light active disabled {{/eq}}" --}}
-                class="btn {{#eq license.processStatus 'Đã xử lý' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
+                class="btn {{#eq license.processStatus 'Đã xử lý' 'null' 'null'}} btn-light active disabled {{else}} btn-success {{/eq}}"
 
                 href="#"
                 role="button"
@@ -262,6 +262,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -275,6 +276,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -288,6 +290,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -301,6 +304,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -314,6 +318,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -327,6 +332,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -340,6 +346,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
 
@@ -353,6 +360,7 @@
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    required
                   />
                 </div>
               </div>
@@ -367,6 +375,7 @@
                     id="img"
                     placeholder=""
                     aria-describedby="fileHelpId"
+                    required
                   />
                   <div id="fileHelpId" class="form-text">Chọn ảnh của quảng cáo
                     để tải lên</div>

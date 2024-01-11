@@ -146,8 +146,7 @@ const sendRequest = asyncHandler(async (req, res) => {
   })
 
   await AdjustBoard.collection.insertOne(request)
-  
-  res.redirect("/api/phuong/ad_phuong")
+  res.redirect("/api/phuong/ad_phuong?success=true")
 })
 
 //xử lý trên trang yeu cầu cấp phép
@@ -200,7 +199,7 @@ const createLicense = asyncHandler(async (req, res) => {
   })
   
   await LicenseRequest.collection.insertOne(license)
-  res.redirect("/api/phuong/license_phuong")
+  res.redirect("/api/phuong/license_phuong?success=true")
 });
 
 const showConfirm = asyncHandler(async (req, res) => {
@@ -239,7 +238,7 @@ const deleteLicense = asyncHandler(async (req, res) => {
 
   await LicenseRequest.deleteOne({_id: id})
 
-  res.redirect("/api/phuong/license_phuong")
+  res.redirect("/api/phuong/license_phuong?delete=true")
 });
 
 //xử lý trên trang báo cáo của người dân
@@ -355,7 +354,7 @@ const updateReportStatus = asyncHandler(async (req, res) => {
     {upsert: true}
   );
 
-  res.redirect("/api/phuong/report_phuong")
+  res.redirect("/api/phuong/report_phuong?success=true")
 })
 
 export {

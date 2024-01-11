@@ -104,12 +104,11 @@
                   <!-- Captcha -->
                   <div class="mb-3">
                     <button
-                      class="g-recaptcha"
-                      data-sitekey="6LehigkpAAAAANXmQHe3C2YykPnRrfBwMcPzkZlN"
-                      data-callback="onSubmit"
-                      data-action="submit"
+                      type="button"
+                      class="btn btn-primary btn-lg btn-block"
+                      id="captchaButton"
                     >
-                      CAptcha
+                      Xác nhận Captcha
                     </button>
                   </div>
                 </form>
@@ -122,7 +121,13 @@
                 >
                   Close
                 </button>
-                <button type="submit" class="btn btn-primary" form="reportForm">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  form="reportForm"
+                  id="submitButton"
+                  disabled
+                >
                   Gửi báo cáo
                 </button>
               </div>

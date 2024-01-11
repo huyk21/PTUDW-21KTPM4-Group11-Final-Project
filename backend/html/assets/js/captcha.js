@@ -47,10 +47,20 @@ async function sendData(captcha) {
     const data = await response.json();
 
     if (data.success) {
-      alert("Xác nhận captcha thành công!");
+      Swal.fire({
+        title: "Thành công!",
+        text: "Xác nhập captcha thành công!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       toggleSubmitButton(true);
     } else {
-      alert("Xác nhận captcha k thành công!");
+      Swal.fire({
+        title: "Thất bại!",
+        text: `Xác nhận captcha thất bại!`,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);

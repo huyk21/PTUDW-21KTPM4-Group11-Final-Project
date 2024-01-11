@@ -126,16 +126,15 @@ const logoutUser = asyncHandler(async(req, res) => {
       res.status(500).send("Error occurred in session destruction");
     } else {
       res.clearCookie("connect.sid"); // Clear the session cookie
+      res.cookie("jwt", "", {
+        httpOnly: true,
+        expires: new Date(0),
+      });
       res.status(200).json({ message: "Logged out successfully" });
     }
   });
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-  res.status(200).json({ message: "Logged out successfully" });
-});
-
+};
+                                
 const showPlace = asyncHandler(async (req, res) => {
   const location = await Location.findById(req.params.id).populate(
     "district",

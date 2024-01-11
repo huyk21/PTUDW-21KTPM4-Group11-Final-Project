@@ -227,11 +227,6 @@ function main() {
       // Click is outside the elements of interest, reset the URL
       window.history.pushState(null, null, "/"); // Reset to the home page or any default URL
     }
-    if (geolocationActive) {
-      // Stop geolocation by triggering it again
-      geolocate.trigger();
-      geolocationActive = false;
-    }
 
     var features = map.queryRenderedFeatures(e.point, {
       layers: ["unclustered-point"],
@@ -419,25 +414,78 @@ function showSidebar(properties) {
     // Update the content of the sidebar
     $("#infoContent").html(`
             <h5 class="fw-bold">Địa chỉ: ${location.address}</h5>
-            <p class="fw-bold fs-6">Số lượng: ${adboard.quantity}</p>
             <p class="fw-bold fs-6">Khu vực: ${ward.name}</p>
             <p class="fw-bold fs-6">Loại vị trí: ${location.locationType}</p>
             <p class="fw-bold fs-6">Hình thức quảng cáo: ${location.adFormat}</p>
             <p class="fw-bold fs-6">Trạng thái: ${location.status}</p>
-            <p class="fw-bold fs-6">Loại bảng quảng cáo: ${adboard.boardType}</p>
-            <p class="fw-bold fs-6">Kích thước: ${adboard.size}</p>
+            <div class="row">
+        <div class="col">
             <button id="viewReportsBtn" class="btn btn-primary">Xem Báo Cáo</button>
+        </div>
+        <div class="col">
+            <button id="viewListAdboard" class="btn btn-primary">Xem List QC</button>
+        </div>
+    </div>
         `);
 
     // Add event listener to the new button
     $("#viewReportsBtn").click(function () {
       showReports(properties); // Assuming 'address' can be used to fetch reports
     });
-
+    $("#viewListAdboard").click(function () {
+      showListAdboard(properties); // Assuming 'address' can be used to fetch reports
+    });
     // Show the sidebar by adding the 'visible' class
     $("#sidebar").addClass("visible");
   }, 150);
 }
+function showListAdboard(properties) {
+  // Mock-up adboard data
+  let adboard = JSON.parse(properties.adboard);
+
+  // Create HTML for the adboard image
+  var adboardHtml = `
+  <div class="card mt-2">
+    <img src="${adboard.imageUrl}" class="card-img-top" alt="Billboard Image" id="adboardImage">
+    <button class="btn btn-primary mt-2" id="viewDetailsButton">View Details</button>
+  </div>
+`;
+
+  // Set the adboard HTML to the sidebar
+  $("#infoContent").html(adboardHtml);
+
+  // Add a click event listener to the adboard image to show details
+  $("#viewDetailsButton").click(function () {
+    // Create HTML for the adboard details
+    var adboardDetailsHtml = `
+      <div class="card mt-2">
+        <div class="card-body">
+          <h5 class="card-title">Billboard Details</h5>
+         
+          <p class="card-text">Số lượng: ${adboard.quantity}</p>
+          <p class="card-text">Loại biển quảng cáo: ${adboard.boardType}</p>
+          <p class="card-text">Kích thước: ${adboard.size}</p>
+          <p class="card-text">Ngày hết hạn: ${adboard.expirationDate}</p>
+          <button class="btn btn-primary mt-2" id="goback">Quay lại</button>
+        </div>
+      </div>
+    `;
+
+    // Set the adboard details HTML to the sidebar
+    $("#infoContent").html(adboardDetailsHtml);
+    $("#goback").click(function () {
+      // Assuming showSidebar is your function that shows the ad details
+      showSidebar(properties); // currentProperties should be the current ad details
+    });
+  });
+}
+
+// Function to show billboard details (you need to implement this function)
+function showBillboardDetails(adboard) {
+  // Implement the logic to display billboard details here
+  // You can use a modal or any other method to show the details
+}
+
 function showReports(properties) {
   // Mock-up report data
   var reportsData = [

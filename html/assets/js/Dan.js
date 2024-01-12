@@ -524,7 +524,17 @@ function showReports(propertiesReport, properties) {
 
   const reportsCollection =
     JSON.parse(localStorage.getItem("reportCollection")) || {};
-  console.log(reportsCollection);
+
+  if (reportsCollection.length === 0) {
+    $("#infoContent").html("<p>No reports available for this location.</p>");
+    $("#viewReportsBtn")
+      .text("Ẩn Báo Cáo")
+      .off("click")
+      .click(function () {
+        showSidebar(properties);
+      });
+    return;
+  }
   const report = reportsCollection.find((r) => r.id === location._id);
   console.log(report);
 

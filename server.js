@@ -15,7 +15,7 @@ import UserRoutes from "./routes/UserRoutes.js";
 import AdBoard from "./models/AdBoardModel.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
-const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+const __dirname = path.resolve();
 import handlebars from "handlebars";
 
 handlebars.registerHelper("eq", function (a, b, c, d, options) {

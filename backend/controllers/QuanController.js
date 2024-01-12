@@ -376,7 +376,10 @@ const editReport = asyncHandler(async (req, res) => {
   const location=result.report.location;
   const reporter=result.report.reporter;
   const method=req.body.method;
-  const status=req.body.processing;
+  let status=req.body.processing;
+  if(status==null){
+    status=req.body.processed
+  }
   //mail structures
   const mail = {
     location,
@@ -392,7 +395,7 @@ const editReport = asyncHandler(async (req, res) => {
     { for: req.params.reportId },
     {
       method: req.body.method,
-      status: req.body.processing,
+      status: status,
     }
   );
   res.redirect(`/api/quan/report/${idPhuong}`);

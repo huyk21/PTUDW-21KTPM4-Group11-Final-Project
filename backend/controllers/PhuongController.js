@@ -345,12 +345,15 @@ const showReportDetails = asyncHandler(async (req, res) => {
 })
 
 const updateReportStatus = asyncHandler(async (req, res) => {
-
+  let status=req.body.processing;
+  if(status==null){
+    status=req.body.processed
+  }
   await ReportSolution.updateOne(
     { for: req.params.id },
     {
       method: req.body.method,
-      status: req.body.processed,
+      status: status,
     },
     {upsert: true}
   );

@@ -181,6 +181,9 @@ const getReport = asyncHandler(async (req, res) => {
 const uploadImage = asyncHandler(async (req, res) => {
   res.status(200).json({ body });
 });
+const showIndex = asyncHandler(async (req, res) => {
+  res.render("index", { layout: "layoutDan" });
+});
 export {
   showPlace,
   authUser,
@@ -193,4 +196,5 @@ export {
   showConfirmOTP,
   getReport,
   uploadImage,
+  showIndex,
 };

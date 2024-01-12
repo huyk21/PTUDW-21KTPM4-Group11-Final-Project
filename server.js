@@ -88,7 +88,7 @@ app.use("/api/phuong", PhuongRoutes);
 app.use("/api/", UserRoutes);
 
 app.get("/", (req, res) => {
-  res.render("index", { layout: "layoutDan" });
+  res.redirect("/api/");
 });
 
 app.get("/api/loaddata", async (req, res) => {

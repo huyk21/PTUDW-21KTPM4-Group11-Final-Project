@@ -182,7 +182,7 @@ const uploadImage = asyncHandler(async (req, res) => {
   res.status(200).json({ body });
 });
 const showIndex = asyncHandler(async (req, res) => {
-  res.render("index.hbs", { layout: "layoutDan" });
+  res.render("index");
 });
 export {
   showPlace,

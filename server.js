@@ -50,7 +50,7 @@ app.use(
 app.engine(
   "hbs",
   expressHbs.engine({
-    layoutsDir: path.join(__dirname, "/views/layouts"),
+    layoutsDir: "/views/layouts",
     defaultLayout: "layout",
     extname: "hbs",
     runtimeOptions: {

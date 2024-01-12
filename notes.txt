@@ -1,6 +1,0 @@
-Terminal: 
-
-npm i
-
-npm run server
-

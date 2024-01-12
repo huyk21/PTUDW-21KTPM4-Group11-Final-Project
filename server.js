@@ -26,14 +26,13 @@ handlebars.registerHelper("eq", function (a, b, c, d, options) {
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
-app.set("views", path.join(__dirname, "./src/views"));
-app.set("view engine", "hbs"); // set view engine
+
 app.use(methodOverride("_method"));
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("wyontlwiblomtswists"));
 app.use(express.static(__dirname + "/html"));
-
+app.set("views", path.join(__dirname, "views"));
 // Session
 app.use(
   session({
@@ -82,7 +81,7 @@ app.engine(
     },
   })
 );
-
+app.set("view engine", "hbs"); // set view engine
 app.use("/api/sovhtt", SoVHTTRoutes);
 app.use("/api/quan", QuanRoutes);
 app.use("/api/phuong", PhuongRoutes);

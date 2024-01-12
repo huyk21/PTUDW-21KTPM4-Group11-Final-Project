@@ -26,7 +26,7 @@ handlebars.registerHelper("eq", function (a, b, c, d, options) {
 const port = process.env.PORT || 4000;
 connectDB();
 const app = express();
-app.set("views", path.join(__dirname, "/views"));
+app.set("views", path.join(__dirname, "./src/views"));
 app.set("view engine", "hbs"); // set view engine
 app.use(methodOverride("_method"));
 app.use(express.json({ limit: "2mb" }));
@@ -141,8 +141,8 @@ app.get("/api/loaddata", async (req, res) => {
       },
     ]);
 
-    const workWard = req.session.workWard
-    const workDistrict = req.session.workDistrict
+    const workWard = req.session.workWard;
+    const workDistrict = req.session.workDistrict;
 
     if (
       (workWard === undefined && workDistrict === undefined) ||
